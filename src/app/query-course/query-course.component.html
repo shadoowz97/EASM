@@ -1,0 +1,53 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>查询课程</strong></h3>
+<div class="row">
+    <div class="panel query-course-panel">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="courseCategory">课程类别&nbsp;&nbsp;</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" id="courseCategory" [(ngModel)]="category" name="category" placeholder="TC" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-success" type="button">类别列表</button>
+                    </span>
+                </div>
+            </div>
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <div class="form-group">
+                <label for="term-select">学期&nbsp;&nbsp;</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" [(ngModel)]="termId" name="termId" class="form-control" id="term-select"
+                        placeholder="20190101" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="button">学期列表</button>
+                    </span>
+                </div>
+            </div>
+            <div class="btn btn-primary btn-sm" style="float: right;" (click)="searchCourse()">
+                <span class="fa fa-search"></span>查询
+            </div>
+        </form>
+        <hr align="center" style="width: 100%;">
+        <table class="table table-hover">
+            <thead class="course-list">
+                <tr>
+                <th>#</th>
+                <th>课程名称</th>
+                <th>课程类别</th>
+                <th>创建人</th>
+                <th>创建日期</th>
+                <th>详情</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let course of courseList">
+                    <td>{{ course.id }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.category }}</td>
+                    <td>{{ course.creator }}</td>
+                    <td>{{ course.createdTime }}</td>
+                    <td><a (click)="toDetail(course.id)">详情</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

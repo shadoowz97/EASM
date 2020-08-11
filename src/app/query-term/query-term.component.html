@@ -1,0 +1,71 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>查询学期</strong></h3>
+<div class="query-term-panel panel">
+  <form nz-form [formGroup]="searchTermForm" [nzLayout]="'inline'">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="8">学期ID</nz-form-label>
+      <nz-form-control [nzSpan]="18" [nzOffset]="1">
+        <nz-input-group [nzAddOnAfter]="termIdButton" nzSearch>
+          <input
+            nz-input
+            [formControl]="termIdControl"
+            placeholder="2019020201"
+          />
+          <ng-template #termIdButton>
+            <button
+              nz-button
+              nzType="primary"
+              nzSearch
+              (click)="searchByTermID()"
+            >
+              <i nz-icon nzType="search"></i>
+            </button>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="8">
+        学期名称
+      </nz-form-label>
+      <nz-form-control [nzSpan]="18" [nzOffset]="1">
+        <nz-input-group [nzAddOnAfter]="termNameButton" nzSearch>
+          <input
+            nz-input
+            [formControl]="termNameControl"
+            placeholder="2020年秋季学期"
+          />
+        </nz-input-group>
+        <ng-template #termNameButton>
+          <button nz-button nzType="primary" (click)="searchByTermName()">
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-table #termBasicInfoTable [nzData]="termList">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let col of columnConfig"
+          [nzSortFn]="col.compare"
+          [nzFilterMultiple]="col.filterMultiple"
+          [nzFilters]="col.listOfFilter"
+          [nzFilterFn]="col.filterFn"
+        >
+          {{ col.title }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let termData of termBasicInfoTable.data">
+        <td>{{ termData.termName }}</td>
+        <td>{{ termData.termId }}</td>
+        <td>{{ termData.startTime | date: "yyyy-MM-dd" }}</td>
+        <td>{{ termData.endTime | date: "yyyy-MM-dd" }}</td>
+        <td>{{ termData.status }}</td>
+        <td><a (click)="toTermManagment(termData.termId)">管理学期</a></td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

@@ -1,0 +1,82 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>新建课程</strong></h3>
+<div class="row">
+    <div class="panel create-course-panel">
+        <form [formGroup]="courseBaseForm" class="form-horizontal">
+            <div [ngClass]="{
+          'has-error': courseId.invalid&&courseId.dirty,
+          'has-success': courseId.valid,
+          'form-group': true,
+          'form-group-sm': true,
+          'has-feedback': true
+        }">
+                <div class="input-group input-group-sm">
+                    <label for="courseId" class="control-label">课程ID：</label>
+                    <input id="courseId" formControlName="courseId" class="form-control col-lg-3" />
+                    <span [ngClass]="{
+              glyphicon: true,
+              'glyphicon-ok': courseId.valid,
+              'glyphicon-remove': courseId.invalid&&courseId.dirty,
+              'form-control-feedback': true
+            }" aria-hidden="true"></span>
+                </div>
+                <ng-container *ngIf="courseId.invalid&&courseId.dirty">
+                    <div style="font-size: small; padding-left: 3px; padding-top: 2px;">
+                        请输入课程id
+                    </div>
+                </ng-container>          
+            </div>
+            <div [ngClass]="{
+          'has-error': courseCategory.invalid&&courseCategory.dirty,
+          'has-success': courseCategory.valid,
+          'form-group': true,
+          'form-group-sm': true,
+          'has-feedback': true
+        }">
+                <div class="input-group input-group-sm">
+                    <label for="courseCategory" class="control-label">课程分类：</label>
+                    <input id="courseCategory" formControlName="courseCategory" class="form-control col-lg-3" />
+                    <span [ngClass]="{
+              glyphicon: true,
+              'glyphicon-ok': courseCategory.valid,
+              'glyphicon-remove': courseCategory.invalid&&courseCategory.dirty,
+              'form-control-feedback': true
+            }" aria-hidden="true"></span>
+                </div>
+                <ng-container *ngIf="courseCategory.invalid&&courseCategory.dirty">
+                    <div style="font-size: small; padding-left: 3px; padding-top: 2px;">
+                        不存在的课程分类码！
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="courseCategory.valid">
+                    <div style="font-size: small; padding-left: 3px; padding-top: 2px;">
+                        {{ categoryName }}
+                    </div>
+                </ng-container>
+            </div>
+            <div [ngClass]="{
+          'has-error': courseName.invalid&&courseName.dirty,
+          'form-group': true,
+          'form-group-sm': true,
+          'has-success': courseName.valid,
+          'has-feedback': true
+        }">
+                <div class="input-group input-group-sm">
+                    <label for="courseName" class="control-label">课程名称：</label>
+                    <input id="courseName" class="form-control" formControlName="courseName" />
+                    <span [ngClass]="{
+              'glyphicon': true,
+              'glyphicon-ok': courseName.valid,
+              'glyphicon-remove': courseName.invalid&&courseName.dirty,
+              'form-control-feedback': true
+            }"></span>
+                </div>
+                <ng-container *ngIf="courseName.invalid&&courseName.dirty">
+                    <div style="font-size: small; padding-left: 3px; padding-top: 2px;">
+                        请输入课程名称
+                    </div>
+                </ng-container>          
+            </div>
+            <div [ngClass]="{'btn':true,'btn-primary':true,'disabled':!(courseName.valid&&courseId.valid&&courseCategory.valid),'btn-sm':true}" (click)="createCourse()"style="display: table;position: relative;clear: both;box-sizing: border-box;">提交</div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>中心列表</strong></h3>
+<div class="panel departmentlist-panel">
+  <nz-table
+    #departmentInfo
+    [nzData]="departmentList"
+    nzSize="middle"
+    [nzWidthConfig]="widthConfig"
+  >
+    <thead>
+      <tr>
+        <th
+          *ngFor="let col of colConfig"
+          nzAlign="center"
+          [nzFilterMultiple]="col.filterMultiple"
+          [nzFilters]="col.filterList"
+          [nzFilterFn]="col.filterFn"
+        >
+          {{ col.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of departmentInfo.data">
+        <td nzAlign="center">{{ data.departmentName }}</td>
+        <td nzAlign="center">{{ data.departmentId }}</td>
+        <td nzAlign="center">{{ data.status }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

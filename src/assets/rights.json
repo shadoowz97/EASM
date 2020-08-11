@@ -1,0 +1,29 @@
+{
+    "root":[{
+        "name":"课程管理",
+        "data-target":"course-managment",
+        "id":"cmr",
+        "icon":"lrn  lrn-book",
+        "hasChildren":true,
+        "children":[{
+            "name":"查询课程",
+            "id":"query-course",
+            "router-link":"",
+            "icon":"lnr lnr-magnifier",
+            "hasChildren":false
+        },{
+            "name":"创建课程",
+            "id":"create-course",
+            "router-link":"",
+            "icon":"",
+            "hasChildren":false
+        },{
+            "name":"新建课程分类",
+            "id":"new-course-category",
+            "router-link":"",
+            "icon":"",
+            "hasChildren":false
+        }
+    ]
+    }]
+}

@@ -1,0 +1,22 @@
+.cancel:hover{
+   font-weight: bolder;
+   
+}
+.cancel{
+    height: 10px;
+    width: 10px;
+}
+.tabname{
+    font-size: 12px;
+    font-family: sans-serif;
+    letter-spacing: 0pt;
+}
+.tabbar{
+    width: calc(100% - 260px);
+    left: 0;
+    position: relative;
+    float: right;
+    background-color: #f5f5fa;
+}
+
+

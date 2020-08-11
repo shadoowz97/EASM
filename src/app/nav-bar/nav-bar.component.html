@@ -1,0 +1,11 @@
+<div id="sidebar-nav" class="sidebar">
+  <div class="sidebar-scroll">
+    <nav>
+      <ul class="nav">
+        <ng-container *ngFor="let service of root">
+          <app-service-list [func]="service"></app-service-list>
+        </ng-container>
+ </ul>
+    </nav>
+  </div>
+</div>

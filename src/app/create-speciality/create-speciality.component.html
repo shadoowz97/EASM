@@ -1,0 +1,29 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>创建专业</strong></h3>
+<div class="panel create-speciality-panel">
+  <form nz-form [formGroup]="specialityForm">
+    <nz-form-item>
+      <nz-form-label>专业名称</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="specialityNameControl" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>英文名称</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="specialityEnControl" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>专业&nbsp;&nbsp;&nbsp;ID</nz-form-label>
+      <nz-form-control>
+        <input formControlName="specialityIdControl" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>专业学制</nz-form-label>
+      <nz-form-control>
+        <input nz-input formControlName="specialityYearControl" />
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

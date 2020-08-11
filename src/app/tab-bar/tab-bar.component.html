@@ -1,0 +1,17 @@
+
+  <div class="row">
+    <ul class="nav nav-tabs">
+      <ng-container *ngFor="let tab of tabList">
+        <li [class]="tab.active ? 'active' : ''">
+          <a>
+            <span (click)="activeTab(tab.id)" class="tabname">{{
+              tab.title
+            }}</span
+            >&nbsp;&nbsp;
+            <span class="cancel" (click)="cancelTab(tab.id)">&times;</span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
