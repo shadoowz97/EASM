@@ -14,6 +14,7 @@ import { QueryTermComponent } from './query-term/query-term.component';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import { CreateStudentProfileComponent } from './create-student-profile/create-student-profile.component';
 import { CreateSpecialityComponent } from './create-speciality/create-speciality.component';
+import { CreateSchoolYearComponent } from './create-school-year/create-school-year.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -75,6 +76,11 @@ const routes: Routes = [
   {
     path: 'createSpeciality',
     component: CreateSpecialityComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'createSchoolYear',
+    component: CreateSchoolYearComponent,
     data: { keep: false },
   },
 ];

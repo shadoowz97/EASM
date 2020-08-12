@@ -1,0 +1,48 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>新建学年</strong></h3>
+<div class="panel create-school-year-panel">
+  <form nz-form [formGroup]="schoolYear">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="3">
+        学年名称
+      </nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <input nz-input formControlName="scName" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="3">
+        学年ID
+      </nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <input nz-input formControlName="scId" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="3">
+        开始日期
+      </nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24" [nzValidateStatus]="timeState" [nzSpan]="5">
+        <nz-date-picker formControlName="startDate"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="3" [nzSpan]="5">
+        结束日期
+      </nz-form-label>
+      <nz-form-control [nzValidateStatus]="timeState">
+        <nz-date-picker formControlName="endDate"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="5" [nzOffset]="3">
+        入学年份
+      </nz-form-label>
+      <nz-form-control>
+        <nz-input-number formControlName="rGrade" [nzMin]="2015" [nzMax]="2100"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-control  [nzOffset]="6">
+      <button nz-button [disabled]="!(scName.valid&&scId.valid&&timeState=='success')">创建新学期</button>
+    </nz-form-control>
+  </form>
+</div>

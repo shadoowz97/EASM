@@ -43,6 +43,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import { CreateStudentProfileComponent } from './create-student-profile/create-student-profile.component';
 import { CreateSpecialityComponent } from './create-speciality/create-speciality.component';
+import { CreateSchoolYearComponent } from './create-school-year/create-school-year.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -50,7 +51,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
   (key) => antDesignIcons[key]
 );
 @NgModule({
-  declarations: [			
+  declarations: [				
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -71,7 +72,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     QueryTermComponent,
       StudentProfileComponent,
       CreateStudentProfileComponent,
-      CreateSpecialityComponent
+      CreateSpecialityComponent,
+      CreateSchoolYearComponent
    ],
   imports: [
     BrowserModule,
