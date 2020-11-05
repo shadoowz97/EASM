@@ -1,6 +1,5 @@
 export interface PersonTrace {
-    startDate:number,
-    endDate:number,
+    dateRange:Date[]
     work:string,
-    palce:string
+    place:string
 }

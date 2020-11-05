@@ -44,6 +44,7 @@ import { StudentProfileComponent } from './student-profile/student-profile.compo
 import { CreateStudentProfileComponent } from './create-student-profile/create-student-profile.component';
 import { CreateSpecialityComponent } from './create-speciality/create-speciality.component';
 import { CreateSchoolYearComponent } from './create-school-year/create-school-year.component';
+import { CreateAdministrativeClassComponent } from './create-administrative-class/create-administrative-class.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -51,7 +52,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
   (key) => antDesignIcons[key]
 );
 @NgModule({
-  declarations: [				
+  declarations: [					
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -73,7 +74,8 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
       StudentProfileComponent,
       CreateStudentProfileComponent,
       CreateSpecialityComponent,
-      CreateSchoolYearComponent
+      CreateSchoolYearComponent,
+      CreateAdministrativeClassComponent
    ],
   imports: [
     BrowserModule,

@@ -1,3 +1,14 @@
+.create-student-profile-panel {
+  padding-left: 20px;
+  padding-right: 30px;
+  padding-top: 10px;
+  margin: 0 auto;
+  align-content: center;
+}
+
+table{
+  margin: auto;
+}
 tr {
   mso-height-source: auto;
   mso-ruby-visibility: none;
@@ -64,22 +75,39 @@ td {
 .xl66 {
   mso-style-parent: style0;
   font-size: 12pt;
-  border: 0.5pt solid windowtext;
 }
 .xl67 {
   mso-style-parent: style0;
   font-size: 12pt;
+  font-weight: 700;
 }
 .xl68 {
   mso-style-parent: style0;
-  font-size: 12pt;
   font-weight: 700;
 }
 .xl69 {
   mso-style-parent: style0;
-  font-weight: 700;
+  font-size: 12pt;
+  text-align: center;
+  vertical-align: middle;
+  border: 0.5pt solid windowtext;
 }
 .xl70 {
+  mso-style-parent: style0;
+  text-align: center;
+  vertical-align: middle;
+  border: 0.5pt solid windowtext;
+}
+.xl71 {
+  mso-style-parent: style0;
+  font-size: 12pt;
+  border: 0.5pt solid windowtext;
+}
+.xl72 {
+  mso-style-parent: style0;
+  border: 0.5pt solid windowtext;
+}
+.xl73 {
   mso-style-parent: style0;
   font-size: 12pt;
   font-weight: 700;
@@ -88,29 +116,9 @@ td {
   border: 0.5pt solid windowtext;
   white-space: normal;
 }
-.xl71 {
-  mso-style-parent: style0;
-  font-size: 12pt;
-  text-align: center;
-  vertical-align: middle;
-  border: 0.5pt solid windowtext;
-}
-.xl72 {
-  mso-style-parent: style0;
-  font-size: 12pt;
-  font-weight: 700;
-  text-align: center;
-  vertical-align: middle;
-  border: 0.5pt solid windowtext;
-}
-.xl73 {
-  mso-style-parent: style0;
-  text-align: center;
-  vertical-align: middle;
-  border: 0.5pt solid windowtext;
-}
 .xl74 {
   mso-style-parent: style0;
+  font-size: 12pt;
   font-weight: 700;
   text-align: center;
   vertical-align: middle;
@@ -133,5 +141,25 @@ td {
 }
 .xl77 {
   mso-style-parent: style0;
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
   border: 0.5pt solid windowtext;
 }
+
+input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid black;
+  width:90%;
+  text-align:center
+}
+.dropDown{
+  width:100px;
+}
+nz-select{
+  width: 90%;
+}
+
+

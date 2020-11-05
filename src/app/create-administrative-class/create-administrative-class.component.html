@@ -1,0 +1,35 @@
+<h3 class="page-title" style="padding-top: 6px;"><strong>新建学年</strong></h3>
+<div class="panel create-clazz-panel">
+  <form nz-form [formGroup]="adClazzForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" [nzOffset]="5">班级ID</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <input nz-input formControlName="clazzId" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" [nzOffset]="5">班级名称</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <input nz-input formControlName="clazzName" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="3" [nzOffset]="5">入学年份</nz-form-label>
+      <nz-form-control [nzSpan]="8">
+        <nz-select ([ngModel])="(clazzSchoolYear)">
+          <ng-container *ngFor="let scYear of schoolYearList">
+            <nz-option [nzValue]="scYear + '年'" [nzLabel]="scYear"></nz-option>
+          </ng-container>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-control [nzOffset]="5">
+      <button
+        [disabled]="clazzName.valid && clazzId.valid && clazzSchoolYear != ''"
+        (click)="createAdministrativeClazz()"
+      >
+        创建班级
+      </button>
+    </nz-form-control>
+  </form>
+</div>

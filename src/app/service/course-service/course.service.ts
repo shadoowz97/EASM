@@ -81,7 +81,7 @@ export class CourseService {
     }
   }
   public createCourse(id: string, category: string, name: string) {
-    let username = this.userService.getUserName();
+    let username:string = this.userService.getUserName().toString();
     this.courses.push({
       id: id,
       category: category,

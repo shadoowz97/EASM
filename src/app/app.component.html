@@ -1,8 +1,26 @@
-<app-top-bar> </app-top-bar>
-<app-nav-bar></app-nav-bar>
-<div class="main">
-  <div class="container-fluid content">
-    <app-tab-bar></app-tab-bar>
-    <router-outlet></router-outlet>
+<ng-container *ngIf="!userModel.userState">
+  <div style="margin-left: 45%; text-align: center;padding-top: 100px">
+    <form nz-form style="margin: auto 0;width:30%">
+      <nz-form-item>
+        <nz-form-label>用户ID：</nz-form-label>
+        <input nz-input [(ngModel)]="this.userModel.username" placeholder="id" name="userId"/>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>密码：</nz-form-label>
+        <input nz-input [(ngModel)]="this.userModel.password" type="password" name="pwd"/>
+      </nz-form-item>
+      <button nz-button (click)="login()">Login</button>
+    </form>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="userModel.userState">
+  <app-top-bar> </app-top-bar>
+  <app-nav-bar [root]="rootService"></app-nav-bar>
+  <div class="main">
+    <div class="container-fluid content">
+      <app-tab-bar></app-tab-bar>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-container>

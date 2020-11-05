@@ -69,7 +69,7 @@ export class TabService {
 
   public cancelTab(id) {
     let tab = null;
-    for (var i = 0; i < this.tabList.length; i++) {
+    for (let i = 0; i < this.tabList.length; i++) {
       if (this.tabList[i].id == id) {
         console.log(this.getUrl(this.tabList[i]) + '--- delete cache');
         tab = this.tabList[i];
@@ -87,10 +87,22 @@ export class TabService {
           }
           SimpleRouterReuseStrategy.deleteCache(url);
         }
-      }); 
+      });
     }
-    if(id!=this.curid&&tab!=null){
-      SimpleRouterReuseStrategy.deleteCache(this.getUrl(tab))
+    if (id != this.curid && tab != null) {
+      SimpleRouterReuseStrategy.deleteCache(this.getUrl(tab));
+    }
+    if (this.tabList.length == 0) {
+      this.tabList = [
+        {
+          title: 'welcome',
+          routerLink: 'welcome',
+          active: true,
+          id: 'welcome',
+          repeat: false,
+          param: [],
+        },
+      ];
     }
   }
 

@@ -31,9 +31,6 @@ export class TermService {
     return {
       status: 200,
       message: 'create Term Success',
-      msf: function () {
-        alert('create successful!');
-      },
       data: this.termList,
     };
   }

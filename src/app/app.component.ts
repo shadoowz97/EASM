@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TabService } from './tab.service';
+import { UserService } from './service/user-service/user.service';
+import { root } from "./service-config" 
+import { UserLogInModel } from './dataDef/UserLogInModel';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +11,42 @@ import { TabService } from './tab.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private router: Router,private tabService:TabService) {}
+  rootService=root;
+  userModel:UserLogInModel
+  userType: string;
+  constructor(
+    private router: Router,
+    private tabService: TabService,
+    private userService: UserService
+  ) {}
   ngOnInit() {
-    this.router.navigate(["/welcome"]);
+    this.userModel=this.userService.accessUserModel();
+    this.router.navigate(['/welcome']);
     /*
     this.router.events.subscribe((event) => {
-      // example: NavigationStart, RoutesRecognized, NavigationEnd
+      // example: NavigationStart, , NavigationEnd
       console.log(event);
     });*/
   }
+
+  login() {
+    this.userService.doLogin().subscribe(
+      {
+        next:(data:any)=>{
+          console.log(data)
+        },
+        error:err=>{
+          console.log(err);
+        },
+        complete:()=>{
+          console.log("done")
+          this.userModel.userState=true
+        }
+
+      }
+    );
+    this.router.navigate(['/welcome']);
+  }
+
   title = 'angular-demo';
 }

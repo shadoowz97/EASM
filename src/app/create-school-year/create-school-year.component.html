@@ -42,7 +42,7 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-control  [nzOffset]="6">
-      <button nz-button [disabled]="!(scName.valid&&scId.valid&&timeState=='success')">创建新学期</button>
+      <button nz-button [disabled]="!(scName.valid&&scId.valid&&timeState=='success')" (click)="createSchoolYear()">创建新学年</button>
     </nz-form-control>
   </form>
 </div>
