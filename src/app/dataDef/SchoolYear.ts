@@ -3,5 +3,6 @@ export interface SchoolYear {
     endDate:number,
     name:string,
     id:string,
-    rGrade:string
+    rGrade:string,
+    state:string
 }

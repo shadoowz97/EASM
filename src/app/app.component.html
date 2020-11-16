@@ -3,7 +3,7 @@
     <form nz-form style="margin: auto 0;width:30%">
       <nz-form-item>
         <nz-form-label>用户ID：</nz-form-label>
-        <input nz-input [(ngModel)]="this.userModel.username" placeholder="id" name="userId"/>
+        <input nz-input [(ngModel)]="this.userModel.userId" placeholder="id" name="userId"/>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label>密码：</nz-form-label>
@@ -13,7 +13,6 @@
     </form>
   </div>
 </ng-container>
-
 <ng-container *ngIf="userModel.userState">
   <app-top-bar> </app-top-bar>
   <app-nav-bar [root]="rootService"></app-nav-bar>

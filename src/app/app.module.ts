@@ -35,6 +35,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TermService } from './service/term-service/term-service.service';
 import { QueryTermComponent } from './query-term/query-term.component';
 registerLocaleData(zh);
+import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
@@ -45,14 +46,19 @@ import { CreateStudentProfileComponent } from './create-student-profile/create-s
 import { CreateSpecialityComponent } from './create-speciality/create-speciality.component';
 import { CreateSchoolYearComponent } from './create-school-year/create-school-year.component';
 import { CreateAdministrativeClassComponent } from './create-administrative-class/create-administrative-class.component';
+import { SchoolYearListComponent } from './schoolYear-list/schoolYear-list.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
 const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
   (key) => antDesignIcons[key]
 );
+const ngZorroConfig: NzConfig = {
+  message: { nzTop: 100 },
+  notification: { nzTop: 240 },
+};
 @NgModule({
-  declarations: [					
+  declarations: [		
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -71,11 +77,12 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     CreateDepartmentComponent,
     DepartmentListComponent,
     QueryTermComponent,
-      StudentProfileComponent,
-      CreateStudentProfileComponent,
-      CreateSpecialityComponent,
-      CreateSchoolYearComponent,
-      CreateAdministrativeClassComponent
+    StudentProfileComponent,
+    CreateStudentProfileComponent,
+    CreateSpecialityComponent,
+    CreateSchoolYearComponent,
+    CreateAdministrativeClassComponent,
+    SchoolYearListComponent
    ],
   imports: [
     BrowserModule,
@@ -90,7 +97,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NzIconModule,
     NzIconModule.forRoot(icons),
     NzButtonModule,
-    NzTableModule
+    NzTableModule,
   ],
   providers: [
     UserService,
@@ -98,6 +105,7 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     CourseService,
     { provide: RouteReuseStrategy, useClass: SimpleRouterReuseStrategy },
     { provide: NZ_I18N, useValue: zh_CN },
+    { provide: NZ_CONFIG, useValue: ngZorroConfig },
     TermService,
   ],
   bootstrap: [AppComponent],

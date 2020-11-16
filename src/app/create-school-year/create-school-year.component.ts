@@ -5,6 +5,8 @@ import {
   FormControl,
   Validators,
   ValidatorFn,
+  AsyncValidatorFn,
+  ValidationErrors,
 } from '@angular/forms';
 import { SchoolYearService } from '../service/school-year-service/school-year.service';
 
@@ -20,7 +22,7 @@ export class CreateSchoolYearComponent implements OnInit {
   scId: AbstractControl;
   scName: AbstractControl;
   rGrade: AbstractControl;
-  constructor(private scService: SchoolYearService) {}
+  constructor(private syService: SchoolYearService) {}
   timeState = '';
   ngOnInit() {
     this.initial();
@@ -29,15 +31,14 @@ export class CreateSchoolYearComponent implements OnInit {
     this.schoolYear = new FormGroup({
       startDate: new FormControl('', []),
       endDate: new FormControl('', []),
-      scId: new FormControl('', [
-        Validators.required,
-        Validators.nullValidator,
-        this.scService.scIdUnique,
-      ]),
-      scName: new FormControl('', [
-        Validators.required,
-        Validators.nullValidator,
-      ]),
+      scId: new FormControl('', {
+        validators: [Validators.required, Validators.nullValidator],
+        updateOn: 'blur',
+      }),
+      scName: new FormControl('', {
+        validators: [Validators.required, Validators.nullValidator],
+        updateOn: 'blur',
+      }),
       rGrade: new FormControl('', [
         Validators.required,
         Validators.nullValidator,
@@ -49,6 +50,8 @@ export class CreateSchoolYearComponent implements OnInit {
     this.scId = this.schoolYear.controls['scId'];
     this.scName = this.schoolYear.controls['scName'];
     this.rGrade = this.schoolYear.controls['rGrade'];
+    this.scId.setAsyncValidators(this.syIdUnique());
+    this.scName.setAsyncValidators(this.syNameUnqiue());
     this.startDate.setValidators([
       Validators.required,
       Validators.nullValidator,
@@ -65,13 +68,54 @@ export class CreateSchoolYearComponent implements OnInit {
   }
 
   createSchoolYear(): void {
-    this.scService.addSchoolYear({
-      startDate: new Date(this.startDate.value).getTime(),
-      endDate: new Date(this.endDate.value).getTime(),
-      id: this.scId.value,
-      name: this.scName.value,
-      rGrade: this.rGrade.value,
-    });
+    if (
+      this.syService.addSchoolYear({
+        startDate: new Date(this.startDate.value).getTime(),
+        endDate: new Date(this.endDate.value).getTime(),
+        id: this.scId.value,
+        name: this.scName.value,
+        rGrade: this.rGrade.value,
+        state:'准备中'
+      })
+    ) {
+      this.schoolYear.reset();
+    }
+  }
+  syIdUnique(): AsyncValidatorFn {
+    return async (control): Promise<ValidationErrors | null> => {
+      const value = control.value;
+      return this.syService
+        .checkSchoolYearIdUnique(value)
+        .toPromise()
+        .then((res: any) => {
+          console.log(JSON.stringify(res));
+          // tslint:disable-next-line: triple-equals
+          if (res.data === true) {
+            return null;
+          } else {
+            return Promise.resolve({
+              vaild: false,
+              required: true,
+            });
+          }
+        });
+    };
+  }
+  syNameUnqiue(): AsyncValidatorFn {
+    return async (control): Promise<ValidationErrors | null> => {
+      let value = control.value;
+      return this.syService
+        .checkSchoolYearNameUnique(value)
+        .toPromise()
+        .then((res: any) => {
+          console.log(JSON.stringify(res));
+          if (res.data) return null;
+          return Promise.resolve({
+            vaild: false,
+            required: true,
+          });
+        });
+    };
   }
 
   dateCheck(): ValidatorFn {

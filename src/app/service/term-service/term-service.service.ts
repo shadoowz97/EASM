@@ -29,7 +29,7 @@ export class TermService {
     ];
 
     return {
-      status: 200,
+      stateCode: 200,
       message: 'create Term Success',
       data: this.termList,
     };
@@ -37,19 +37,17 @@ export class TermService {
 
   searchTermsByID(id): ResSet {
     return {
-      status: 200,
+      stateCode: 200,
       message: '2 in total',
       data: this.termList,
-      msf: null,
     };
   }
 
   searchTermsByName(name): ResSet {
     return {
-      status: 200,
+      stateCode: 200,
       message: 'get',
       data: this.termList,
-      msf: null,
     };
   }
 }

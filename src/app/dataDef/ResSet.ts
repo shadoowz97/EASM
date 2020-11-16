@@ -1,6 +1,5 @@
 export interface ResSet {
-  status: number;
+  stateCode: number;
   data: any;
   message: string;
-  msf: Function;
 }

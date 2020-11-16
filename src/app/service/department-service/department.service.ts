@@ -61,10 +61,9 @@ export class DepartmentService {
    */
   changeDepartmentStatus(id: string, status: string): ResSet {
     return {
-      status: 200,
+      stateCode: 200,
       message: 'change over',
-      data: null,
-      msf: null,
+      data: null
     };
   }
   createDepartment(
@@ -82,18 +81,16 @@ export class DepartmentService {
       },
     ];
     return {
-      status: 200,
+      stateCode: 200,
       message: 'successful',
-      msf: null,
       data: this.departmentList,
     };
   }
   getDepartmentInfo(): ResSet {
     return {
-      status: 200,
+      stateCode: 200,
       data: this.departmentList,
-      message: 'over',
-      msf: null,
+      message: 'over'
     };
   }
 }

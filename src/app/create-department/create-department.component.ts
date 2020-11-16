@@ -62,7 +62,7 @@ export class CreateDepartmentComponent implements OnInit {
       this.departmentName.value,
       this.departmentDescription.value
     );
-    switch(res.status){
+    switch(res.stateCode){
       case 200:
         alert("创建成功");
         this.initial()

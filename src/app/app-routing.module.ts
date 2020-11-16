@@ -16,6 +16,7 @@ import { CreateStudentProfileComponent } from './create-student-profile/create-s
 import { CreateSpecialityComponent } from './create-speciality/create-speciality.component';
 import { CreateSchoolYearComponent } from './create-school-year/create-school-year.component';
 import { CreateAdministrativeClassComponent } from './create-administrative-class/create-administrative-class.component';
+import { SchoolYearListComponent } from './schoolYear-list/schoolYear-list.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -87,6 +88,11 @@ const routes: Routes = [
   {
     path: 'createAdministrativeClass',
     component: CreateAdministrativeClassComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'schoolYearList',
+    component: SchoolYearListComponent,
     data: { keep: false },
   },
 ];

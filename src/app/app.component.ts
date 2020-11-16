@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TabService } from './tab.service';
 import { UserService } from './service/user-service/user.service';
-import { root } from "./service-config" 
+import { root } from './service-config';
 import { UserLogInModel } from './dataDef/UserLogInModel';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +12,17 @@ import { UserLogInModel } from './dataDef/UserLogInModel';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  rootService=root;
-  userModel:UserLogInModel
+  rootService = root;
+  userModel: UserLogInModel;
   userType: string;
   constructor(
     private router: Router,
     private tabService: TabService,
-    private userService: UserService
+    private userService: UserService,
+    private nzMessageService: NzMessageService
   ) {}
   ngOnInit() {
-    this.userModel=this.userService.accessUserModel();
+    this.userModel = this.userService.accessUserModel();
     this.router.navigate(['/welcome']);
     /*
     this.router.events.subscribe((event) => {
@@ -30,21 +32,24 @@ export class AppComponent {
   }
 
   login() {
-    this.userService.doLogin().subscribe(
-      {
-        next:(data:any)=>{
-          console.log(data)
-        },
-        error:err=>{
-          console.log(err);
-        },
-        complete:()=>{
-          console.log("done")
-          this.userModel.userState=true
+    this.userService.doLogin().subscribe({
+      next: (data: any) => {
+        console.log(data);
+        if (data.stateCode == 200) {
+          this.nzMessageService.create('success', data.message);
+          this.userModel.userState = true;
+          this.userModel.username = data.data.username;
+        } else {
+          this.nzMessageService.error(data.message);
         }
-
-      }
-    );
+      },
+      error: (err) => {
+        this.nzMessageService.create('error', '登陆失败');
+      },
+      complete: () => {
+        console.log('done');
+      },
+    });
     this.router.navigate(['/welcome']);
   }
 
