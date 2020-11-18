@@ -4,4 +4,5 @@ export interface TermBasicInfo {
   startTime: number;
   endTime: number;
   status: string;
+  schoolYearName:string;
 }

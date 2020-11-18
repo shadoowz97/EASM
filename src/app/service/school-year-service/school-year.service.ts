@@ -25,7 +25,7 @@ export class SchoolYearService {
           name: data.schoolYearName,
           startDate: data.startDate,
           endDate: data.endDate,
-          rGrade: data.enterSchoolYear,
+          rGrade: '' + data.enterSchoolYear,
           state: data.schoolYearState,
         };
       });
@@ -52,7 +52,7 @@ export class SchoolYearService {
     return {
       stateCode: 200,
       message: 'msf',
-      data: [2020,2019,2018],
+      data: [2020, 2019, 2018],
     };
   }
 
@@ -78,4 +78,6 @@ export class SchoolYearService {
       return false;
     }
   }
+
+
 }

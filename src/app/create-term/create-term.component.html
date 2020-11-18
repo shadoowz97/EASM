@@ -1,4 +1,4 @@
-<h3 class="page-title" style="padding-top: 6px;"><strong>新建学期</strong></h3>
+<h3 class="page-title" style="padding-top: 6px"><strong>新建学期</strong></h3>
 <div class="panel create-term-panel">
   <form nz-form [formGroup]="newTermInfo">
     <nz-form-item>
@@ -16,19 +16,40 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6">
+        所属学年
+      </nz-form-label>
+      <nz-form-control [nzSm]="8" [nzXs]="15">
+        <nz-select
+          [(ngModel)]="currentSchoolYear"
+          [nzSize]="'small'"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <nz-option
+            *ngFor="let schoolYear of schoolYearList"
+            [nzValue]="schoolYear"
+            [nzLabel]="schoolYear.name"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>开始时间</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24" [nzValidateStatus]="timeState">
-        <nz-date-picker formControlName="startDatePicker"></nz-date-picker>
+        <nz-date-picker
+          formControlName="startDatePicker"
+          [nzDisabledDate]="checkDateTimeWithinSchoolYear"
+        ></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>结束时间</nz-form-label>
       <nz-form-control [nzSm]="16" [nzXs]="24" [nzValidateStatus]="timeState">
-        <nz-date-picker formControlName="endDatePicker"></nz-date-picker>
+        <nz-date-picker formControlName="endDatePicker" [nzDisabledDate]="checkDateTimeWithinSchoolYear"></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item style="margin: 0 auto;">
-      <nz-form-control style="margin: 0 auto;" [nzSpan]="8" [nzOffset]="10">
+    <nz-form-item style="margin: 0 auto">
+      <nz-form-control style="margin: 0 auto" [nzSpan]="8" [nzOffset]="10">
         <button
           [ngStyle]="{
             'background-color':
@@ -37,14 +58,18 @@
               timeState == 'success'
                 ? '#41B314'
                 : '',
-            'color':  termIdControl.valid &&
-            termNameControl.valid &&
-            timeState == 'success'
-              ? 'white':'',
-              'border-color':  termIdControl.valid &&
+            color:
+              termIdControl.valid &&
               termNameControl.valid &&
               timeState == 'success'
-                ? 'white':''
+                ? 'white'
+                : '',
+            'border-color':
+              termIdControl.valid &&
+              termNameControl.valid &&
+              timeState == 'success'
+                ? 'white'
+                : ''
           }"
           (click)="createTerm()"
           nz-button

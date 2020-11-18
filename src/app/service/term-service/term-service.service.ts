@@ -1,53 +1,47 @@
 import { Injectable } from '@angular/core';
 import { TermBasicInfo } from '../../dataDef/TermBasicInfo';
 import { ResSet } from 'src/app/dataDef/ResSet';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+} from '@angular/forms';
+import { async } from '@angular/core/testing';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TermService {
-  constructor() {}
-  private termList: TermBasicInfo[] = [
-    {
-      termId: '2020092002',
-      termName: '2020年秋季学期',
-      startTime: new Date('2019-09-01').getTime(),
-      endTime: new Date('2020-01-22').getTime(),
-      status: 'end',
-    },
-  ];
-  createTerm(termName, termId, startTime, endTime): { [key: string]: any } {
-    this.termList = [
-      ...this.termList,
-      {
-        termId: termId,
-        termName: termName,
-        startTime: startTime,
-        endTime: endTime,
-        status: 'init',
-      },
-    ];
-
-    return {
-      stateCode: 200,
-      message: 'create Term Success',
-      data: this.termList,
+  constructor(private http: HttpClient) {}
+  async createTerm(term: TermBasicInfo): Promise<boolean> {
+    const header = new HttpHeaders().set('Content-Type', 'application/json');
+    const res: any = await this.http
+      .post('/api/term/createNewTerm', JSON.stringify(term), {
+        observe: 'body',
+        headers: header,
+      })
+      .toPromise();
+    if (res.stateCode == 200) return true;
+    else return false;
+  }
+  termIdUniqueChick(): AsyncValidatorFn {
+    return async (
+      control: AbstractControl
+    ): Promise<ValidationErrors | null> => {
+      this.http.get('/api');
+      return null;
     };
   }
 
-  searchTermsByID(id): ResSet {
-    return {
-      stateCode: 200,
-      message: '2 in total',
-      data: this.termList,
-    };
+  termNameUniqueCeck(): Observable<any> {
+    return this.http.get('/api');
   }
-
-  searchTermsByName(name): ResSet {
-    return {
-      stateCode: 200,
-      message: 'get',
-      data: this.termList,
-    };
+  searchTermsById(id: string): ResSet {
+    return null;
+  }
+  searchTermsByName(name: string): ResSet {
+    return null;
   }
 }

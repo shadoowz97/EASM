@@ -41,7 +41,7 @@ export class SchoolYearListComponent implements OnInit {
       name: '学期状态',
       size: '70px',
       filterMultiple: true,
-      filterList: [
+      listOfFilter: [
         {
           text: '准备中',
           value: '准备中',
@@ -56,9 +56,11 @@ export class SchoolYearListComponent implements OnInit {
           value: '已结束',
         },
       ],
-      filterFn: (list: string[], item: SchoolYear) => {
-        list.some((value) => item.state.indexOf(value) !== -1);
-      },
+      filterFn: (list: string[], d: SchoolYear) =>
+        list.some((value) => d.state.indexOf(value) !== -1),
+      sortFn: null,
+      sortOrder: null,
+      sortDirections: null,
     },
     {
       name: '管理学期',

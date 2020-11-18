@@ -78,7 +78,7 @@ export class QueryTermComponent implements OnInit {
     this.termNameControl = this.searchTermForm.controls['termNameControl'];
   }
   searchByTermID(): void {
-    const res: ResSet = this.termService.searchTermsByID(
+    const res: ResSet = this.termService.searchTermsById(
       this.termNameControl.value
     );
     this.termList = res.data;
