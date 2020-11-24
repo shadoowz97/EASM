@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-11-13 10:02:57
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-11-19 11:01:52
+ */
 import { Component, OnInit } from '@angular/core';
 import { SchoolYear } from '../dataDef/SchoolYear';
 import { SchoolYearService } from '../service/school-year-service/school-year.service';
@@ -39,7 +47,7 @@ export class SchoolYearListComponent implements OnInit {
     },
     {
       name: '学期状态',
-      size: '70px',
+      size: '50px',
       filterMultiple: true,
       listOfFilter: [
         {
@@ -64,6 +72,10 @@ export class SchoolYearListComponent implements OnInit {
     },
     {
       name: '管理学期',
+      size: '50px',
+    },
+    {
+      name: '删除学期',
       size: '50px',
     },
   ];

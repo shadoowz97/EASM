@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-08-05 21:54:15
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-11-19 10:36:06
+ */
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -10,6 +18,7 @@ import { TermService } from '../service/term-service/term-service.service';
 import { TermBasicInfo } from '../dataDef/TermBasicInfo';
 import { ResSet } from '../dataDef/ResSet';
 import { TabService } from '../tab.service';
+import { NzMessageService } from 'ng-zorro-antd';
 @Component({
   selector: 'app-query-term',
   templateUrl: './query-term.component.html',
@@ -23,21 +32,26 @@ export class QueryTermComponent implements OnInit {
   columnConfig = [
     {
       title: '学期名称',
+      size: '100px',
     },
     {
       title: '学期ID',
+      size: '100px',
     },
     {
       title: '开始日期',
+      size: '100px',
       compare: (a: TermBasicInfo, b: TermBasicInfo) =>
         a.startTime - b.startTime,
     },
     {
       title: '结束日期',
+      size: '100px',
       compare: (a: TermBasicInfo, b: TermBasicInfo) => a.endTime - b.endTime,
     },
     {
       title: '学期状态',
+      size: '50px',
       filterMultiple: true,
       listOfFilter: [
         { text: 'init', value: 'init', byDefault: true },
@@ -51,12 +65,18 @@ export class QueryTermComponent implements OnInit {
         value.some((status) => status.indexOf(item.status) !== -1),
     },
     {
-      title: '',
+      title: '管理学期',
+      size: '50px',
+    },
+    {
+      title: '删除学期',
+      size: '50px',
     },
   ];
   constructor(
     private termService: TermService,
-    private tabService: TabService
+    private tabService: TabService,
+    private msgService: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -78,19 +98,55 @@ export class QueryTermComponent implements OnInit {
     this.termNameControl = this.searchTermForm.controls['termNameControl'];
   }
   searchByTermID(): void {
-    const res: ResSet = this.termService.searchTermsById(
-      this.termNameControl.value
-    );
-    this.termList = res.data;
+    this.termService
+      .searchTermsById(this.termIdControl.value)
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.termList = res.data.map((value) => {
+            return {
+              termId: value.termID,
+              termName: value.termName,
+              startTime: value.startDate,
+              endTime: value.endDate,
+              schoolYearName: value.schoolYearName,
+              status: value.termState,
+            };
+          });
+        } else {
+          this.msgService.error(res.message);
+        }
+      });
   }
   searchByTermName(): void {
-    const res: ResSet = this.termService.searchTermsByName(
-      this.termIdControl.value
-    );
-    this.termList = res.data;
+    this.termService
+      .searchTermsByName(this.termNameControl.value)
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.termList = res.data.map((value) => {
+            return {
+              termId: value.termID,
+              termName: value.termName,
+              startTime: value.startDate,
+              endTime: value.endDate,
+              schoolYearName: value.schoolYearName,
+              status: value.termState,
+            };
+          });
+        } else this.msgService.error(res.message);
+      });
   }
   trackByTermId(_: number, item: any): any {
     return item.id;
+  }
+  deleteTerm(termName: string) {
+    this.termService.deleteTermByName(termName).then((res: ResSet) => {
+      if (res.stateCode == 200) {
+        this.msgService.success('删除成功！');
+        this.searchByTermID();
+      } else {
+        this.msgService.error('删除失败' + res.message);
+      }
+    });
   }
 
   toTermManagment(id: string): void {}

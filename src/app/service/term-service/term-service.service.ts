@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-08-05 17:47:44
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-11-19 10:33:47
+ */
 import { Injectable } from '@angular/core';
 import { TermBasicInfo } from '../../dataDef/TermBasicInfo';
 import { ResSet } from 'src/app/dataDef/ResSet';
@@ -18,7 +26,7 @@ export class TermService {
   async createTerm(term: TermBasicInfo): Promise<boolean> {
     const header = new HttpHeaders().set('Content-Type', 'application/json');
     const res: any = await this.http
-      .post('/api/term/createNewTerm', JSON.stringify(term), {
+      .post('/api/term/createNewTerm/', JSON.stringify(term), {
         observe: 'body',
         headers: header,
       })
@@ -30,18 +38,70 @@ export class TermService {
     return async (
       control: AbstractControl
     ): Promise<ValidationErrors | null> => {
-      this.http.get('/api');
-      return null;
+      return this.http
+        .get('/api/term/checkTermIdUnique/' + control.value, {
+          observe: 'body',
+        })
+        .toPromise()
+        .then((res: ResSet) => {
+          if (res.data) {
+            return null;
+          } else
+            return Promise.resolve({
+              vaild: false,
+              required: true,
+            });
+        });
     };
   }
 
-  termNameUniqueCeck(): Observable<any> {
-    return this.http.get('/api');
+  termNameUniqueCeck(): AsyncValidatorFn {
+    return async (
+      control: AbstractControl
+    ): Promise<ValidationErrors | null> => {
+      return this.http
+        .get('/api/term/checkTermNameUnique/' + control.value, {
+          observe: 'body',
+        })
+        .toPromise()
+        .then((res: ResSet) => {
+          if (res.data) {
+            return null;
+          } else
+            return Promise.resolve({
+              vaild: false,
+              required: true,
+            });
+        });
+    };
   }
-  searchTermsById(id: string): ResSet {
-    return null;
+  async searchTermsById(id: string): Promise<any> {
+    let res = await this.http
+      .get('/api/term/queryTermById/' + id, { observe: 'body' })
+      .toPromise();
+    return res;
   }
-  searchTermsByName(name: string): ResSet {
-    return null;
+  async searchTermsByName(name: string): Promise<any> {
+    let res = await this.http
+      .get('/api/term/queryTermByName/' + name, {
+        observe: 'body',
+      })
+      .toPromise();
+    return res;
+  }
+  async deleteTermByName(name: string): Promise<any> {
+    let res = await this.http
+      .get('/api/term/deleteTermByName/' + name, { observe: 'body' })
+      .toPromise();
+    return res;
+  }
+
+  async deleteTermById(id: string): Promise<any> {
+    let res = await this.http
+      .get('/api/term/deleteTermById/' + id, {
+        observe: 'body',
+      })
+      .toPromise();
+    return res;
   }
 }

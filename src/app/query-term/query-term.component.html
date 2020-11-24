@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-08-05 21:54:15
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-11-19 10:58:55
+-->
 <h3 class="page-title" style="padding-top: 6px;"><strong>查询学期</strong></h3>
 <div class="query-term-panel panel">
   <form nz-form [formGroup]="searchTermForm" [nzLayout]="'inline'">
@@ -64,7 +72,8 @@
         <td>{{ termData.startTime | date: "yyyy-MM-dd" }}</td>
         <td>{{ termData.endTime | date: "yyyy-MM-dd" }}</td>
         <td>{{ termData.status }}</td>
-        <td><a (click)="toTermManagment(termData.termId)">管理学期</a></td>
+        <td><button nz-button (click)="toTermManagment(termData.termId)">管理学期</button></td>
+        <td><button nz-button  (click)="deleteTerm(termData.termName)">删除</button></td>
       </tr>
     </tbody>
   </nz-table>

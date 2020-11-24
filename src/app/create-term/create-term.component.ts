@@ -43,14 +43,14 @@ export class CreateTermComponent implements OnInit {
   }
   private initial() {
     this.newTermInfo = new FormGroup({
-      termIdControl: new FormControl('', [
-        Validators.required,
-        Validators.nullValidator,
-      ]),
-      termNameControl: new FormControl('', [
-        Validators.required,
-        Validators.nullValidator,
-      ]),
+      termIdControl: new FormControl('', {
+        validators: [Validators.required, Validators.nullValidator],
+        updateOn: 'blur',
+      }),
+      termNameControl: new FormControl('', {
+        validators: [Validators.required, Validators.nullValidator],
+        updateOn: 'blur',
+      }),
       startDatePicker: new FormControl('', []),
       endDatePicker: new FormControl('', []),
       schoolYearControl: new FormControl('', [
@@ -59,7 +59,11 @@ export class CreateTermComponent implements OnInit {
       ]),
     });
     this.termIdControl = this.newTermInfo.controls['termIdControl'];
+    this.termIdControl.setAsyncValidators(this.termService.termIdUniqueChick());
     this.termNameControl = this.newTermInfo.controls['termNameControl'];
+    this.termNameControl.setAsyncValidators(
+      this.termService.termNameUniqueCeck()
+    );
     this.startDatePicker = this.newTermInfo.controls['startDatePicker'];
     this.endDatePicker = this.newTermInfo.controls['endDatePicker'];
     this.schoolYearControl = this.newTermInfo.controls['schoolYearControl'];
@@ -75,7 +79,13 @@ export class CreateTermComponent implements OnInit {
       this.startDatePicker.value != null && this.endDatePicker.value != null
     );
   }
-
+  /**
+   * @author: Shadoowz
+   * @Date: 2020-11-19 09:09:11
+   * @param {*}
+   * @return {*}
+   * @description:检测开始日期和结束日期，使得结束日期必须在开始日期之前
+   */
   dateCheck(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.startDatePicker.dirty !== this.endDatePicker.dirty) {
@@ -96,31 +106,45 @@ export class CreateTermComponent implements OnInit {
       return null;
     };
   }
+  /**
+   * @author: Shadoowz
+   * @Date: 2020-11-19 09:08:28
+   * @param {*}
+   * @return {*}
+   * @description:创建新学期，若成功则重置表单
+   */
   createTerm(): void {
     let res = this.termService.createTerm({
       termId: this.termIdControl.value,
       termName: this.termNameControl.value,
-      endTime: new Date(this.endDatePicker.value()).getTime(),
-      startTime: new Date(this.startDatePicker.value()).getTime(),
+      endTime: new Date(this.endDatePicker.value).getTime(),
+      startTime: new Date(this.startDatePicker.value).getTime(),
       status: 'init',
       schoolYearName: this.currentSchoolYear.name,
     });
-    res.then((value:boolean)=>{
-      if(value){
-        this.msgService.success("创建成功");
-        this.newTermInfo.reset()
+    res.then((value: boolean) => {
+      if (value) {
+        this.msgService.success('创建成功');
+        this.newTermInfo.reset();
+      } else {
+        this.msgService.error('创建失败');
       }
-      else{
-        this.msgService.error("创建失败");
-      }
-    })
+    });
   }
+
+  /**
+   * @author: Shadoowz
+   * @Date: 2020-11-19 09:01:12
+   * @param {Date} current
+   * @return {*}
+   * @description: 使非当前学期内的日期是不可选择的
+   */
   checkDateTimeWithinSchoolYear = (current: Date) => {
     if (this.currentSchoolYear == null) {
       console.log('null');
       return true;
     } else {
-      console.log(this.currentSchoolYear.name);
+      //console.log(this.currentSchoolYear.name);
       return (
         current.getTime() < this.currentSchoolYear.startDate ||
         current.getTime() > this.currentSchoolYear.endDate
