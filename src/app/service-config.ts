@@ -80,6 +80,13 @@ export const root = [
         routerlink: 'departmentList',
         hasChildren: false,
       },
+      {
+        name: '新增教职工',
+        icon: 'branches',
+        id: 'new-employee',
+        routerlink: 'createEmployee',
+        hasChildren: false,
+      },
     ],
   },
   {
@@ -98,75 +105,75 @@ export const root = [
         name: '新生建档',
         icon: 'solution',
         id: 'newStudent',
-        routerlink:'createNewStudent',
+        routerlink: 'createNewStudent',
         hasChildren: false,
       },
     ],
   },
   {
-    name:'专业管理',
-    icon:'solution',
-    id:'spm',
-    datatarget:"speciality-managment",
-    hasChildren:true,
-    children:[
+    name: '专业管理',
+    icon: 'solution',
+    id: 'spm',
+    datatarget: 'speciality-managment',
+    hasChildren: true,
+    children: [
       {
-        name:"新建专业",
-        icon:'solution',
-        id:'newSpeciality',
-        hasChildren:false,
-        routerlink:"createSpeciality"
+        name: '新建专业',
+        icon: 'solution',
+        id: 'newSpeciality',
+        hasChildren: false,
+        routerlink: 'createSpeciality',
       },
       {
-        name:"专业列表",
-        icon:'solution',
-        id:'special-list',
-        routerlink:'specialityList'
-      }
-    ]
+        name: '专业列表',
+        icon: 'solution',
+        id: 'special-list',
+        routerlink: 'specialityList',
+      },
+    ],
   },
   {
-    name:'学年管理',
-    icon:'solution',
-    id:'spm',
-    datatarget:"schoole-year-managment",
-    hasChildren:true,
-    children:[
+    name: '学年管理',
+    icon: 'solution',
+    id: 'spm',
+    datatarget: 'schoole-year-managment',
+    hasChildren: true,
+    children: [
       {
-        name:"新建学年",
-        icon:'solution',
-        id:'createSchoolYear',
-        hasChildren:false,
-        routerlink:"createSchoolYear"
+        name: '新建学年',
+        icon: 'solution',
+        id: 'createSchoolYear',
+        hasChildren: false,
+        routerlink: 'createSchoolYear',
       },
       {
-        name:"学年列表",
-        icon:'solution',
-        id:'school-year-list',
-        routerlink:'schoolYearList'
-      }
-    ]
+        name: '学年列表',
+        icon: 'solution',
+        id: 'school-year-list',
+        routerlink: 'schoolYearList',
+      },
+    ],
   },
   {
-    name:'班级管理',
-    icon:'solution',
-    id:'adClassManagement',
-    datatarget:"ad-class-managment",
-    hasChildren:true,
-    children:[
+    name: '班级管理',
+    icon: 'solution',
+    id: 'adClassManagement',
+    datatarget: 'ad-class-managment',
+    hasChildren: true,
+    children: [
       {
-        name:"新建班级",
-        icon:'solution',
-        id:'newAdClass',
-        hasChildren:false,
-        routerlink:'createAdministrativeClass'
+        name: '新建班级',
+        icon: 'solution',
+        id: 'newAdClass',
+        hasChildren: false,
+        routerlink: 'createAdministrativeClass',
       },
       {
-        name:"班级列表",
-        icon:'solution',
-        id:'ad-class-list',
-        routerlink:'adClassList'
-      }
-    ]
-  }
+        name: '班级列表',
+        icon: 'solution',
+        id: 'ad-class-list',
+        routerlink: 'adClassList',
+      },
+    ],
+  },
 ];

@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-11-13 10:02:57
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-11-19 11:01:52
+ * @LastEditTime: 2020-12-01 21:02:35
  */
 import { Component, OnInit } from '@angular/core';
 import { SchoolYear } from '../dataDef/SchoolYear';
@@ -20,12 +20,12 @@ export class SchoolYearListComponent implements OnInit {
   schoolYearList: SchoolYear[];
   colConfig = [
     {
-      name: '学期ID',
+      name: '学年ID',
       size: '100px',
     },
     {
-      name: '学期名称',
-      size: '150px',
+      name: '学年名称',
+      size: '100px',
     },
     {
       name: '开始日期',
@@ -46,8 +46,8 @@ export class SchoolYearListComponent implements OnInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: '学期状态',
-      size: '50px',
+      name: '学年状态',
+      size: '75px',
       filterMultiple: true,
       listOfFilter: [
         {
@@ -66,25 +66,20 @@ export class SchoolYearListComponent implements OnInit {
       ],
       filterFn: (list: string[], d: SchoolYear) =>
         list.some((value) => d.state.indexOf(value) !== -1),
-      sortFn: null,
-      sortOrder: null,
-      sortDirections: null,
     },
     {
-      name: '管理学期',
+      name: '管理',
       size: '50px',
     },
     {
-      name: '删除学期',
+      name: '操作',
       size: '50px',
     },
   ];
   constructor(private schoolYearService: SchoolYearService) {
     this.schoolYearService.getSchoolYearList().then((data: SchoolYear[]) => {
       this.schoolYearList = data;
-      console.log('schoolYear' + JSON.stringify(data));
     });
-    console.log('finish');
   }
 
   ngOnInit() {}

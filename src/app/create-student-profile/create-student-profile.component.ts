@@ -19,6 +19,12 @@ import { StudentProfileComponent } from '../student-profile/student-profile.comp
   styleUrls: ['./create-student-profile.component.css'],
 })
 export class CreateStudentProfileComponent implements OnInit {
+  constructor(
+    private adClazzService: AdministrativeClazzService,
+    private msg: NzMessageService,
+    private spService: SpecialityService,
+    private departmentService: DepartmentService
+  ) {}
   studentProfile: StudentProfileModel;
   nationOption: string[];
   clickTime = 0;
@@ -51,18 +57,14 @@ export class CreateStudentProfileComponent implements OnInit {
 
   nations =
     '汉族、蒙古族、回族、藏族、维吾尔族、苗族、彝族、壮族、布依族、朝鲜族、满族、侗族、瑶族、白族、土家族、哈尼族、哈萨克族、傣族、黎族、僳僳族、佤族、畲族、高山族、拉祜族、水族、东乡族、纳西族、景颇族、柯尔克孜族、土族、达斡尔族、仫佬族、羌族、布朗族、撒拉族、毛南族、仡佬族、锡伯族、阿昌族、普米族、塔吉克族、怒族、乌孜别克族、俄罗斯族、鄂温克族、德昂族、保安族、裕固族、京族、塔塔尔族、独龙族、鄂伦春族、赫哲族、门巴族、珞巴族、基诺族';
-  constructor(
-    private adClazzService: AdministrativeClazzService,
-    private msg: NzMessageService,
-    private spService: SpecialityService,
-    private departmentService: DepartmentService
-  ) {}
+  loading = false;
+  avatarUrl?: string;
 
-  ngOnInit() { 
-    this.studentProfile=new StudentProfileModel()
-    this.init()
+  ngOnInit() {
+    this.studentProfile = new StudentProfileModel();
+    this.init();
   }
-  private init(){
+  private init() {
     for (let i = 0; i < 10; i++) {
       this.personTrace.push({
         dateRange: [null, null],
@@ -70,29 +72,27 @@ export class CreateStudentProfileComponent implements OnInit {
         place: '',
       });
     }
-    this.familyRelations= [
-    {
-      name: '',
-      tel: null,
-      workpalce: '',
-      relation: '',
-    },
-    {
-      name: '',
-      workpalce: '',
-      relation: '',
-      tel: null,
-    },
-    {
-      tel: null,
-      name: '',
-      workpalce: '',
-      relation: '',
-    },
-  ];
+    this.familyRelations = [
+      {
+        name: '',
+        tel: null,
+        workpalce: '',
+        relation: '',
+      },
+      {
+        name: '',
+        workpalce: '',
+        relation: '',
+        tel: null,
+      },
+      {
+        tel: null,
+        name: '',
+        workpalce: '',
+        relation: '',
+      },
+    ];
   }
-  loading = false;
-  avatarUrl?: string;
 
   beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) => {
     return new Observable((observer: Observer<boolean>) => {
@@ -164,12 +164,15 @@ export class CreateStudentProfileComponent implements OnInit {
     this.errorStack = [];
     this.checkFunc();
     if (this.errorStack.length == 0) {
-      alert('提交成功！');
+      this.msg.success(JSON.stringify(this.studentProfile));
       this.studentProfile = new StudentProfileModel();
-      this.init()
+      this.init();
     } else {
-      alert(JSON.stringify(this.studentProfile));
-      alert(this.errorStack);
+      let errInfo = '';
+      for (let e of this.errorStack) {
+        errInfo += e + '<br>';
+      }
+      this.msg.error(errInfo);
     }
   }
   personTraceCheck() {

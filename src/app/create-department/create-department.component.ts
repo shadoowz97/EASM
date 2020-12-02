@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-07-31 12:27:20
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-01 20:30:17
+ */
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -51,25 +59,20 @@ export class CreateDepartmentComponent implements OnInit {
     ];
     this.departmentName = this.departmentInfo.controls['departmentName'];
     this.departmentID = this.departmentInfo.controls['departmentID'];
+    this.departmentID.setAsyncValidators(
+      this.departmentService.checkDepartmentUnique()
+    );
   }
- 
- 
- 
 
   createDepartment(): void {
-    const res: ResSet = this.departmentService.createDepartment(
-      this.departmentID.value,
-      this.departmentName.value,
-      this.departmentDescription.value
-    );
-    switch(res.stateCode){
-      case 200:
-        alert("创建成功");
-        this.initial()
-        break;
-      case 300:
-        alert(res.message)
-        break
-    }
+    this.departmentService
+      .createDepartment(
+        this.departmentID.value,
+        this.departmentName.value,
+        this.departmentDescription.value
+      )
+      .then((res) => {
+        if (res) this.departmentInfo.reset();
+      });
   }
 }

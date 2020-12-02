@@ -1,0 +1,144 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-12-01 21:27:35
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-02 15:05:36
+-->
+<h3 class="page-title" style="padding-top: 6px"><strong>新建教职工</strong></h3>
+<nz-spin [nzSpinning]="isSpining">
+  <div class="panel create-employee-panel">
+    <form nz-form [formGroup]="employeeForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6"
+          >职工ID</nz-form-label
+        >
+        <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
+          <input nz-input formControlName="employeeId" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6"
+          >职工名称</nz-form-label
+        >
+        <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
+          <input nz-input formControlName="employeeName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6"
+          >职工邮箱</nz-form-label
+        >
+        <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
+          <input nz-input formControlName="employeeEmail" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6">
+          所在中心
+        </nz-form-label>
+        <nz-form-control [nzSm]="8" [nzXs]="15">
+          <nz-select
+            [(ngModel)]="employeeDepartmentId"
+            [nzSize]="'small'"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <nz-option
+              *ngFor="let department of departmentList"
+              [nzValue]="department.departmentId"
+              [nzLabel]="department.departmentName"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6">
+          职务
+        </nz-form-label>
+        <nz-form-control [nzSm]="8" [nzXs]="15">
+          <nz-select
+            [(ngModel)]="employeeDutyId"
+            [nzSize]="'small'"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <nz-option
+              *ngFor="let duty of duties"
+              [nzValue]="duty.dutyId"
+              [nzLabel]="duty.dutyName"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6">
+          职称
+        </nz-form-label>
+        <nz-form-control [nzSm]="8" [nzXs]="15">
+          <nz-select
+            [(ngModel)]="employeeTitle"
+            [nzSize]="'small'"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <nz-option
+              *ngFor="let title of titles"
+              [nzValue]="title"
+              [nzLabel]="title"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item style="margin: 0 auto">
+        <nz-form-control style="margin: 0 auto" [nzSpan]="8" [nzOffset]="10">
+          <button
+            [ngStyle]="{
+              'background-color':
+                employeeForm.valid &&
+                employeeDutyId != null &&
+                employeeTitle != null &&
+                employeeDepartmentId != null
+                  ? '#41B314'
+                  : '',
+              color:
+                employeeForm.valid &&
+                employeeDutyId != null &&
+                employeeTitle != null &&
+                employeeDepartmentId != null
+                  ? 'white'
+                  : '',
+              'border-color':
+                employeeIdControl.valid &&
+                employeeNameControl.valid &&
+                employeeDutyId != null &&
+                employeeTitle != null &&
+                employeeDepartmentId != null
+                  ? 'white'
+                  : ''
+            }"
+            (click)="createEmployee()"
+            nz-button
+            [nzType]="
+              employeeIdControl.valid &&
+              employeeNameControl.valid &&
+              employeeDutyId != null &&
+              employeeTitle != null &&
+              employeeDepartmentId != null
+                ? 'primary'
+                : 'dashed'
+            "
+            [disabled]="
+              !(
+                employeeForm.valid &&
+                employeeDutyId != null &&
+                employeeTitle != null &&
+                employeeDepartmentId != null
+              )
+            "
+          >
+            创建新员工
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</nz-spin>

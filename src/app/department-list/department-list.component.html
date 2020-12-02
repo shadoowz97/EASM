@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-08-01 07:51:52
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-01 20:57:44
+-->
 <h3 class="page-title" style="padding-top: 6px;"><strong>中心列表</strong></h3>
 <div class="panel departmentlist-panel">
   <nz-table
@@ -14,6 +22,7 @@
           [nzFilterMultiple]="col.filterMultiple"
           [nzFilters]="col.filterList"
           [nzFilterFn]="col.filterFn"
+          [nzWidth]="col.size"
         >
           {{ col.name }}
         </th>
@@ -23,7 +32,9 @@
       <tr *ngFor="let data of departmentInfo.data">
         <td nzAlign="center">{{ data.departmentName }}</td>
         <td nzAlign="center">{{ data.departmentId }}</td>
-        <td nzAlign="center">{{ data.status }}</td>
+        <td nzAlign="center">{{ data.departmentState }}</td>
+        <td nzAlign="center"><button nz-button (click)="detail(data.departmentId)">管理</button></td>
+        <td nzAlign="center"><button nz-button (click)="delete(data.departmentId)">删除</button></td>
       </tr>
     </tbody>
   </nz-table>

@@ -1,9 +1,17 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-07-31 12:27:20
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-01 21:25:41
+-->
 <h3 class="page-title" style="padding-top: 6px;"><strong>新建中心</strong></h3>
 <div class="create-department-panel panel">
     <form nz-form [formGroup]="departmentInfo" style="padding-top: 20px; width: 600px;">
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">中心ID</nz-form-label>
-            <nz-form-control [nzSm]="6" [nzXs]="15" nzHasFeedback>
+            <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
                 <input nz-input formControlName="departmentID" />
             </nz-form-control>
         </nz-form-item>
@@ -11,7 +19,7 @@
             <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">
                 中心名称
             </nz-form-label>
-            <nz-form-control [nzSm]="6" [nzXs]="15" nzHasFeedback>
+            <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
                 <input nz-input placeholder="XX中心" formControlName="departmentName" />
             </nz-form-control>
         </nz-form-item>

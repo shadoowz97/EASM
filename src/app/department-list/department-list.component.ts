@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-08-01 07:51:52
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-01 21:22:51
+ */
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../service/department-service/department.service';
 import { DepartmentInfo } from '../dataDef/DepartmentInfo';
@@ -33,18 +41,40 @@ export class DepartmentListComponent implements OnInit {
           value: 'deprecated',
         },
       ],
-      filterFn: (status: string, item: DepartmentInfo) =>
-        status.indexOf(item.status) !== -1,
+      filterFn: (status: string[], item: DepartmentInfo) =>
+        status.some((value) => item.departmentState.indexOf(value) !== -1),
+    },
+    {
+      name: '管理',
+      size: '50px',
+    },
+    {
+      name: '删除',
+      size: '删除',
     },
   ];
   widthConfig: string[];
   constructor(private departmentService: DepartmentService) {
-    this.departmentList = this.departmentService.getDepartmentInfo().data;
+    console.log('start To load');
+    this.departmentService
+      .getDepartmentList()
+      .then((res) => (this.departmentList = res));
+    console.log('end load');
     this.widthConfig = this.colConfig.map((value) => value.size);
   }
 
   refreshList() {
-    this.departmentList = this.departmentService.getDepartmentInfo().data();
+    this.departmentService.loadDepartment();
+    this.departmentService
+      .getDepartmentList()
+      .then((res) => (this.departmentList = res));
+  }
+  detail(id:string){
+
+  }
+
+  delete(id:string){
+    
   }
 
   ngOnInit(): void {}

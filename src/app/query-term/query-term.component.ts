@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-05 21:54:15
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-11-19 10:36:06
+ * @LastEditTime: 2020-11-25 10:55:51
  */
 import { Component, OnInit } from '@angular/core';
 import {
@@ -50,7 +50,7 @@ export class QueryTermComponent implements OnInit {
       compare: (a: TermBasicInfo, b: TermBasicInfo) => a.endTime - b.endTime,
     },
     {
-      title: '学期状态',
+      title: '状态',
       size: '50px',
       filterMultiple: true,
       listOfFilter: [
@@ -65,11 +65,11 @@ export class QueryTermComponent implements OnInit {
         value.some((status) => status.indexOf(item.status) !== -1),
     },
     {
-      title: '管理学期',
+      title: '操作',
       size: '50px',
     },
     {
-      title: '删除学期',
+      title: '删除',
       size: '50px',
     },
   ];
@@ -99,7 +99,9 @@ export class QueryTermComponent implements OnInit {
   }
   searchByTermID(): void {
     this.termService
-      .searchTermsById(this.termIdControl.value)
+      .searchTermsById(
+        this.termIdControl.value == '' ? '*' : this.termIdControl.value
+      )
       .then((res: ResSet) => {
         if (res.stateCode == 200) {
           this.termList = res.data.map((value) => {
@@ -119,7 +121,9 @@ export class QueryTermComponent implements OnInit {
   }
   searchByTermName(): void {
     this.termService
-      .searchTermsByName(this.termNameControl.value)
+      .searchTermsByName(
+        this.termNameControl.value == '' ? '*' : this.termNameControl.value
+      )
       .then((res: ResSet) => {
         if (res.stateCode == 200) {
           this.termList = res.data.map((value) => {

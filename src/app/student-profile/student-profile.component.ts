@@ -62,8 +62,10 @@ export class StudentProfileComponent implements OnInit {
       .map((value) => value.substring(0, value.length - 1));
     this.adClazzList = this.adClazzService.getAdministrativeClazzList();
     this.specialityList = this.spService.getSpecialityList();
-    this.departmentList = this.departmentService.getDepartmentInfo().data;
-    }
+    this.departmentService
+      .getDepartmentList()
+      .then((res) => (this.departmentList = res));
+  }
   loading = false;
   avatarUrl?: string;
 

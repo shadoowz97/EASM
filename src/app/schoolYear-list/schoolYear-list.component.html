@@ -4,9 +4,9 @@
  * @Author: Shadoowz
  * @Date: 2020-11-13 10:02:57
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-11-19 11:02:36
+ * @LastEditTime: 2020-11-25 11:07:48
 -->
-<h3 class="page-title" style="padding-top: 6px"><strong>中心列表</strong></h3>
+<h3 class="page-title" style="padding-top: 6px"><strong>学年列表</strong></h3>
 <div class="panel departmentlist-panel">
   <nz-table #schoolYearInfo [nzData]="schoolYearList" nzSize="middle">
     <thead>
@@ -20,6 +20,7 @@
           [nzSortOrder]="col.sortOrder"
           [nzSortFn]="col.sortFn"
           [nzSortDirections]="col.sortDirections"
+          [nzWidth]="col.size"
         >
           {{ col.name }}
         </th>
@@ -33,7 +34,7 @@
         <td nzAlign="center">{{ data.endDate | date: "yyyy-MM-dd" }}</td>
         <td nzAlign="center">{{ data.state }}</td>
         <td nzAlign="center"><button nz-button>管理</button></td>
-        <td nzAlign="center"><button nz-button>删除学年</button></td>
+        <td nzAlign="center"><button nz-button>操作</button></td>
       </tr>
     </tbody>
   </nz-table>
