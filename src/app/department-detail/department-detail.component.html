@@ -1,0 +1,24 @@
+<h3 class="page-title" style="padding-top: 6px"><strong>部门详情</strong></h3>
+<div class="panel department-detail-panel">
+  <nz-spin *ngIf="departmentModel == null" [nzSpinning]="true"></nz-spin>
+  <nz-list nzBordered nzSize="small" *ngIf="departmentModel != null">
+    <nz-list-header>{{ departmentModel.departmentName }}</nz-list-header>
+    <nz-list-item
+      >部门主管：
+      <p *ngIf="departmentModel.supervisor == null">未指定部门主管</p>
+      <p *ngIf="departmentModel.supervisor != null">
+        {{ departmentModel.supervisor.employeeName }}
+      </p></nz-list-item
+    >
+    <nz-list-item *ngFor="let e of departmentModel.sps">
+      部门副主管：
+      <p>{{ e.employeeName }}</p>
+    </nz-list-item>
+    <nz-list-item *ngFor="let e of departmentModel.others">
+      教职工：
+      <p>{{ e.employeeName }}</p>
+      >
+    </nz-list-item>
+    <nz-list-footer>Footer</nz-list-footer>
+  </nz-list>
+</div>

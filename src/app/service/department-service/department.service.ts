@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-08 09:52:35
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-01 22:06:20
+ * @LastEditTime: 2020-12-06 16:08:14
  */
 
 import { Injectable, resolveForwardRef } from '@angular/core';
@@ -19,6 +19,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { ElementSchemaRegistry } from '@angular/compiler';
+import { TabService } from 'src/app/tab.service';
+import { ResolveEnd } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
@@ -29,7 +31,11 @@ export class DepartmentService {
   private hasLoadDepartmentList: boolean = false;
   private hasLoadDuty: boolean = false;
   private hasLoadTitle: boolean = false;
-  constructor(private http: HttpClient, private msg: NzMessageService) {}
+  constructor(
+    private http: HttpClient,
+    private msg: NzMessageService,
+    private tabService: TabService
+  ) {}
   /**
    * @author: Shadoowz
    * @Date: 2020-12-01 08:40:01
@@ -171,5 +177,30 @@ export class DepartmentService {
           this.hasLoadDuty = true;
         }
       });
+  }
+
+  public toDetail(id: string) {
+    let params = [id];
+    this.tabService.addTab(
+      'department' + id,
+      'departmentDetail',
+      '部门详情'+id,
+      params,
+      false
+    );
+  }
+
+  public async departmentDetail(id: string): Promise<ResSet | null> {
+    var res = await this.http
+      .get('/api/department/detail/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        return Promise.resolve(res);
+      })
+      .catch((e) => {
+        return Promise.resolve(null);
+      });
+
+    return res;
   }
 }

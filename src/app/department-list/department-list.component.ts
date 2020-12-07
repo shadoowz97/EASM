@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-01 07:51:52
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-01 21:22:51
+ * @LastEditTime: 2020-12-02 19:08:11
  */
 import { Component, OnInit } from '@angular/core';
 import { DepartmentService } from '../service/department-service/department.service';
@@ -69,13 +69,11 @@ export class DepartmentListComponent implements OnInit {
       .getDepartmentList()
       .then((res) => (this.departmentList = res));
   }
-  detail(id:string){
-
+  detail(id: string) {
+    this.departmentService.toDetail(id);
   }
 
-  delete(id:string){
-    
-  }
+  delete(id: string) {}
 
   ngOnInit(): void {}
 }
