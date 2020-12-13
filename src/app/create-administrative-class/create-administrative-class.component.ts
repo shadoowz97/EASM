@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-08-13 10:45:27
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-08 20:30:48
+ */
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -8,6 +16,7 @@ import {
 } from '@angular/forms';
 import { SchoolYearService } from '../service/school-year-service/school-year.service';
 import { AdministrativeClazzService } from '../service/ad-clazz/administrative-clazz.service';
+import { SchoolYear } from '../dataDef/SchoolYear';
 
 @Component({
   selector: 'app-create-administrative-class',
@@ -19,14 +28,20 @@ export class CreateAdministrativeClassComponent implements OnInit {
   clazzName: AbstractControl;
   clazzId: AbstractControl;
   clazzSchoolYear: string;
+  spinningFlag = false;
   constructor(
     private scService: SchoolYearService,
     private clazzService: AdministrativeClazzService
   ) {}
-  schoolYearList: number[];
+  schoolYearList: string[];
   ngOnInit() {
     this.initial();
-    this.schoolYearList = this.scService.getRGrade().data;
+    this.scService.getSchoolYearList().then((res: SchoolYear[]) => {
+      var years = res.map((value: SchoolYear) => {
+        return value.rGrade;
+      });
+      this.schoolYearList = years;
+    });
   }
 
   private initial() {
@@ -35,21 +50,27 @@ export class CreateAdministrativeClassComponent implements OnInit {
         Validators.nullValidator,
         Validators.required,
       ]),
-      clazzId: new FormControl('', [
-        Validators.nullValidator,
-        Validators.required,
-      ]),
+      clazzId: new FormControl('', {
+        validators: [Validators.nullValidator, Validators.required],
+        updateOn: 'blur',
+      }),
     });
     this.clazzName = this.adClazzForm.controls['clazzName'];
     this.clazzId = this.adClazzForm.controls['clazzId'];
+    this.clazzId.setAsyncValidators(this.clazzService.isClazzIdUnique());
   }
-  createAdministrativeClazz() {
-    this.clazzService.addClazz({
-      status: 'active',
-      clazzId: this.clazzId.value,
-      clazzName: this.clazzName.value,
-      rGrade: this.clazzSchoolYear,
-    });
-    alert('创建成功！');
+  async createAdministrativeClazz() {
+    this.spinningFlag = true;
+    await this.clazzService
+      .addClazz(this.clazzName.value, this.clazzId.value, this.clazzSchoolYear)
+      .then((res: boolean) => {
+        if (res) {
+          this.adClazzForm.reset();
+        } else {
+        }
+      })
+      .finally(() => {
+        this.spinningFlag = false;
+      });
   }
 }

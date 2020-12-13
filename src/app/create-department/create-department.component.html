@@ -6,46 +6,64 @@
  * @LastEditors: Shadoowz
  * @LastEditTime: 2020-12-01 21:25:41
 -->
-<h3 class="page-title" style="padding-top: 6px;"><strong>新建中心</strong></h3>
-<div class="create-department-panel panel">
-    <form nz-form [formGroup]="departmentInfo" style="padding-top: 20px; width: 600px;">
-        <nz-form-item>
-            <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">中心ID</nz-form-label>
-            <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
-                <input nz-input formControlName="departmentID" />
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">
-                中心名称
-            </nz-form-label>
-            <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
-                <input nz-input placeholder="XX中心" formControlName="departmentName" />
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">
-                中心简介
-            </nz-form-label>
-            <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
-
-
-
-                <textarea nz-input nzAutosize formControlName="departmentDescription"></textarea>
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-control [nzSpan]="8" [nzOffset]="10">
-                <button nz-button [disabled]="
-            !(
-              departmentID.valid &&
-              departmentName.valid &&
-              departmentDescription.valid
-            )
-          " nzType="primary" (click)="createDepartment()">
-                    创建中心
-                </button>
-            </nz-form-control>
-        </nz-form-item>
+<h3 class="page-title" style="padding-top: 6px"><strong>新建中心</strong></h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="create-department-panel panel">
+    <form
+      nz-form
+      [formGroup]="departmentInfo"
+      style="padding-top: 20px; width: 600px"
+    >
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5"
+          >中心ID</nz-form-label
+        >
+        <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
+          <input nz-input formControlName="departmentID" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">
+          中心名称
+        </nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
+          <input
+            nz-input
+            placeholder="XX中心"
+            formControlName="departmentName"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" [nzSpan]="6" [nzOffset]="5">
+          中心简介
+        </nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="15" nzHasFeedback>
+          <textarea
+            nz-input
+            nzAutosize
+            formControlName="departmentDescription"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="8" [nzOffset]="10">
+          <button
+            nz-button
+            [disabled]="
+              !(
+                departmentID.valid &&
+                departmentName.valid &&
+                departmentDescription.valid
+              )
+            "
+            nzType="primary"
+            (click)="createDepartment()"
+          >
+            创建中心
+          </button>
+        </nz-form-control>
+      </nz-form-item>
     </form>
-</div>
+  </div>
+</nz-spin>

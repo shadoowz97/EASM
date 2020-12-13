@@ -4,29 +4,30 @@
  * @Author: Shadoowz
  * @Date: 2020-08-13 10:45:27
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-11-25 15:46:47
+ * @LastEditTime: 2020-12-08 20:52:06
 -->
-<h3 class="page-title" style="padding-top: 6px"><strong>新建学年</strong></h3>
+<h3 class="page-title" style="padding-top: 6px"><strong>新建行政班级</strong></h3>
+<nz-spin [nzSpinning]="spinningFlag">
 <div class="panel create-clazz-panel">
   <form nz-form [formGroup]="adClazzForm">
     <nz-form-item>
       <nz-form-label [nzSpan]="3" [nzOffset]="5">班级ID</nz-form-label>
-      <nz-form-control [nzSpan]="8">
+      <nz-form-control [nzSpan]="8" nzHasFeedback>
         <input nz-input formControlName="clazzId" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="3" [nzOffset]="5">班级名称</nz-form-label>
-      <nz-form-control [nzSpan]="8">
+      <nz-form-control [nzSpan]="8" nzHasFeedback>
         <input nz-input formControlName="clazzName" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSpan]="3" [nzOffset]="5">入学年份</nz-form-label>
+      <nz-form-label [nzSpan]="3" [nzOffset]="5" nzHasFeedback >入学年份</nz-form-label>
       <nz-form-control [nzSpan]="8">
-        <nz-select ([ngModel])="(clazzSchoolYear)">
+        <nz-select [(ngModel)]="clazzSchoolYear" [ngModelOptions]="{standalone: true}">
           <ng-container *ngFor="let scYear of schoolYearList">
-            <nz-option [nzValue]="scYear + '年'" [nzLabel]="scYear"></nz-option>
+            <nz-option [nzValue]="scYear" [nzLabel]="scYear"></nz-option>
           </ng-container>
         </nz-select>
       </nz-form-control>
@@ -34,7 +35,7 @@
     <nz-form-control [nzOffset]="5">
       <button
         nz-button
-        [disabled]="clazzName.valid && clazzId.valid && clazzSchoolYear != ''"
+        [disabled]="!(adClazzForm.valid)||clazzSchoolYear==null"
         (click)="createAdministrativeClazz()"
       >
         创建班级
@@ -42,3 +43,4 @@
     </nz-form-control>
   </form>
 </div>
+</nz-spin>

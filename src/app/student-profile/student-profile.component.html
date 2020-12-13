@@ -1,403 +1,431 @@
-
-  <table
-    border="0"
-    cellpadding="0"
-    cellspacing="0"
-    width="703"
-    style="
-      border-collapse: collapse;
-      table-layout: fixed;
-      width: 529pt;
-      align: center;
-    "
-  >
-    <colgroup>
-      <col
-        class="xl68"
+<table
+  border="0"
+  cellpadding="0"
+  cellspacing="0"
+  width="703"
+  style="
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 529pt;
+    align: center;
+  "
+>
+  <colgroup>
+    <col
+      class="xl68"
+      width="63"
+      style="mso-width-source: userset; mso-width-alt: 2005; width: 47pt"
+    />
+    <col
+      width="107"
+      style="mso-width-source: userset; mso-width-alt: 3434; width: 81pt"
+    />
+    <col width="69" span="2" style="width: 52pt" />
+    <col
+      width="119"
+      style="mso-width-source: userset; mso-width-alt: 3797; width: 89pt"
+    />
+    <col width="69" span="4" style="width: 52pt" />
+  </colgroup>
+  <tbody>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
+        rowspan="8"
+        height="189"
+        class="xl73"
         width="63"
-        style="mso-width-source: userset; mso-width-alt: 2005; width: 47pt"
-      />
-      <col
-        width="107"
-        style="mso-width-source: userset; mso-width-alt: 3434; width: 81pt"
-      />
-      <col width="69" span="2" style="width: 52pt" />
-      <col
-        width="119"
-        style="mso-width-source: userset; mso-width-alt: 3797; width: 89pt"
-      />
-      <col width="69" span="4" style="width: 52pt" />
-    </colgroup>
-    <tbody>
-      <tr
-        class="xl65"
-        height="27"
-        style="mso-height-source: userset; height: 20pt"
+        style="height: 140pt; width: 47pt"
       >
-        <td
-          rowspan="7"
-          height="189"
-          class="xl73"
-          width="63"
-          style="height: 140pt; width: 47pt"
-        >
-          学生<br />
-          个人<br />
-          基本<br />
-          信息
-        </td>
-        <td class="xl69" width="107" style="border-left: none; width: 81pt">
-          姓名：
-        </td>
-        <td
-          colspan="2"
-          class="xl69"
-          width="138"
-          style="border-left: none; width: 104pt"
-        >
-          <input [(ngModel)]="studentProfile.studentName" />　
-        </td>
-        <td class="xl70" width="119" style="border-left: none; width: 89pt">
-          性别：<nz-select
-            [(ngModel)]="studentProfile.sex"
-            style="width: 50%"
-          >
-            <nz-option nzValue="男" nzLabel="男"></nz-option>
-            <nz-option nzValue="女" nzLabel="女"></nz-option> </nz-select
-          >　
-        </td>
-        <td class="xl69" width="69" style="border-left: none; width: 52pt">
-          民族
-        </td>
-        <td class="xl69" width="69" style="border-left: none; width: 52pt">
-          　
-          <nz-select
-            ([ngModel])="(studentProfile.nation)"
-            [nzDropdownMatchSelectWidth]="false"
-          >
-            <ng-container *ngFor="let n of nationOption">
-              <nz-option [nzValue]="n" [nzLabel]="n"></nz-option>
-            </ng-container>
-          </nz-select>
-        </td>
-        <td
-          colspan="2"
-          rowspan="7"
-          class="xl69"
-          width="138"
-          style="width: 104pt"
-        >
-          <nz-upload
-            style="height: 90%; width: 90px; margin: 0 auto"
-            class="avatar-uploader"
-            nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            nzName="avatar"
-            nzListType="picture-card"
-            [nzShowUploadList]="false"
-            [nzBeforeUpload]="beforeUpload"
-            (nzChange)="handleChange($event)"
-          >
-            <ng-container *ngIf="!avatarUrl">
-              <i
-                class="upload-icon"
-                nz-icon
-                [nzType]="loading ? 'loading' : 'plus'"
-              ></i>
-              <div class="ant-upload-text">Upload</div>
-            </ng-container>
-            <img
-              *ngIf="avatarUrl"
-              [src]="avatarUrl"
-              style="width: 100%"
-            /> </nz-upload
-          >　
-        </td>
-      </tr>
-      <tr
-        class="xl65"
-        height="27"
-        style="mso-height-source: userset; height: 20pt"
+        学生<br />
+        个人<br />
+        基本<br />
+        信息
+      </td>
+      <td class="xl69" width="107" style="border-left: none; width: 81pt">
+        姓名：
+      </td>
+      <td
+        colspan="2"
+        class="xl69"
+        width="138"
+        style="border-left: none; width: 104pt"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
+        <input [(ngModel)]="studentProfile.studentName" />　
+      </td>
+      <td class="xl70" width="119" style="border-left: none; width: 89pt">
+        性别：<nz-select [(ngModel)]="studentProfile.sex" style="width: 50%">
+          <nz-option nzValue="男" nzLabel="男"></nz-option>
+          <nz-option nzValue="女" nzLabel="女"></nz-option> </nz-select
+        >　
+      </td>
+      <td class="xl69" width="69" style="border-left: none; width: 52pt">
+        民族
+      </td>
+      <td class="xl69" width="69" style="border-left: none; width: 52pt">
+        　
+        <nz-select
+          ([ngModel])="(studentProfile.nation)"
+          [nzDropdownMatchSelectWidth]="false"
         >
-          姓名拼音：
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.pinyin" style="font-size:xx-small"/>　
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">
-          行政班级
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <nz-select
-            [(ngModel)]="studentProfile.administrativeClazz"
-            [nzDropdownMatchSelectWidth]="false"
-            style="width: 90%"
-          >
-            <ng-container *ngFor="let clazz of adClazzList">
-              <nz-option
-                [nzValue]="clazz.clazzName"
-                [nzLabel]="clazz.clazzName"
-              ></nz-option>
-            </ng-container>
-          </nz-select>
-          　
-        </td>
-      </tr>
-      <tr
-        class="xl65"
+          <ng-container *ngFor="let n of nationOption">
+            <nz-option [nzValue]="n" [nzLabel]="n"></nz-option>
+          </ng-container>
+        </nz-select>
+      </td>
+      <td colspan="2" rowspan="8" class="xl69" width="138" style="width: 104pt">
+        <nz-upload
+          style="height: 90%; width: 90px; margin: 0 auto"
+          class="avatar-uploader"
+          nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          nzName="avatar"
+          nzListType="picture-card"
+          [nzShowUploadList]="false"
+          [nzBeforeUpload]="beforeUpload"
+          (nzChange)="handleChange($event)"
+        >
+          <ng-container *ngIf="!avatarUrl">
+            <i
+              class="upload-icon"
+              nz-icon
+              [nzType]="loading ? 'loading' : 'plus'"
+            ></i>
+            <div class="ant-upload-text">Upload</div>
+          </ng-container>
+          <img
+            *ngIf="avatarUrl"
+            [src]="avatarUrl"
+            style="width: 100%"
+          /> </nz-upload
+        >　
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
         height="27"
-        style="mso-height-source: userset; height: 20pt"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
+        姓名拼音：
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input
+          [(ngModel)]="studentProfile.pinyin"
+          style="font-size: xx-small"
+        />　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">行政班级</td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <nz-select
+          [(ngModel)]="studentProfile.administrativeClazzId"
+          [nzDropdownMatchSelectWidth]="false"
+          style="width: 90%"
         >
-          学号
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.studentId" />　
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">宿舍号</td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.dorm" />　
-        </td>
-      </tr>
-      <tr
-        class="xl65"
+          <ng-container *ngFor="let clazz of adClazzList">
+            <nz-option
+              [nzValue]="clazz.clazzId"
+              [nzLabel]="clazz.clazzName"
+            ></nz-option>
+          </ng-container>
+        </nz-select>
+        　
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
         height="27"
-        style="mso-height-source: userset; height: 20pt"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
-        >
-          出生年月
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <nz-date-picker
-            [(ngModel)]="studentProfile.birthDay"
-            style="width: 90%"
-          >
-          </nz-date-picker
-          >　
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">
-          政治面貌
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <nz-select
-            [nzDropdownMatchSelectWidth]="false"
-            [(ngModel)]="studentProfile.pID"
-          >
-            <ng-container *ngFor="let pID of this.pIDList">
-              <nz-option [nzValue]="pID" [nzLabel]="pID"></nz-option>
-            </ng-container>
-          </nz-select>
-        </td>
-      </tr>
-      <tr
-        class="xl65"
+        学号
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input [(ngModel)]="studentProfile.studentId" />　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">宿舍号</td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input [(ngModel)]="studentProfile.dorm" />　
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
         height="27"
-        style="mso-height-source: userset; height: 20pt"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
+        出生年月
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <nz-date-picker
+          [(ngModel)]="studentProfile.birthDay"
+          style="width: 90%"
         >
-          身份证号
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.idNumber" style="font-size: xx-small;" />　
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">籍贯</td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <span style="mso-spacerun: yes">&nbsp;</span>
-          <input [(ngModel)]="studentProfile.nativePlace" style="font-size:xx-small"/>
-        </td>
-      </tr>
-      <tr
-        class="xl65"
+        </nz-date-picker
+        >　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">政治面貌</td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <nz-select
+          [nzDropdownMatchSelectWidth]="false"
+          [(ngModel)]="studentProfile.pID"
+        >
+          <ng-container *ngFor="let pID of this.pIDList">
+            <nz-option [nzValue]="pID" [nzLabel]="pID"></nz-option>
+          </ng-container>
+        </nz-select>
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
         height="27"
-        style="mso-height-source: userset; height: 20pt"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
-        >
-          联系电话
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.contactTel" style="font-size:xx-small"/>
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">
-          电子邮箱
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          　<input type="email" [(ngModel)]="studentProfile.email" style="font-size:xx-small"/>
-        </td>
-      </tr>
-      <tr
-        class="xl65"
+        身份证号
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input
+          [(ngModel)]="studentProfile.idNumber"
+          style="font-size: xx-small"
+        />　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">籍贯</td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <span style="mso-spacerun: yes">&nbsp;</span>
+        <input
+          [(ngModel)]="studentProfile.nativePlace"
+          style="font-size: xx-small"
+        />
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
         height="27"
-        style="mso-height-source: userset; height: 20pt"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
-        >
-          所属专业
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <nz-select
-            [nzDropdownMatchSelectWidth]="false"
-            [(ngModel)]="studentProfile.specility"
-          >
-            <ng-container *ngFor="let sp of this.specialityList">
-              <nz-option [nzValue]="sp.name" [nzLabel]="sp.name"></nz-option>
-            </ng-container>
-          </nz-select>
-          　
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">
-          所属中心
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <nz-select
-            [nzDropdownMatchSelectWidth]="false"
-            [(ngModel)]="studentProfile.department"
-          >
-            <ng-container *ngFor="let department of this.departmentList">
-              <nz-option
-                [nzValue]="department.departmentName"
-                [nzLabel]="department.departmentName"
-              ></nz-option>
-            </ng-container> </nz-select
-          >　
-        </td>
-      </tr>
-      <tr height="27" style="mso-height-source: userset; height: 20pt">
-        <td
-          rowspan="2"
-          height="54"
-          class="xl73"
-          width="63"
-          style="height: 40pt; border-top: none; width: 47pt"
-        >
-          家庭通<br />
-          讯信息
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">
-          家庭详细地址
-        </td>
-        <td colspan="7" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.familyAdress" />　
-        </td>
-      </tr>
-      <tr height="27" style="mso-height-source: userset; height: 20pt">
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
-        >
-          邮政编码
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.postCode" />　
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">
-          联系电话
-        </td>
-        <td colspan="4" class="xl69" style="border-left: none">
-          <input [(ngModel)]="studentProfile.familyTel" />　
-        </td>
-      </tr>
-      <tr height="27" style="mso-height-source: userset; height: 20pt">
-        <td
-          rowspan="4"
-          height="108"
-          class="xl73"
-          width="63"
-          style="height: 80pt; border-top: none; width: 47pt"
-        >
-          主要<br />
-          家庭<br />
-          关系
-        </td>
-        <td class="xl69" style="border-top: none; border-left: none">关系</td>
-        <td colspan="2" class="xl69" style="border-left: none">姓名</td>
-        <td colspan="3" class="xl69" style="border-left: none">工作单位</td>
-        <td colspan="2" class="xl69" style="border-left: none">联系电话</td>
-      </tr>
-      <tr
+        联系电话
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input
+          [(ngModel)]="studentProfile.contactTel"
+          style="font-size: xx-small"
+        />
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">电子邮箱</td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        　<input
+          type="email"
+          [(ngModel)]="studentProfile.email"
+          style="font-size: xx-small"
+        />
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
         height="27"
-        style="mso-height-source: userset; height: 20pt"
-        *ngFor="let fr of familyRelations"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
       >
-        <td
-          height="27"
-          class="xl69"
-          style="height: 20pt; border-top: none; border-left: none"
+        所属专业
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <nz-select
+          [nzDropdownMatchSelectWidth]="false"
+          [(ngModel)]="studentProfile.specialityId"
         >
-          <input [(ngModel)]="fr.relation" />　
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          　<input [(ngModel)]="fr.name" />
-        </td>
-        <td colspan="3" class="xl69" style="border-left: none">
-          　<input [(ngModel)]="fr.workpalce" style="font-size:xx-small"/>
-        </td>
-        <td colspan="2" class="xl69" style="border-left: none">
-          　<input [(ngModel)]="fr.tel" />
-        </td>
-      </tr>
+          <ng-container *ngFor="let sp of this.specialityList">
+            <nz-option
+              [nzValue]="sp.specialityId"
+              [nzLabel]="sp.name"
+            ></nz-option>
+          </ng-container>
+        </nz-select>
+        　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">所属中心</td>
+      <td colspan="2" class="xl69" style="border-left: none; font-size: xx-small;">
+        <nz-select
+          [nzDropdownMatchSelectWidth]="false"
+          [(ngModel)]="studentProfile.departmentId"
+        >
+          <ng-container *ngFor="let department of this.departmentList">
+            <nz-option
+              [nzValue]="department.departmentId"
+              [nzLabel]="department.departmentName"
+            ></nz-option>
+          </ng-container> </nz-select
+        >　
+      </td>
+    </tr>
+    <tr
+      class="xl65"
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+    >
+      <td
+        height="27"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
+      >
+        学位类型
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <nz-select
+        [nzDropdownMatchSelectWidth]="false"
+        [(ngModel)]="studentProfile.degreeType"
+      >
+        <ng-container *ngFor="let d of this.degree">
+          <nz-option
+            [nzValue]="d"
+            [nzLabel]="d"
+          ></nz-option>
+        </ng-container> </nz-select
+      >　　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">入学年份</td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input [(ngModel)]="studentProfile.dorm" />　
+      </td>
+    </tr>
+    <tr height="27" style="mso-height-source: userset; height: 20pt">
+      <td
+        rowspan="2"
+        height="54"
+        class="xl73"
+        width="63"
+        style="height: 40pt; border-top: none; width: 47pt"
+      >
+        家庭通<br />
+        讯信息
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">
+        家庭详细地址
+      </td>
+      <td colspan="7" class="xl69" style="border-left: none">
+        <input [(ngModel)]="studentProfile.familyAddress" />　
+      </td>
+    </tr>
+    <tr height="27" style="mso-height-source: userset; height: 20pt">
+      <td
+        height="27"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
+      >
+        邮政编码
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        <input [(ngModel)]="studentProfile.postCode" />　
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">联系电话</td>
+      <td colspan="4" class="xl69" style="border-left: none">
+        <input [(ngModel)]="studentProfile.familyTel" />　
+      </td>
+    </tr>
+    <tr height="27" style="mso-height-source: userset; height: 20pt">
+      <td
+        rowspan="4"
+        height="108"
+        class="xl73"
+        width="63"
+        style="height: 80pt; border-top: none; width: 47pt"
+      >
+        主要<br />
+        家庭<br />
+        关系
+      </td>
+      <td class="xl69" style="border-top: none; border-left: none">关系</td>
+      <td colspan="2" class="xl69" style="border-left: none">姓名</td>
+      <td colspan="3" class="xl69" style="border-left: none">工作单位</td>
+      <td colspan="2" class="xl69" style="border-left: none">联系电话</td>
+    </tr>
+    <tr
+      height="27"
+      style="mso-height-source: userset; height: 20pt"
+      *ngFor="let fr of familyRelations"
+    >
+      <td
+        height="27"
+        class="xl69"
+        style="height: 20pt; border-top: none; border-left: none"
+      >
+        <input [(ngModel)]="fr.relation" />　
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        　<input [(ngModel)]="fr.name" />
+      </td>
+      <td colspan="3" class="xl69" style="border-left: none">
+        　<input [(ngModel)]="fr.workplace" style="font-size: xx-small" />
+      </td>
+      <td colspan="2" class="xl69" style="border-left: none">
+        　<input [(ngModel)]="fr.tel" />
+      </td>
+    </tr>
 
-      <tr height="27" style="mso-height-source: userset; height: 20pt">
-        <td
-          rowspan="11"
-          height="237"
-          class="xl74"
-          style="height: 175pt; border-top: none"
-        >
-          个人履历
-        </td>
-        <td
-          colspan="3"
-          class="xl75"
-          width="245"
-          style="border-left: none; width: 185pt"
-        >
-          起止时间
-        </td>
-        <td colspan="3" class="xl69" style="border-left: none">工作单位</td>
-        <td colspan="2" class="xl69" style="border-left: none">职务</td>
-      </tr>
-      <tr height="21" style="height: 15.5pt" *ngFor="let pt of personTrace">
-        <td
-          colspan="3"
-          height="21"
-          class="xl71"
-          style="height: 15.5pt; border-left: none"
-        >
-          　 <nz-range-picker [(ngModel)]="pt.dateRange"></nz-range-picker>
-        </td>
-        <td colspan="3" class="xl71" style="border-left: none">
-          <input [(ngModel)]="pt.place" />　
-        </td>
-        <td colspan="2" class="xl71" style="border-left: none">
-          <input [(ngModel)]="pt.work" />
-        </td>
-      </tr>
-      <!--[endif]-->
-    </tbody>
-  </table>
-  <br />
-
+    <tr height="27" style="mso-height-source: userset; height: 20pt">
+      <td
+        rowspan="11"
+        height="237"
+        class="xl74"
+        style="height: 175pt; border-top: none"
+      >
+        个人履历
+      </td>
+      <td
+        colspan="3"
+        class="xl75"
+        width="245"
+        style="border-left: none; width: 185pt"
+      >
+        起止时间
+      </td>
+      <td colspan="3" class="xl69" style="border-left: none">工作单位</td>
+      <td colspan="2" class="xl69" style="border-left: none">职务</td>
+    </tr>
+    <tr height="21" style="height: 15.5pt" *ngFor="let pt of personTrace">
+      <td
+        colspan="3"
+        height="21"
+        class="xl71"
+        style="height: 15.5pt; border-left: none"
+      >
+        　 <nz-range-picker [(ngModel)]="pt.dateRange"></nz-range-picker>
+      </td>
+      <td colspan="3" class="xl71" style="border-left: none">
+        <input [(ngModel)]="pt.place" />　
+      </td>
+      <td colspan="2" class="xl71" style="border-left: none">
+        <input [(ngModel)]="pt.workType" />
+      </td>
+    </tr>
+    <!--[endif]-->
+  </tbody>
+</table>
+<br />

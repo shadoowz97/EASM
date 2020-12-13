@@ -4,7 +4,6 @@ import { AdministrativeClazzService } from '../service/ad-clazz/administrative-c
 import { AdministrativeClazz } from '../dataDef/AdministrativeClazz';
 import { NzUploadFile, NzMessageService } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
-import { SpecialityService } from '../service/speciality-service/speciality.service';
 import { SpecialityInfo } from '../dataDef/SpecialityInfo';
 import { DepartmentInfo } from '../dataDef/DepartmentInfo';
 import { DepartmentService } from '../service/department-service/department.service';
@@ -12,6 +11,8 @@ import { FamilyRelation } from '../dataDef/FamilyRelation';
 import { PersonTrace } from '../dataDef/PersonTrace';
 
 import { StudentProfileComponent } from '../student-profile/student-profile.component';
+import { EAService } from '../service/ea-service/EA-service.service';
+import { UserService } from '../service/user-service/user.service';
 
 @Component({
   selector: 'app-create-student-profile',
@@ -22,8 +23,9 @@ export class CreateStudentProfileComponent implements OnInit {
   constructor(
     private adClazzService: AdministrativeClazzService,
     private msg: NzMessageService,
-    private spService: SpecialityService,
-    private departmentService: DepartmentService
+    private eaService: EAService,
+    private departmentService: DepartmentService,
+    private usrService: UserService
   ) {}
   studentProfile: StudentProfileModel;
   nationOption: string[];
@@ -37,19 +39,19 @@ export class CreateStudentProfileComponent implements OnInit {
     {
       name: '',
       tel: null,
-      workpalce: '',
+      workplace: '',
       relation: '',
     },
     {
       name: '',
-      workpalce: '',
+      workplace: '',
       relation: '',
       tel: null,
     },
     {
       tel: null,
       name: '',
-      workpalce: '',
+      workplace: '',
       relation: '',
     },
   ];
@@ -65,10 +67,13 @@ export class CreateStudentProfileComponent implements OnInit {
     this.init();
   }
   private init() {
+    this.personTrace = [];
     for (let i = 0; i < 10; i++) {
       this.personTrace.push({
+        startDate: null,
+        endDate: null,
         dateRange: [null, null],
-        work: '',
+        workType: '',
         place: '',
       });
     }
@@ -76,19 +81,19 @@ export class CreateStudentProfileComponent implements OnInit {
       {
         name: '',
         tel: null,
-        workpalce: '',
+        workplace: '',
         relation: '',
       },
       {
         name: '',
-        workpalce: '',
+        workplace: '',
         relation: '',
         tel: null,
       },
       {
         tel: null,
         name: '',
-        workpalce: '',
+        workplace: '',
         relation: '',
       },
     ];
@@ -160,13 +165,21 @@ export class CreateStudentProfileComponent implements OnInit {
     this.familyRelationShipCheck();
     this.personTraceCheck();
   }
-  submit(): void {
+  async submit(){
     this.errorStack = [];
     this.checkFunc();
     if (this.errorStack.length == 0) {
       this.msg.success(JSON.stringify(this.studentProfile));
-      this.studentProfile = new StudentProfileModel();
-      this.init();
+      var cFlag = false;
+      await this.usrService
+        .createStudent(this.studentProfile)
+        .then((res: boolean) => {
+          cFlag = res;
+        });
+      if (cFlag) {
+        this.studentProfile = new StudentProfileModel();
+        this.init();
+      }
     } else {
       let errInfo = '';
       for (let e of this.errorStack) {
@@ -180,9 +193,13 @@ export class CreateStudentProfileComponent implements OnInit {
     for (let pt of this.personTrace) {
       if (this.nullOrNothingCheck(pt.place)) break;
       else {
-        if (pt.place == '' || pt.work == '') {
+        if (pt.place == '' || pt.workType == '') {
           this.errorStack.push('请将个人履历填写完整');
-        } else this.studentProfile.personTrace.push(pt);
+        } else {
+          pt.startDate = pt.dateRange[0];
+          pt.endDate = pt.dateRange[1];
+          this.studentProfile.personTrace.push(pt);
+        }
       }
     }
     if (this.studentProfile.personTrace.length == 0)
@@ -194,7 +211,7 @@ export class CreateStudentProfileComponent implements OnInit {
       if (this.nullOrNothingCheck(fr.relation)) {
         break;
       } else {
-        if (fr.name == '' || fr.workpalce == '' || fr.tel == '')
+        if (fr.name == '' || fr.workplace == '' || fr.tel == '')
           this.errorStack.push('请将家庭关系信息填写完整');
         else this.studentProfile.familyRelation.push(fr);
       }
@@ -229,7 +246,7 @@ export class CreateStudentProfileComponent implements OnInit {
     }
   }
   departmentCheck() {
-    if (this.nullOrNothingCheck(this.studentProfile.department))
+    if (this.nullOrNothingCheck(this.studentProfile.departmentId))
       this.errorStack.push('所属中心不能为空');
   }
   dormCheck() {
@@ -243,12 +260,12 @@ export class CreateStudentProfileComponent implements OnInit {
     }
   }
   specialityCheck() {
-    if (this.nullOrNothingCheck(this.studentProfile.specility))
+    if (this.nullOrNothingCheck(this.studentProfile.specialityId))
       this.errorStack.push('专业名不能为空');
   }
 
   administrativeClazzCheck() {
-    if (this.nullOrNothingCheck(this.studentProfile.administrativeClazz)) {
+    if (this.nullOrNothingCheck(this.studentProfile.administrativeClazzId)) {
       this.errorStack.push('行政班级不能为空');
     }
   }
@@ -278,7 +295,7 @@ export class CreateStudentProfileComponent implements OnInit {
     }
   }
   familyAddressCheck() {
-    if (this.nullOrNothingCheck(this.studentProfile.familyAdress)) {
+    if (this.nullOrNothingCheck(this.studentProfile.familyAddress)) {
       this.errorStack.push('家庭地址不能为空');
     }
   }

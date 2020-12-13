@@ -49,6 +49,8 @@ import { CreateAdministrativeClassComponent } from './create-administrative-clas
 import { SchoolYearListComponent } from './schoolYear-list/schoolYear-list.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { DepartmentDetailComponent } from './department-detail/department-detail.component';
+import { SpecialityListComponent } from './speciality-list/speciality-list.component';
+import { AdministrativeClazzListComponent } from './administrativeClazz-list/administrativeClazz-list.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -60,7 +62,7 @@ const ngZorroConfig: NzConfig = {
   notification: { nzTop: 240 },
 };
 @NgModule({
-  declarations: [				
+  declarations: [	
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -85,8 +87,10 @@ const ngZorroConfig: NzConfig = {
     CreateSchoolYearComponent,
     CreateAdministrativeClassComponent,
     SchoolYearListComponent,
-      CreateEmployeeComponent,
-      DepartmentDetailComponent
+    CreateEmployeeComponent,
+    DepartmentDetailComponent,
+    SpecialityListComponent,
+      AdministrativeClazzListComponent
    ],
   imports: [
     BrowserModule,

@@ -29,6 +29,7 @@ export class CreateDepartmentComponent implements OnInit {
   departmentName: AbstractControl;
   departmentID: AbstractControl;
   departmentDescription: AbstractControl;
+  spinningFlag:boolean=false
   constructor(
     private tabService: TabService,
     private departmentService: DepartmentService
@@ -65,6 +66,7 @@ export class CreateDepartmentComponent implements OnInit {
   }
 
   createDepartment(): void {
+    this.spinningFlag=true
     this.departmentService
       .createDepartment(
         this.departmentID.value,
@@ -73,6 +75,8 @@ export class CreateDepartmentComponent implements OnInit {
       )
       .then((res) => {
         if (res) this.departmentInfo.reset();
+      }).finally(()=>{
+        this.spinningFlag=false
       });
   }
 }

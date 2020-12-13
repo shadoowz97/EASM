@@ -1,29 +1,48 @@
-<h3 class="page-title" style="padding-top: 6px;"><strong>创建专业</strong></h3>
-<div class="panel create-speciality-panel">
-  <form nz-form [formGroup]="specialityForm">
-    <nz-form-item>
-      <nz-form-label>专业名称</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="specialityNameControl" />
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-08-10 07:47:22
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-07 22:34:54
+-->
+<h3 class="page-title" style="padding-top: 6px"><strong>创建专业</strong></h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="panel create-speciality-panel">
+    <form nz-form [formGroup]="specialityForm" >
+      <nz-form-item >
+        <nz-form-label [nzSpan]="5" [nzOffset]="3">专业名称</nz-form-label>
+        <nz-form-control [nzSpan]="10" nzHasFeedback>
+          <input nz-input formControlName="specialityNameControl" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" [nzOffset]="3">英文名称</nz-form-label>
+        <nz-form-control [nzSpan]="10" nzHasFeedback>
+          <input nz-input formControlName="specialityEnControl" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" [nzOffset]="3" >专业&nbsp;&nbsp;&nbsp;ID</nz-form-label>
+        <nz-form-control [nzSpan]="10" nzHasFeedback>
+          <input nz-input formControlName="specialityIdControl" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="5" [nzOffset]="3">专业学制</nz-form-label>
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="specialityYearControl" type="number" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-control [nzOffset]="8">
+        <button
+          nz-button
+          [disabled]="!specialityForm.valid"
+          (click)="createSpeciality()"
+        >
+          创建专业
+        </button>
       </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>英文名称</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="specialityEnControl" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>专业&nbsp;&nbsp;&nbsp;ID</nz-form-label>
-      <nz-form-control>
-        <input formControlName="specialityIdControl" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label>专业学制</nz-form-label>
-      <nz-form-control>
-        <input nz-input formControlName="specialityYearControl" />
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</div>
+    </form>
+  </div>
+</nz-spin>

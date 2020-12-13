@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-08-10 07:47:21
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-07 22:36:04
+ */
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -6,6 +14,8 @@ import {
   Validators,
   FormControlName,
 } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
+import { EAService } from '../service/ea-service/EA-service.service';
 
 @Component({
   selector: 'app-create-speciality',
@@ -18,16 +28,17 @@ export class CreateSpecialityComponent implements OnInit {
   specialityYear: AbstractControl;
   specialityEnControl: AbstractControl;
   specialityForm: FormGroup;
-  constructor() {}
+  spinningFlag = false;
+  constructor(private eaService: EAService, private msg: NzMessageService) {}
   ngOnInit() {
     this.initial();
   }
   private initial() {
     this.specialityForm = new FormGroup({
-      specialityIdControl: new FormControl('', [
-        Validators.nullValidator,
-        Validators.required,
-      ]),
+      specialityIdControl: new FormControl('', {
+        validators: [Validators.nullValidator, Validators.required],
+        updateOn: 'blur',
+      }),
       specialityNameControl: new FormControl('', [
         Validators.nullValidator,
         Validators.required,
@@ -39,6 +50,8 @@ export class CreateSpecialityComponent implements OnInit {
       specialityYearControl: new FormControl('', [
         Validators.required,
         Validators.nullValidator,
+        Validators.max(5),
+        Validators.min(1),
       ]),
     });
     this.specialityEnControl = this.specialityForm.controls[
@@ -47,9 +60,30 @@ export class CreateSpecialityComponent implements OnInit {
     this.specialityIdControl = this.specialityForm.controls[
       'specialityIdControl'
     ];
+    this.specialityIdControl.setAsyncValidators(
+      this.eaService.isSpecialityUnique()
+    );
     this.specialityNameControl = this.specialityForm.controls[
       'specialityNameControl'
     ];
-    this.specialityYear = this.specialityForm.controls['specialityYear'];
+    this.specialityYear = this.specialityForm.controls['specialityYearControl'];
+  }
+
+  async createSpeciality() {
+    this.spinningFlag = true;
+    await this.eaService
+      .createSpeciality(
+        this.specialityNameControl.value,
+        this.specialityEnControl.value,
+        this.specialityIdControl.value,
+        this.specialityYear.value
+      )
+      .then((res: boolean) => {
+        if (res) {
+          this.msg.success('创建成功');
+          this.specialityForm.reset();
+        }
+      });
+    this.spinningFlag = false;
   }
 }

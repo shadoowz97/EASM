@@ -48,13 +48,6 @@ export class SchoolYearService {
     });
   }
 
-  getRGrade(): ResSet {
-    return {
-      stateCode: 200,
-      message: 'msf',
-      data: [2020, 2019, 2018],
-    };
-  }
 
   async addSchoolYear(schoolYear: SchoolYear): Promise<boolean> {
     let param = new HttpParams()

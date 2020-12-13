@@ -4,13 +4,15 @@ import { AdministrativeClazzService } from '../service/ad-clazz/administrative-c
 import { AdministrativeClazz } from '../dataDef/AdministrativeClazz';
 import { NzUploadFile, NzMessageService } from 'ng-zorro-antd';
 import { Observable, Observer } from 'rxjs';
-import { SpecialityService } from '../service/speciality-service/speciality.service';
 import { SpecialityInfo } from '../dataDef/SpecialityInfo';
 import { DepartmentInfo } from '../dataDef/DepartmentInfo';
 import { DepartmentService } from '../service/department-service/department.service';
 import { FamilyRelation } from '../dataDef/FamilyRelation';
 import { PersonTrace } from '../dataDef/PersonTrace';
 import { Input } from '@angular/core';
+import { EAService } from '../service/ea-service/EA-service.service';
+import { ResSet } from '../dataDef/ResSet';
+import { SchoolYear } from '../dataDef/SchoolYear';
 
 @Component({
   selector: 'app-student-profile',
@@ -21,27 +23,29 @@ export class StudentProfileComponent implements OnInit {
   @Input() studentProfile: StudentProfileModel;
   nationOption: string[];
   clickTime = 0;
-  @Input() adClazzList: AdministrativeClazz[];
+  adClazzList: AdministrativeClazz[];
   specialityList: SpecialityInfo[];
   departmentList: DepartmentInfo[];
+  degree:string[];
+  schoolYears:SchoolYear[]
   @Input() personTrace: PersonTrace[];
   @Input() familyRelations: FamilyRelation[] = [
     {
       name: '',
       tel: null,
-      workpalce: '',
+      workplace: '',
       relation: '',
     },
     {
       name: '',
-      workpalce: '',
+      workplace: '',
       relation: '',
       tel: null,
     },
     {
       tel: null,
       name: '',
-      workpalce: '',
+      workplace: '',
       relation: '',
     },
   ];
@@ -52,19 +56,33 @@ export class StudentProfileComponent implements OnInit {
   constructor(
     private adClazzService: AdministrativeClazzService,
     private msg: NzMessageService,
-    private spService: SpecialityService,
+    private eaService: EAService,
     private departmentService: DepartmentService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.nationOption = this.nations
       .split('、')
       .map((value) => value.substring(0, value.length - 1));
-    this.adClazzList = this.adClazzService.getAdministrativeClazzList();
-    this.specialityList = this.spService.getSpecialityList();
+    this.adClazzService
+      .getAdministrativeClazzList()
+      .then((res: AdministrativeClazz[]) => {
+        this.adClazzList = res.filter(
+          (value: AdministrativeClazz) => value.state == 'on'
+        );
+      });
+    this.eaService.getSpecialities().then((res: SpecialityInfo[]) => {
+      this.specialityList = res;
+    });
     this.departmentService
       .getDepartmentList()
       .then((res) => (this.departmentList = res));
+
+    this.eaService.getDegree().then((res:string[])=>{
+      this.degree=res;
+    })
+  }
+
+  ngOnInit() {
+    
   }
   loading = false;
   avatarUrl?: string;

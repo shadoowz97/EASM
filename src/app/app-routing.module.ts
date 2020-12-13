@@ -11,7 +11,6 @@ import { CreateTermComponent } from './create-term/create-term.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
 import { CreateDepartmentComponent } from './create-department/create-department.component';
 import { QueryTermComponent } from './query-term/query-term.component';
-import { StudentProfileComponent } from './student-profile/student-profile.component';
 import { CreateStudentProfileComponent } from './create-student-profile/create-student-profile.component';
 import { CreateSpecialityComponent } from './create-speciality/create-speciality.component';
 import { CreateSchoolYearComponent } from './create-school-year/create-school-year.component';
@@ -19,6 +18,8 @@ import { CreateAdministrativeClassComponent } from './create-administrative-clas
 import { SchoolYearListComponent } from './schoolYear-list/schoolYear-list.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { DepartmentDetailComponent } from './department-detail/department-detail.component';
+import { SpecialityListComponent } from './speciality-list/speciality-list.component';
+import { AdministrativeClazzListComponent } from './administrativeClazz-list/administrativeClazz-list.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -106,6 +107,16 @@ const routes: Routes = [
     path: 'departmentDetail/:id',
     component: DepartmentDetailComponent,
     data: { keep: true },
+  },
+  {
+    path: 'specialityList',
+    component: SpecialityListComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'adClassList',
+    component: AdministrativeClazzListComponent,
+    data: { keep: false },
   },
 ];
 

@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-12-02 15:48:54
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-06 17:05:49
+ * @LastEditTime: 2020-12-07 08:37:26
  */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -29,6 +29,7 @@ export class DepartmentDetailComponent implements OnInit {
   ngOnInit() {
     var departmentId;
     this.router.paramMap.subscribe((params) => {
+      this.departmentModel = null;
       departmentId = params.get('id');
       this.departmentService
         .departmentDetail(departmentId)
