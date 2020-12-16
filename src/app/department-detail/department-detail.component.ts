@@ -4,31 +4,37 @@
  * @Author: Shadoowz
  * @Date: 2020-12-02 15:48:54
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-07 08:37:26
+ * @LastEditTime: 2020-12-16 21:49:03
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DepartmentService } from '../service/department-service/department.service';
 import { DepartmentDetail } from '../dataDef/DepartmentDetail';
 import { ResSet } from '../dataDef/ResSet';
 import { NzMessageService } from 'ng-zorro-antd';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-department-detail',
   templateUrl: './department-detail.component.html',
   styleUrls: ['./department-detail.component.css'],
 })
-export class DepartmentDetailComponent implements OnInit {
+export class DepartmentDetailComponent implements OnInit ,OnDestroy{
   departmentModel: DepartmentDetail;
+  subscriptions:Subscription[]=[]
   constructor(
     private router: ActivatedRoute,
     private departmentService: DepartmentService,
     private msgService: NzMessageService
   ) {}
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(s=>s.unsubscribe())
+  }
 
   ngOnInit() {
     var departmentId;
-    this.router.paramMap.subscribe((params) => {
+    console.log("订阅成功")
+    this.subscriptions.push(this.router.paramMap.subscribe((params) => {
       this.departmentModel = null;
       departmentId = params.get('id');
       this.departmentService
@@ -40,6 +46,7 @@ export class DepartmentDetailComponent implements OnInit {
             this.msgService.error('拉取详情失败');
           }
         });
-    });
+    }));
   }
+  
 }

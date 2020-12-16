@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-07-17 11:25:53
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-06 16:55:07
+ * @LastEditTime: 2020-12-15 15:04:08
  */
 import {
   RouteReuseStrategy,
@@ -15,7 +15,8 @@ import {
   ActivatedRoute,
 } from '@angular/router';
 export class SimpleRouterReuseStrategy implements RouteReuseStrategy {
-  static handlers: Map<String, any> = new Map();
+  static handlers: Map<String, DetachedRouteHandle> = new Map();
+  static onCancel:boolean=false
   static deleteCache(route: String): void {
     console.log('----------------------------');
     console.log('delete key : ' + route);
@@ -24,31 +25,24 @@ export class SimpleRouterReuseStrategy implements RouteReuseStrategy {
     console.log('----------------------------');
   }
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    return true;
+    return route.data.keep&&!(SimpleRouterReuseStrategy.onCancel);
   }
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {
-    console.log('store----- :' + route.toString());
     if (route.data['keep']) {
       console.log('route data :');
-      console.log(route.routeConfig.path);
-      SimpleRouterReuseStrategy.handlers.set(route.routeConfig.path, {
-        snapshot: route,
-        handler: handle,
-      });
+      console.log(this.getUrl(route));
+      SimpleRouterReuseStrategy.handlers.set(this.getUrl(route), handle);
     }
   }
   shouldAttach(route: ActivatedRouteSnapshot): boolean {
-    console.log('should attach');
-    return !!SimpleRouterReuseStrategy.handlers.has(route.routeConfig.path);
+    return !!SimpleRouterReuseStrategy.handlers.has(this.getUrl(route));
   }
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-    console.log('-----retrieve ' + '  ' + route);
     if (!!route.firstChild) {
       return null;
     }
-    if (SimpleRouterReuseStrategy.handlers.has(route.routeConfig.path))
-      return SimpleRouterReuseStrategy.handlers.get(route.routeConfig.path)
-        .handler;
+    if (SimpleRouterReuseStrategy.handlers.has(this.getUrl(route)))
+      return SimpleRouterReuseStrategy.handlers.get(this.getUrl(route));
     else return null;
   }
   private getUrl(route: ActivatedRouteSnapshot): String {
@@ -58,12 +52,6 @@ export class SimpleRouterReuseStrategy implements RouteReuseStrategy {
     future: ActivatedRouteSnapshot,
     curr: ActivatedRouteSnapshot
   ): boolean {
-    console.log(
-      'should reuse --------  ' +
-        future['_routerState'].url +
-        ' ' +
-        curr['_routerState'].url
-    );
     return future.routeConfig === curr.routeConfig;
   }
 }

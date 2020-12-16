@@ -1,5 +1,21 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-07-19 22:02:15
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-15 21:07:12
+ */
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-07-19 22:02:15
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-15 17:02:14
+ */
 import { Component, OnInit } from '@angular/core';
-import { CourseBaseModel } from '../model/course-base-model';
+//import { CourseBaseModel } from '../model/course-base-model';
 import { CourseService } from '../service/course-service/course.service';
 import {
   FormGroup,
@@ -9,6 +25,10 @@ import {
   AbstractControl,
   ValidatorFn,
 } from '@angular/forms';
+import { MyValidators } from '../util/MyVaildators';
+import { Category } from '../dataDef/Category';
+import { Course } from '../dataDef/Course';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-course',
@@ -18,52 +38,63 @@ import {
 export class CreateCourseComponent implements OnInit {
   courseId: AbstractControl;
   courseName: AbstractControl;
-  courseCategory: AbstractControl;
+  courseCategory: String;
   courseBaseForm: FormGroup;
-  categoryName: String;
-
+  description: AbstractControl;
+  categories: Category[];
+  subscribtions: Subscription[] = [];
+  spiningFlag: boolean = false;
   constructor(private courseService: CourseService) {
-   this.initial()
+    this.initial();
+    this.subscribtions.push(
+      this.courseService.getCategories().subscribe({
+        next: (cs) => {
+          this.categories = cs;
+        },
+      })
+    );
   }
   private initial() {
     this.courseBaseForm = new FormGroup({
-      courseId: new FormControl(null, [
-        Validators.nullValidator,
-        Validators.required,
-      ]),
+      courseId: new FormControl(null, {
+        validators: [
+          Validators.nullValidator,
+          Validators.required
+        ],
+        updateOn: 'blur',
+      }),
       courseName: new FormControl(null, [
         Validators.nullValidator,
         Validators.required,
       ]),
-      courseCategory: new FormControl(null, [
+      description: new FormControl(null, [
         Validators.nullValidator,
         Validators.required,
-        this.hasCategory(),
       ]),
     });
     this.courseId = this.courseBaseForm.controls['courseId'];
+    this.courseId.setAsyncValidators(this.courseService.isCourseIdUnique());
     this.courseName = this.courseBaseForm.controls['courseName'];
-    this.courseCategory = this.courseBaseForm.controls['courseCategory'];
-    this.categoryName = '';
+    this.description = this.courseBaseForm.controls['description'];
   }
 
-  private hasCategory(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      let cg = this.courseService.getCategory(control.value);
-      if (cg != null) {
-        this.categoryName = cg.name;
-        console.log('has cg');
-        return null;
-      }
-      return { noCategory: { value: control.value } };
-    };
-  }
   createCourse(): void {
-    this.courseService.createCourse(
-      <string>this.courseId.value,
-      <string>this.courseCategory.value,
-      <string>this.courseName.value
-    );
+    this.spiningFlag = true;
+    this.courseService
+      .createCourse(
+        <string>this.courseId.value,
+        <string>this.courseCategory,
+        <string>this.courseName.value,
+        this.description.value
+      )
+      .then((res) => {
+        if (res) {
+          this.courseBaseForm.reset();
+        }
+      })
+      .finally(() => {
+        this.spiningFlag = false;
+      });
   }
   ngOnInit(): void {}
 }

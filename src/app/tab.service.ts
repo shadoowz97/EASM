@@ -78,6 +78,7 @@ export class TabService {
       }
     }
     if (this.tabList.length != 0 && id == this.curid) {
+      SimpleRouterReuseStrategy.onCancel=true
       this.switchToTab(this.tabList[0].id).then(function () {
         if (tab != null) {
           let url = '/';
@@ -86,6 +87,7 @@ export class TabService {
             url += '/' + p;
           }
           SimpleRouterReuseStrategy.deleteCache(url);
+          SimpleRouterReuseStrategy.onCancel=false
         }
       });
     }

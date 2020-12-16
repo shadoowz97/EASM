@@ -4,15 +4,16 @@
  * @Author: Shadoowz
  * @Date: 2020-08-01 07:51:52
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-01 20:57:44
+ * @LastEditTime: 2020-12-15 16:08:26
 -->
-<h3 class="page-title" style="padding-top: 6px;"><strong>中心列表</strong></h3>
+<h3 class="page-title" style="padding-top: 6px"><strong>中心列表</strong></h3>
+<nz-spin [nzSpinning]="true" *ngIf="departmentList == null"></nz-spin>
 <div class="panel departmentlist-panel">
   <nz-table
     #departmentInfo
     [nzData]="departmentList"
     nzSize="middle"
-    [nzWidthConfig]="widthConfig"
+    *ngIf="departmentList != null"
   >
     <thead>
       <tr>
@@ -33,8 +34,15 @@
         <td nzAlign="center">{{ data.departmentName }}</td>
         <td nzAlign="center">{{ data.departmentId }}</td>
         <td nzAlign="center">{{ data.departmentState }}</td>
-        <td nzAlign="center"><button nz-button (click)="detail(data.departmentId)">管理</button></td>
-        <td nzAlign="center"><button nz-button (click)="delete(data.departmentId)">删除</button></td>
+        <td nzAlign="center">
+          <button nz-button (click)="detail(data.departmentId)">管理</button>
+        </td>
+        <td nzAlign="center">
+          <button nz-button (click)="delete(data.departmentId)">删除</button>
+        </td>
+        <td nzAlign="center">
+          <button nz-button (click)="deprecated(data.departmentId)">废弃</button>
+        </td>
       </tr>
     </tbody>
   </nz-table>

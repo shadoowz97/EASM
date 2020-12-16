@@ -1,96 +1,272 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-07-16 16:32:09
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-16 15:31:33
+ */
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  ValidationErrors,
+} from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
+import { Observable, Observer, Subscription } from 'rxjs';
+import { Category } from 'src/app/dataDef/Category';
+import { Course } from 'src/app/dataDef/Course';
+import { ResSet } from 'src/app/dataDef/ResSet';
 import { UserService } from '../user-service/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
-  category = [
-    {
-      id: 'TC',
-      name: '技术',
-      enName: 'Tecnology',
-      description: '信息技术类课程',
-    },
-    {
-      id: 'AC',
-      name: '知识组织',
-      enName: 'acknowledge',
-      description: '信息组织类课程',
-    },
-  ];
-  courses = [
-    {
-      id: '000001',
-      category: 'TC',
-      name: '文本分析与数据处理',
-      creator: '李惟依老师',
-      createdTime: '20190131',
-    },
-    {
-      id: '000002',
-      category: 'AC',
-      name: '信息咨询',
-      creator: '张影',
-      createdTime: '20200716',
-    },
-  ];
-  constructor(private userService: UserService) {}
-  public courseDetail(courseId) {
-    for (let c of this.courses) {
-      if (courseId == c.id) return c;
+  private category: Category[] = [];
+  private courses: Course[] = [];
+  private courseObserve: Observer<Course[]>[] = [];
+  private categoryObserve: Observer<Category[]>[] = [];
+  private courseObservable: Observable<Course[]> = new Observable<Course[]>(
+    (observe: Observer<Course[]>) => {
+      console.log('订阅成功');
+      observe.next(this.courses);
+      this.courseObserve.push(observe);
+      return new Subscription(() => {
+        this.courseObserve.splice(this.courseObserve.indexOf(observe), 1);
+      });
     }
-    return null;
+  );
+  private categoryObservable: Observable<Category[]> = new Observable<
+    Category[]
+  >((observe: Observer<Category[]>) => {
+    observe.next(this.category);
+    this.categoryObserve.push(observe);
+    return new Subscription(() => {
+      this.categoryObserve.splice(this.categoryObserve.indexOf(observe), 1);
+    });
+  });
+  constructor(
+    private userService: UserService,
+    private http: HttpClient,
+    private msg: NzMessageService
+  ) {
+    this.loadCategory();
+    this.loadCourse();
   }
-  public queryCategory(id:string,name:string){
-    return this.category
+
+  public getCourses(): Observable<Course[]> {
+    return this.courseObservable;
   }
-  public getCategory(id: string) {
-    console.log(id);
-    for (let c of this.category) {
-      if (c.id == id) {
-        return c;
-      }
-    }
-    return null;
+
+  public getCategories(): Observable<Category[]> {
+    return this.categoryObservable;
   }
-  public getAllCategory() {}
-  public hasCategory(cId): boolean {
-    for (let c of this.category) {
-      if (c.id == cId) return true;
-    }
-    return false;
+  public async deprecatedCourse(id: String): Promise<boolean> {
+    return await this.http
+      .delete('/api/course/deprecatedCourse/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.loadCourse();
+          return true;
+        } else return false;
+      });
   }
-  createCategory(
+
+  public async deleteCourse(id: String): Promise<boolean> {
+    return await this.http
+      .delete('/api/course/deleteCourse/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.loadCourse();
+          this.msg.success('删除成功');
+          this.courses = null;
+          return true;
+        } else return false;
+      });
+  }
+  public async loadCourse() {
+    await this.http
+      .get('/api/course/queryAllCourse', { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.courses = res.data;
+          this.courseObserve.forEach((observer: Observer<Course[]>) => {
+            observer.next(this.courses);
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  public async loadCategory() {
+    await this.http
+      .get('/api/course/queryAllCategory', { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.category = res.data;
+          this.categoryObserve.forEach((o) => {
+            o.next(this.category);
+          });
+        } else {
+          this.msg.error('拉取课程目录失败');
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        this.msg.error('拉取课程目录网络错误');
+      });
+  }
+
+  public isCategoryIdUnique(): AsyncValidatorFn {
+    return async (
+      control: AbstractControl
+    ): Promise<ValidationErrors | null> => {
+      return this.http
+        .get('/api/course/isCategoryIdUnique/' + control.value, {
+          observe: 'body',
+        })
+        .toPromise()
+        .then((res: ResSet) => {
+          if (res.stateCode == 200) return null;
+          else
+            return {
+              valid: false,
+              required: true,
+            };
+        });
+    };
+  }
+  public isCourseIdUnique(): AsyncValidatorFn {
+    return async (
+      control: AbstractControl
+    ): Promise<ValidationErrors | null> => {
+      return this.http
+        .get('/api/course/isCourseIdUnique/' + control.value, {
+          observe: 'body',
+        })
+        .toPromise()
+        .then((res: ResSet) => {
+          if (res.stateCode == 200) {
+            return null;
+          } else
+            return {
+              valid: false,
+              required: true,
+            };
+        });
+    };
+  }
+
+  public async createCategory(
+    id: String,
+    name: String,
+    description: String
+  ): Promise<boolean> {
+    var result = await this.http
+      .post('/api/course/createCategory', {
+        categoryId: id,
+        categoryName: name,
+        description: description,
+      })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('创建成功');
+          this.loadCategory();
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('创建失败');
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('网络资源错误');
+        return Promise.resolve(false);
+      });
+    return result;
+  }
+  public async createCourse(
     id: string,
+    category: string,
     name: string,
-    en: string,
-    description: string
-  ): { [key: string]: any } {
-    this.category.push({
-      id: id,
-      name: name,
-      enName: en,
-      description: description,
-    });
-    return {
-      code:200,
-      message:function(){
-        alert("添加成功！")
-      }
-    }
-  }
-  public createCourse(id: string, category: string, name: string) {
-    let username:string = this.userService.getUserName().toString();
-    this.courses.push({
-      id: id,
-      category: category,
-      name: name,
-      creator: username,
-      createdTime: new Date('YYYY-MM-DD').toString(),
-    });
+    description: String
+  ): Promise<boolean> {
+    var res = await this.http
+      .post('/api/course/createCourse', {
+        courseName: name,
+        courseId: id,
+        categoryId: category,
+        description: description,
+        state: 'active',
+      })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('创建成功');
+          this.loadCourse();
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('创建失败');
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        this.msg.error('网络资源错误');
+        return Promise.resolve(false);
+      });
+    return res;
   }
   public queryCourse(category, term) {
     return this.courses;
+  }
+
+  public async deleteCategory(id: String): Promise<boolean> {
+    var r = await this.http
+      .delete('/api/course/deleteCategory/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.loadCategory();
+          this.msg.success('删除成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error(res.message);
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('网络资源错误');
+        return Promise.resolve(false);
+      });
+    return r;
+  }
+
+  public async deprecatedCategory(id: String): Promise<boolean> {
+    var r = this.http
+      .delete('/api/course/deprecatedCategory/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.loadCategory();
+          this.msg.success('废弃成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('废弃失败');
+          return Promise.resolve(false);
+        }
+      }).catch(e=>{
+        this.msg.error("网络资源错误")
+        return Promise.resolve(false)
+      });
+      return r;
   }
 }

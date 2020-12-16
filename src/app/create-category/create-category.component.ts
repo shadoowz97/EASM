@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: Shadoowz
+ * @Date: 2020-07-26 21:28:10
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-15 21:08:14
+ */
 import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../service/course-service/course.service';
 import {
@@ -19,8 +27,8 @@ export class CreateCategoryComponent implements OnInit {
   categoryName: AbstractControl;
   categoryId: AbstractControl;
   categoryDescription: AbstractControl;
-  categoryEn: AbstractControl;
   categoryForm: FormGroup;
+  spinningFlag: boolean = false;
   constructor(private courseService: CourseService) {
     this.initial();
   }
@@ -31,48 +39,39 @@ export class CreateCategoryComponent implements OnInit {
         MyValidators.CN(),
         Validators.required,
       ]),
-      categoryEn: new FormControl('', [
-        Validators.nullValidator,
-        MyValidators.EN(),
-        Validators.required,
-      ]),
       categoryDescription: new FormControl('', [
         Validators.nullValidator,
         Validators.required,
       ]),
-      categoryId: new FormControl('', [
-        this.uniqueCategory(),
+      categoryId: new FormControl('', {validators:[
         MyValidators.UpperCase(),
         Validators.nullValidator,
         Validators.required,
-      ]),
+      ],updateOn:'blur'}),
     });
     this.categoryName = this.categoryForm.controls['categoryName'];
     this.categoryId = this.categoryForm.controls['categoryId'];
-    this.categoryEn = this.categoryForm.controls['categoryEn'];
+    this.categoryId.setAsyncValidators(this.courseService.isCategoryIdUnique())
     this.categoryDescription = this.categoryForm.controls[
       'categoryDescription'
     ];
   }
 
   createCategory() {
-    let res: { [key: string]: any } = this.courseService.createCategory(
-      <string>this.categoryId.value,
-      <string>this.categoryName.value,
-      <string>this.categoryEn.value,
-      <string>this.categoryDescription.value
-    );
-    if(res['code']==200){
-      res['message']()
-      this.initial()
-    }
+    this.spinningFlag = true;
+    this.courseService
+      .createCategory(
+        this.categoryId.value,
+        this.categoryName.value,
+        this.categoryDescription.value
+      )
+      .then((res: boolean) => {
+        if (res) this.categoryForm.reset();
+      })
+      .finally(() => {
+        this.spinningFlag = false;
+      });
   }
 
-  uniqueCategory(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      let flag = this.courseService.hasCategory(<string>control.value);
-      return flag ? { notunique: { value: control.value } } : null;
-    };
-  }
   ngOnInit(): void {}
 }

@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { QueryCourseComponent } from './query-course/query-course.component';
 import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { CreateCourseComponent } from './create-course/create-course.component';
 import { CreateCategoryComponent } from './create-category/create-category.component';
-import { QueryCategoryComponent } from './query-category/query-category.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import { CreateTermComponent } from './create-term/create-term.component';
 import { DepartmentListComponent } from './department-list/department-list.component';
@@ -20,10 +18,13 @@ import { CreateEmployeeComponent } from './create-employee/create-employee.compo
 import { DepartmentDetailComponent } from './department-detail/department-detail.component';
 import { SpecialityListComponent } from './speciality-list/speciality-list.component';
 import { AdministrativeClazzListComponent } from './administrativeClazz-list/administrativeClazz-list.component';
+import { CourseListComponent } from './course-list/course-list.component';
+import { CategoryListComponent } from './category-list/category-list.component';
+import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
-    component: QueryCourseComponent,
+    component: CourseListComponent,
     data: { keep: true },
   },
   {
@@ -34,14 +35,14 @@ const routes: Routes = [
   {
     path: 'categoryDetail/:categoryDetail',
     component: CategoryDetailComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   { path: 'welcome', component: WelcomeComponent, data: { keep: false } },
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   {
     path: 'createCourse',
     component: CreateCourseComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'createTerm',
@@ -51,22 +52,22 @@ const routes: Routes = [
   {
     path: 'createCategory',
     component: CreateCategoryComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'queryCategory',
-    component: QueryCategoryComponent,
-    data: { keep: false },
+    component: CategoryListComponent,
+    data: { keep: true },
   },
   {
     path: 'departmentList',
     component: DepartmentListComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'createDepartment',
     component: CreateDepartmentComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'queryTerm',
@@ -76,27 +77,27 @@ const routes: Routes = [
   {
     path: 'createNewStudent',
     component: CreateStudentProfileComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'createSpeciality',
     component: CreateSpecialityComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'createSchoolYear',
     component: CreateSchoolYearComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'createAdministrativeClass',
     component: CreateAdministrativeClassComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'schoolYearList',
     component: SchoolYearListComponent,
-    data: { keep: false },
+    data: { keep: true },
   },
   {
     path: 'createEmployee',
@@ -116,6 +117,11 @@ const routes: Routes = [
   {
     path: 'adClassList',
     component: AdministrativeClazzListComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'adClassDetail/:id',
+    component: AdClazzDetailComponent,
     data: { keep: false },
   },
 ];

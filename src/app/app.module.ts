@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { ServiceListComponent } from './service-list/service-list.component';
-import { QueryCourseComponent } from './query-course/query-course.component';
 import { TabBarComponent } from './tab-bar/tab-bar.component';
 import { NoneContentComponent } from './none-content/none-content.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +18,6 @@ import { SimpleRouterReuseStrategy } from './strategy/SimpleRouterReuseStrategy'
 import { CreateCourseComponent } from './create-course/create-course.component';
 import { TermDetailComponent } from './term-detail/term-detail.component';
 import { CreateCategoryComponent } from './create-category/create-category.component';
-import { QueryCategoryComponent } from './query-category/query-category.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import { CreateTermComponent } from './create-term/create-term.component';
 import { CreateDepartmentComponent } from './create-department/create-department.component';
@@ -51,6 +49,9 @@ import { CreateEmployeeComponent } from './create-employee/create-employee.compo
 import { DepartmentDetailComponent } from './department-detail/department-detail.component';
 import { SpecialityListComponent } from './speciality-list/speciality-list.component';
 import { AdministrativeClazzListComponent } from './administrativeClazz-list/administrativeClazz-list.component';
+import { CourseListComponent } from './course-list/course-list.component';
+import { CategoryListComponent } from './category-list/category-list.component';
+import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -62,12 +63,11 @@ const ngZorroConfig: NzConfig = {
   notification: { nzTop: 240 },
 };
 @NgModule({
-  declarations: [	
+  declarations: [				
     AppComponent,
     NavBarComponent,
     TopBarComponent,
     ServiceListComponent,
-    QueryCourseComponent,
     TabBarComponent,
     NoneContentComponent,
     CourseDetailComponent,
@@ -75,7 +75,6 @@ const ngZorroConfig: NzConfig = {
     CreateCourseComponent,
     TermDetailComponent,
     CreateCategoryComponent,
-    QueryCategoryComponent,
     CategoryDetailComponent,
     CreateTermComponent,
     CreateDepartmentComponent,
@@ -90,7 +89,10 @@ const ngZorroConfig: NzConfig = {
     CreateEmployeeComponent,
     DepartmentDetailComponent,
     SpecialityListComponent,
-      AdministrativeClazzListComponent
+      AdministrativeClazzListComponent,
+      CourseListComponent,
+      CategoryListComponent,
+      AdClazzDetailComponent
    ],
   imports: [
     BrowserModule,

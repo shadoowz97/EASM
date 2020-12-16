@@ -4,12 +4,13 @@
  * @Author: Shadoowz
  * @Date: 2020-12-09 10:31:46
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-09 21:26:24
+ * @LastEditTime: 2020-12-16 21:44:30
  */
 import { Component, OnInit } from '@angular/core';
 import { AdministrativeClazz } from '../dataDef/AdministrativeClazz';
 import { AdministrativeClazzService } from '../service/ad-clazz/administrative-clazz.service';
 import { EAService } from '../service/ea-service/EA-service.service';
+import { TabService } from '../tab.service';
 
 @Component({
   selector: 'app-administrativeClazz-list',
@@ -21,19 +22,19 @@ export class AdministrativeClazzListComponent implements OnInit {
   spinningFlag: boolean = false;
   colConfig = [
     {
-      name: '专业名称',
+      name: '班级名称',
       size: '150px',
     },
     {
-      name: '专业英文名称',
+      name: '班级ID',
       size: '150px',
     },
     {
-      name: '学制',
+      name: '入学年份',
       size: '100px',
     },
     {
-      name: '专业状态',
+      name: '状态',
       size: '100px',
       filterMultiple: true,
       filterList: [
@@ -63,7 +64,7 @@ export class AdministrativeClazzListComponent implements OnInit {
       size:'50px'
     }
   ];
-  constructor(private adClazzService:AdministrativeClazzService ) {
+  constructor(private adClazzService:AdministrativeClazzService ,private tabService:TabService) {
     this.loadData();
   }
   loadData() {
@@ -96,8 +97,11 @@ async delete(id: string) {
     flag = res;
   });
   if (flag) {
-    //sawait this.adClazzService.loadClazz()
     this.loadData()
   }
+}
+
+toDetail(id:String){
+  this.adClazzService.toDetail(id);
 }
 }

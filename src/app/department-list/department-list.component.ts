@@ -4,19 +4,21 @@
  * @Author: Shadoowz
  * @Date: 2020-08-01 07:51:52
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-02 19:08:11
+ * @LastEditTime: 2020-12-15 16:33:11
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DepartmentService } from '../service/department-service/department.service';
 import { DepartmentInfo } from '../dataDef/DepartmentInfo';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-department-list',
   templateUrl: './department-list.component.html',
   styleUrls: ['./department-list.component.css'],
 })
-export class DepartmentListComponent implements OnInit {
+export class DepartmentListComponent implements OnInit, OnDestroy {
   departmentList: DepartmentInfo[];
+  subscriptions: Subscription[] = [];
   colConfig = [
     {
       name: '部门名称',
@@ -50,30 +52,39 @@ export class DepartmentListComponent implements OnInit {
     },
     {
       name: '删除',
-      size: '删除',
+      size: '50px',
+    },
+    {
+      name: '废弃',
+      size: '50px',
     },
   ];
   widthConfig: string[];
   constructor(private departmentService: DepartmentService) {
-    console.log('start To load');
-    this.departmentService
-      .getDepartmentList()
-      .then((res) => (this.departmentList = res));
-    console.log('end load');
-    this.widthConfig = this.colConfig.map((value) => value.size);
+    this.subscriptions.push(
+      this.departmentService.getDepartments().subscribe({
+        next: (info: DepartmentInfo[]) => {
+          this.departmentList = info;
+        },
+      })
+    );
+  }
+  ngOnDestroy(): void {
+    //console.log(this.subscriptions.length + ' 销毁订阅');
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  refreshList() {
-    this.departmentService.loadDepartment();
-    this.departmentService
-      .getDepartmentList()
-      .then((res) => (this.departmentList = res));
-  }
+
   detail(id: string) {
     this.departmentService.toDetail(id);
   }
 
-  delete(id: string) {}
+  delete(id: string) {
+    this.departmentService.deleteDepartment(id);
+  }
+  deprecated(id: string) {
+    this.departmentService.deprecatedDepartment(id);
+  }
 
   ngOnInit(): void {}
 }

@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-08 09:52:35
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-06 16:08:14
+ * @LastEditTime: 2020-12-15 16:32:53
  */
 
 import { Injectable, resolveForwardRef } from '@angular/core';
@@ -21,6 +21,7 @@ import {
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { TabService } from 'src/app/tab.service';
 import { ResolveEnd } from '@angular/router';
+import { Observable, Observer, Subscription } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -31,24 +32,32 @@ export class DepartmentService {
   private hasLoadDepartmentList: boolean = false;
   private hasLoadDuty: boolean = false;
   private hasLoadTitle: boolean = false;
+  private departmentObservers: Observer<DepartmentInfo[]>[] = [];
+  private departmentObservable: Observable<DepartmentInfo[]> = new Observable<
+    DepartmentInfo[]
+  >((observer: Observer<DepartmentInfo[]>) => {
+    console.log('订阅成功');
+    observer.next(this.departmentList);
+    this.departmentObservers.push(observer);
+    return new Subscription(() => {
+      console.log('取消订阅部门列表');
+      this.departmentObservers.splice(
+        this.departmentObservers.indexOf(observer)
+      );
+    });
+  });
   constructor(
     private http: HttpClient,
     private msg: NzMessageService,
     private tabService: TabService
-  ) {}
-  /**
-   * @author: Shadoowz
-   * @Date: 2020-12-01 08:40:01
-   * @param {*}
-   * @return 当前的部门列表
-   * @description: 获取部门信息，如果尚未加载过，则从服务端同步获取数据
-   */
-  public async getDepartmentList() {
-    if (!this.hasLoadDepartmentList) await this.loadDepartment();
-    console.log('load over!' + this.departmentList);
-    return this.departmentList;
+  ) {
+    this.loadDepartment();
   }
+ 
 
+  public getDepartments(): Observable<DepartmentInfo[]> {
+    return this.departmentObservable;
+  }
   public checkDepartmentUnique(): AsyncValidatorFn {
     return async (
       control: AbstractControl
@@ -66,6 +75,27 @@ export class DepartmentService {
         });
     };
   }
+
+  /**
+   * @author: Shadoowz
+   * @Date: 2020-12-15 15:54:31
+   * @param {String} id
+   * @return {*}
+   * @description: 根据ID删除部门
+   */
+  public deleteDepartment(id: String) {
+    this.http
+      .delete('/api/department/deleteById/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('删除成功');
+          this.loadDepartment();
+        } else {
+          this.msg.error('删除失败');
+        }
+      });
+  }
   /**
    * @author: Shadoowz
    * @Date: 2020-12-01 17:02:22
@@ -74,16 +104,16 @@ export class DepartmentService {
    * @description: 同步获取department的列表
    */
   public async loadDepartment() {
-    this.departmentList = [];
     await this.http
       .get('/api/department/queryAllDepartment')
       .toPromise()
       .then((res: ResSet) => {
-        console.log('get allDepartment');
         if (res.stateCode == 200) {
           this.departmentList = res.data;
           this.hasLoadDepartmentList = true;
-          console.log(JSON.stringify(this.departmentList));
+          this.departmentObservers.forEach((observer) => {
+            observer.next(this.departmentList);
+          });
         } else {
           this.msg.error('拉取部门列表失败');
         }
@@ -94,7 +124,7 @@ export class DepartmentService {
    * @Date: 2020-12-01 17:04:52
    * @param {*}
    * @return {*}
-   * @description:获取
+   * @description:获取职称列表
    */
   public async getDuties(): Promise<Duty[] | null> {
     if (!this.hasLoadDuty) await this.loadDuties();
@@ -184,7 +214,7 @@ export class DepartmentService {
     this.tabService.addTab(
       'department' + id,
       'departmentDetail',
-      '部门详情'+id,
+      '部门详情' + id,
       params,
       false
     );
@@ -202,5 +232,19 @@ export class DepartmentService {
       });
 
     return res;
+  }
+
+  public deprecatedDepartment(id: String) {
+    this.http
+      .delete('/api/department/deprecatedDepartment/' + id, { observe: 'body' })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.loadDepartment();
+          this.msg.success('废弃成功');
+        } else {
+          this.msg.error('废弃失败');
+        }
+      });
   }
 }

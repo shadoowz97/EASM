@@ -1,0 +1,38 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-12-15 21:10:21
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-16 08:38:59
+-->
+<h3 class="page-title" style="padding-top: 6px"><strong>课程列表</strong></h3>
+<div class="panel course-list-panel">
+  <nz-table #courseInfo [nzData]="courses" nzSize="middle">
+    <thead>
+      <tr>
+        <th
+          *ngFor="let col of colConfig"
+          [nzAlign]="'center'"
+          [nzFilterMultiple]="col.filterMultiple"
+          [nzFilters]="col.listOfFilter"
+          [nzFilterFn]="col.filterFn"
+          [nzWidth]="col.size"
+        >
+          {{ col.name }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of courseInfo.data">
+        <td [nzAlign]="'center'">{{ data.courseId}}</td>
+        <td [nzAlign]="'center'">{{ data.courseName }}</td>
+        <td [nzAlign]="'center'">{{ data.categoryId}}</td>
+        <td [nzAlign]="'center'">{{ data.state}}</td>
+        <td [nzAlign]="'center'"><button nz-button (click)="deleteCourse(data.courseId)">删除</button></td>
+        <td [nzAlign]="'center'"><button nz-button (click)="toDetail(data.courseId)">管理</button></td>
+        <td [nzAlign]="'center'"><button nz-button (click)="deprecatedCourse(data.courseId)">废弃</button></td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

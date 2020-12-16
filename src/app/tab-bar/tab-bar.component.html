@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-07-13 22:21:31
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-15 15:24:27
+-->
 
   <div class="row">
     <ul class="nav nav-tabs">
@@ -8,7 +16,7 @@
               tab.title
             }}</span
             >&nbsp;&nbsp;
-            <span class="cancel" (click)="cancelTab(tab.id)">&times;</span>
+            <span class="cancel" (click)="cancelTab(tab.id)" *ngIf="tab.active&&tab.title!='welcome'">&times;</span>
           </a>
         </li>
       </ng-container>

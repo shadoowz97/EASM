@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-12-07 21:33:38
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-09 11:06:15
+ * @LastEditTime: 2020-12-16 15:51:34
 -->
 <h3 class="page-title" style="padding-top: 6px"><strong>班级列表</strong></h3>
 <nz-spin [nzSpinning]="spinningFlag">
@@ -31,15 +31,13 @@
           <td nzAlign="center">{{ data.enterYear + "年" }}</td>
           <td nzAlign="center">{{ data.state == "on" ? "在读" : "毕业" }}</td>
           <td nzAlign="center">
-            <button nz-button (click)="deprcated(data.clazzId)">
-              废弃
-            </button>
+            <button nz-button (click)="deprcated(data.clazzId)">废弃</button>
           </td>
           <td nzAlign="center">
             <button nz-button (click)="delete(data.clazzId)">删除</button>
           </td>
           <td nzAlign="center">
-            <button nz-button>详情</button>
+            <button nz-button (click)="toDetail(data.clazzId)">详情</button>
           </td>
         </tr>
       </tbody>

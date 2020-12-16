@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-07-13 22:21:34
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2020-12-14 17:27:46
+ */
 import { Component, OnInit } from '@angular/core';
 import {TabService} from "../tab.service"
 
@@ -12,7 +20,7 @@ export class TabBarComponent implements OnInit {
   activeTab(id){
     this.tabService.switchToTab(id);
   }
-  cancelTab(id){
+  cancelTab(id:string){
     this.tabService.cancelTab(id)
   }
   ngOnInit() {

@@ -312,7 +312,13 @@
       </td>
       <td class="xl69" style="border-top: none; border-left: none">入学年份</td>
       <td colspan="2" class="xl69" style="border-left: none">
-        <input [(ngModel)]="studentProfile.dorm" />　
+        <nz-select [(ngModel)]="studentProfile.enterYear" >
+
+          <ng-container *ngFor="let scy of schoolYears">
+            <nz-option [nzLabel]="scy.name" [nzValue]="scy.rGrade"></nz-option>
+          </ng-container>
+        </nz-select>
+        　
       </td>
     </tr>
     <tr height="27" style="mso-height-source: userset; height: 20pt">
