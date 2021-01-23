@@ -4,11 +4,11 @@
  * @Author: Shadoowz
  * @Date: 2020-12-16 16:19:43
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-16 23:14:46
+ * @LastEditTime: 2021-01-23 15:51:22
 -->
 <h3 class="page-title" style="padding-top: 6px"><strong>班级详细信息</strong></h3>
 <nz-spin [nzSpinning]="spinningFlag">
-  <div class="panel clazz-detail-panel">
+  <div class="panel clazz-detail-panel" *ngIf="administrativeClazz!=null">
     <nz-descriptions [nzTitle]="administrativeClazz.clazzName" [nzBordered]="true">
       <nz-descriptions-item nzTitle="班级ID">{{administrativeClazz.clazzId}}</nz-descriptions-item>
       <nz-descriptions-item nzTitle="入学年份">{{administrativeClazz.enterYear+'年'}}</nz-descriptions-item>

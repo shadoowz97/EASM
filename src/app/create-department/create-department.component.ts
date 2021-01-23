@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-07-31 12:27:20
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-01 20:30:17
+ * @LastEditTime: 2021-01-23 12:20:58
  */
 import { Component, OnInit } from '@angular/core';
 import {
@@ -29,7 +29,7 @@ export class CreateDepartmentComponent implements OnInit {
   departmentName: AbstractControl;
   departmentID: AbstractControl;
   departmentDescription: AbstractControl;
-  spinningFlag:boolean=false
+  spinningFlag: boolean = false;
   constructor(
     private tabService: TabService,
     private departmentService: DepartmentService
@@ -45,11 +45,14 @@ export class CreateDepartmentComponent implements OnInit {
         Validators.nullValidator,
         MyValidators.CN(),
       ]),
-      departmentID: new FormControl('', [
-        Validators.required,
-        Validators.nullValidator,
-        MyValidators.UpperCase(),
-      ]),
+      departmentID: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.nullValidator,
+          MyValidators.UpperCase
+        ],
+        updateOn: 'blur',
+      }),
       departmentDescription: new FormControl('', [
         Validators.required,
         Validators.nullValidator,
@@ -66,7 +69,7 @@ export class CreateDepartmentComponent implements OnInit {
   }
 
   createDepartment(): void {
-    this.spinningFlag=true
+    this.spinningFlag = true;
     this.departmentService
       .createDepartment(
         this.departmentID.value,
@@ -75,8 +78,9 @@ export class CreateDepartmentComponent implements OnInit {
       )
       .then((res) => {
         if (res) this.departmentInfo.reset();
-      }).finally(()=>{
-        this.spinningFlag=false
+      })
+      .finally(() => {
+        this.spinningFlag = false;
       });
   }
 }

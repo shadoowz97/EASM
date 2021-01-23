@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-12-09 10:31:46
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-16 21:44:30
+ * @LastEditTime: 2021-01-23 15:44:24
  */
 import { Component, OnInit } from '@angular/core';
 import { AdministrativeClazz } from '../dataDef/AdministrativeClazz';
