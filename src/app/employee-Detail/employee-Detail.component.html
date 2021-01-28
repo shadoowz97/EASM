@@ -1,0 +1,98 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-01-23 23:06:59
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-01-27 21:17:27
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>详细信息</strong>
+</h3>
+<nz-spin [nzSpinning]="employeeInfo == null">
+  <div class="panel employee-detail-panel" *ngIf="employeeInfo != null">
+    <h1 nz-typography>
+      <strong>{{ employeeInfo.employeeName }}</strong>
+    </h1>
+    <h6>&nbsp;</h6>
+    <h5>
+      <span
+        ><strong> 所在中心 <span>&nbsp;</span>:<span>&nbsp;</span> </strong
+        >{{ employeeInfo.departmentName }}</span
+      >
+      &nbsp;&nbsp;
+      <span *ngIf="canEdit" (click)="editDepartment()">
+        <nz-tag nzColor="#55acee">
+          <i nz-icon nzType="edit"></i>
+          <span>编辑</span>
+        </nz-tag></span
+      >
+    </h5>
+    <h6>&nbsp;</h6>
+    <h5>
+      <span
+        ><strong>
+          职&nbsp;&nbsp;称 <span>&nbsp;</span>:<span>&nbsp;</span></strong
+        ></span
+      >{{ employeeInfo.title }}
+      &nbsp;&nbsp;
+      <span *ngIf="canEdit" (click)="editTitle()">
+        <nz-tag nzColor="#55acee">
+          <i nz-icon nzType="edit"></i>
+          <span>编辑</span>
+        </nz-tag></span
+      >
+    </h5>
+    <h6>&nbsp;</h6>
+    <h5>
+      <span
+        ><strong>
+          电子邮箱 <span>&nbsp;</span>:<span>&nbsp;</span></strong
+        ></span
+      >{{ employeeInfo.employeeEmail }}
+    </h5>
+    <h6>&nbsp;</h6>
+    <nz-divider nzPlain nzText="个人简介" nzOrientation="left"></nz-divider>
+    <ng-container *ngIf="editMode">
+      <quill-editor
+        [(ngModel)]="employeeInfo.introduction"
+        [styles]="{align: 'center' }"
+        (onEditorCreated)="onEditorCreated($event)"
+      ></quill-editor>
+    </ng-container>
+    <ng-container *ngIf="!editMode">
+      <div>
+        <quill-view [content]="employeeInfo.introduction"></quill-view>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngIf="canEdit && (!editMode || (editMode && showEditButton))"
+    >
+      <button
+        *ngIf="editMode"
+        nz-button
+        [ngStyle]="{ margin: '10px 10px 10px' }"
+        (click)="cancelEdit()"
+      >
+        <strong>Exit</strong>
+      </button>
+      <button
+        nz-button
+        (click)="editMode ? save() : edit()"
+        [ngStyle]="{ margin: '10px 5px 10px 5px' }"
+        [nzLoading]="saveLoading"
+      >
+        <strong>
+          {{ editMode ? "Save" : "Edit" }}
+        </strong>
+      </button>
+      <nz-modal
+        [(nzVisible)]="unSavedModalVisable"
+        (nzOnOk)="handleOnOk()"
+        (nzOnCancel)="handleOnCancel()"
+        [nzContent]="'您所做的更改未保存，是否继续退出？'"
+      >
+      </nz-modal>
+    </ng-container>
+  </div>
+</nz-spin>

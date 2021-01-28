@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-08 09:52:35
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-15 16:32:53
+ * @LastEditTime: 2021-01-24 18:06:25
  */
 
 import { Injectable, resolveForwardRef } from '@angular/core';
@@ -20,7 +20,6 @@ import {
 } from '@angular/forms';
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { TabService } from 'src/app/tab.service';
-import { ResolveEnd } from '@angular/router';
 import { Observable, Observer, Subscription } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -29,7 +28,6 @@ export class DepartmentService {
   private departmentList: DepartmentInfo[] = [];
   private titles: string[] = [];
   private duties: Duty[] = [];
-  private hasLoadDepartmentList: boolean = false;
   private hasLoadDuty: boolean = false;
   private hasLoadTitle: boolean = false;
   private departmentObservers: Observer<DepartmentInfo[]>[] = [];
@@ -53,7 +51,6 @@ export class DepartmentService {
   ) {
     this.loadDepartment();
   }
- 
 
   public getDepartments(): Observable<DepartmentInfo[]> {
     return this.departmentObservable;
@@ -110,7 +107,6 @@ export class DepartmentService {
       .then((res: ResSet) => {
         if (res.stateCode == 200) {
           this.departmentList = res.data;
-          this.hasLoadDepartmentList = true;
           this.departmentObservers.forEach((observer) => {
             observer.next(this.departmentList);
           });

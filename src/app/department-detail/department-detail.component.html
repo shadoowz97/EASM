@@ -11,17 +11,24 @@
     <nz-list-item>
       <strong>部门主管：</strong>
       <p *ngIf="departmentModel.supervisor == null">未指定部门主管</p>
-      <p *ngIf="departmentModel.supervisor != null">
-        {{ departmentModel.supervisor.employeeName }}
-      </p></nz-list-item
-    >
+      <nz-tag nzColor="#3b5999" *ngIf="departmentModel.supervisor !== null" (click)="toDetail(departmentModel.supervisor.employeeId)">
+        <i nz-icon nzType="audit"></i>
+        <span>{{ departmentModel.supervisor.employeeName }}</span>
+      </nz-tag>
+     </nz-list-item>
     <nz-list-item *ngFor="let e of departmentModel.sps">
       部门副主管：
-      <p>{{ e.employeeName }}</p>
+      <nz-tag nzColor="#3b5999" (click)="toDetail(e.employeeId)">
+        <i nz-icon nzType="audit"></i>
+        <span>{{ e.employeeName }}</span>
+      </nz-tag>
     </nz-list-item>
     <nz-list-item *ngFor="let e of departmentModel.others">
       教职工：
-      <p>{{ e.employeeName }}</p>
+      <nz-tag nzColor="#3b5999" (click)="toDetail(e.employeeId)">
+        <i nz-icon nzType="audit"></i>
+        <span>{{ e.employeeName }}</span>
+      </nz-tag>
     </nz-list-item>
   </nz-list>
 </div>

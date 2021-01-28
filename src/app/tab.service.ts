@@ -77,9 +77,9 @@ export class TabService {
         break;
       }
     }
-    if (this.tabList.length != 0 && id == this.curid) {
-      SimpleRouterReuseStrategy.onCancel=true
-      this.switchToTab(this.tabList[0].id).then(function () {
+    if (this.tabList.length !==0 && id == this.curid) {
+      SimpleRouterReuseStrategy.onCancel = true;
+      this.switchToTab(this.tabList[this.tabList.length-1].id).then(function () {
         if (tab != null) {
           let url = '/';
           url += tab.routerLink;
@@ -87,7 +87,7 @@ export class TabService {
             url += '/' + p;
           }
           SimpleRouterReuseStrategy.deleteCache(url);
-          SimpleRouterReuseStrategy.onCancel=false
+          SimpleRouterReuseStrategy.onCancel = false;
         }
       });
     }

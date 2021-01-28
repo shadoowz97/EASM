@@ -29,6 +29,7 @@ import { zh_CN } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { QuillModule } from 'ngx-quill';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TermService } from './service/term-service/term-service.service';
 import { QueryTermComponent } from './query-term/query-term.component';
@@ -52,6 +53,7 @@ import { AdministrativeClazzListComponent } from './administrativeClazz-list/adm
 import { CourseListComponent } from './course-list/course-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.component';
+import { EmployeeDetailComponent } from './employee-Detail/employee-Detail.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -63,7 +65,7 @@ const ngZorroConfig: NzConfig = {
   notification: { nzTop: 240 },
 };
 @NgModule({
-  declarations: [				
+  declarations: [
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -89,11 +91,12 @@ const ngZorroConfig: NzConfig = {
     CreateEmployeeComponent,
     DepartmentDetailComponent,
     SpecialityListComponent,
-      AdministrativeClazzListComponent,
-      CourseListComponent,
-      CategoryListComponent,
-      AdClazzDetailComponent
-   ],
+    AdministrativeClazzListComponent,
+    CourseListComponent,
+    CategoryListComponent,
+    AdClazzDetailComponent,
+    EmployeeDetailComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -108,6 +111,27 @@ const ngZorroConfig: NzConfig = {
     NzIconModule.forRoot(icons),
     NzButtonModule,
     NzTableModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+          ['blockquote', 'code-block'],
+          [{ header: 1 }, { header: 2 }], // custom button values
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+          [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+          [{ direction: 'rtl' }], // text direction
+
+          [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+          [{ font: [] }],
+          [{ align: [] }],
+          ['clean'],
+        ],
+      },
+    }),
   ],
   providers: [
     UserService,

@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-07-08 15:25:38
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-01-27 12:07:04
+ */
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TabService } from './tab.service';
@@ -30,6 +38,12 @@ export class AppComponent {
       console.log(event);
     });*/
   }
+  public exit() {
+    this.userModel.userId=""
+    this.userModel.userState=false
+    this.userModel.roles=[]
+    this.userModel.username=""
+  }
 
   login() {
     this.userService.doLogin().subscribe({
@@ -39,6 +53,7 @@ export class AppComponent {
           this.nzMessageService.create('success', data.message);
           this.userModel.userState = true;
           this.userModel.username = data.data.username;
+          this.userModel.roles=data.data.roles
         } else {
           this.nzMessageService.error(data.message);
         }

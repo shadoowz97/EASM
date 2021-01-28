@@ -176,4 +176,26 @@ export const root = [
       },
     ],
   },
+  {
+    name: '导师关系管理',
+    icon: 'solution',
+    id: 'supervisorRelationManagemt',
+    datatarget: 'supervisor-relation-management',
+    hasChildren: true,
+    children: [
+      {
+        name: '建立导师学生关系',
+        icon: 'solution',
+        id: 'newAdClass',
+        hasChildren: false,
+        routerlink: 'createAdministrativeClass',
+      },
+      {
+        name: '班级列表',
+        icon: 'solution',
+        id: 'ad-class-list',
+        routerlink: 'adClassList',
+      },
+    ],
+  }
 ];

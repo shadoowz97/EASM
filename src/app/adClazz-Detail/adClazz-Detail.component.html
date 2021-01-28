@@ -4,15 +4,87 @@
  * @Author: Shadoowz
  * @Date: 2020-12-16 16:19:43
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-23 15:51:22
+ * @LastEditTime: 2021-01-28 08:23:29
 -->
-<h3 class="page-title" style="padding-top: 6px"><strong>班级详细信息</strong></h3>
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>班级详细信息</strong>
+</h3>
 <nz-spin [nzSpinning]="spinningFlag">
-  <div class="panel clazz-detail-panel" *ngIf="administrativeClazz!=null">
-    <nz-descriptions [nzTitle]="administrativeClazz.clazzName" [nzBordered]="true">
-      <nz-descriptions-item nzTitle="班级ID">{{administrativeClazz.clazzId}}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="入学年份">{{administrativeClazz.enterYear+'年'}}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="班级状态"> <nz-badge [nzStatus]="administrativeClazz.state=='on'?'processing':'error'" [nzText]="administrativeClazz.state=='on'?'在读':'结业'"></nz-badge></nz-descriptions-item>
+  <div class="panel clazz-detail-panel" *ngIf="administrativeClazz != null">
+    <nz-descriptions
+      [nzTitle]="administrativeClazz.clazzName"
+      [nzBordered]="true"
+    >
+      <nz-descriptions-item nzTitle="班级ID">{{
+        administrativeClazz.clazzId
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="入学年份">{{
+        administrativeClazz.enterYear + "年"
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="班级状态">
+        <nz-badge
+          [nzStatus]="
+            administrativeClazz.state == 'on' ? 'processing' : 'error'
+          "
+          [nzText]="administrativeClazz.state == 'on' ? '在读' : '结业'"
+        ></nz-badge
+      ></nz-descriptions-item>
     </nz-descriptions>
+    <nz-divider></nz-divider>
+    <nz-table
+      #studentInfo
+      [nzData]="administrativeClazz.students"
+      [nzSize]="'small'"
+    >
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of studentColConfig"
+            [nzAlign]="'center'"
+            [nzWidth]="col.size"
+          >
+            {{ col.name }}
+          </th>
+        </tr>
+      </thead>
+      <tr
+        [ngStyle]="{
+          font: 'normal 500 15px arial,sans-serif',
+          height: '30px'
+        }"
+        *ngFor="let student of studentInfo.data"
+      >
+        <td [nzAlign]="'center'">{{ student.studentId }}</td>
+        <td [nzAlign]="'center'">{{ student.studentName }}</td>
+        <td [nzAlign]="'center'">{{ student.departmentName }}</td>
+        <td [nzAlign]="'center'">{{ student.specialityName }}</td>
+        <td [nzAlign]="'center'">
+          <nz-tag
+            [nzColor]="colorMap(student.state)"
+            (click)="editStudentState(student)"
+            ><i nz-icon nzType="edit"></i>{{ student.state }}</nz-tag
+          >
+        </td>
+      </tr>
+    </nz-table>
+    <nz-modal
+      [(nzVisible)]="stateEditorVisable"
+      (nzOnOk)="handleStateChangeOk()"
+      (nzOnCancel)="handleStateChangeCancel()"
+      [nzOkLoading]="okLoadingFlag"
+      [nzContent]="nzModalContent"
+    >
+      <ng-template #nzModalContent>
+        <nz-radio-group [(ngModel)]="templateState" nzButtonStyle="solid">
+          <ng-container *ngFor="let state of states">
+            <label nz-radio [nzValue]="state"
+              ><nz-tag [nzColor]="colorMap(state)"
+                ><span>{{ state }}</span></nz-tag
+              ></label
+            >
+          </ng-container>
+        </nz-radio-group>
+      </ng-template>
+    </nz-modal>
   </div>
 </nz-spin>

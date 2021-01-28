@@ -21,6 +21,7 @@ import { AdministrativeClazzListComponent } from './administrativeClazz-list/adm
 import { CourseListComponent } from './course-list/course-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.component';
+import { EmployeeDetailComponent } from './employee-Detail/employee-Detail.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -122,6 +123,11 @@ const routes: Routes = [
   {
     path: 'adClassDetail/:id',
     component: AdClazzDetailComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'employeeDetail/:id',
+    component: EmployeeDetailComponent,
     data: { keep: false },
   },
 ];
