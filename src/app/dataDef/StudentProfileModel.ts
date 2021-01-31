@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-09 17:01:21
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-12 10:43:58
+ * @LastEditTime: 2021-01-29 23:08:23
  */
 import { FamilyRelation } from './FamilyRelation';
 import { PersonTrace } from './PersonTrace';
@@ -21,7 +21,7 @@ export class StudentProfileModel {
   //学号
   studentId: string;
   //出生年月日
-  birthDay: string;
+  birthday: string;
   //民族
   nation: string;
   //性别

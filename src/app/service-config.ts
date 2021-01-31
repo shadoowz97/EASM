@@ -186,16 +186,10 @@ export const root = [
       {
         name: '建立导师学生关系',
         icon: 'solution',
-        id: 'newAdClass',
+        id: 'establishSupervisor',
         hasChildren: false,
-        routerlink: 'createAdministrativeClass',
-      },
-      {
-        name: '班级列表',
-        icon: 'solution',
-        id: 'ad-class-list',
-        routerlink: 'adClassList',
-      },
+        routerlink: 'establishSupervisorRelation',
+      }
     ],
-  }
+  },
 ];

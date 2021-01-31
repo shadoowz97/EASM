@@ -1,0 +1,231 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-01-29 10:21:48
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-01-30 19:03:26
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>学生信息</strong>
+</h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="panel student-detail-panel" *ngIf="studentDetail != null">
+    <button nz-button (click)="reloadStudent()" [ngStyle]="{ float: 'right' }">
+      <i nz-icon [nzType]="'sync'" [nzSpin]="reloadState"></i>
+    </button>
+    <nz-descriptions [nzColumn]="2" nzTitle="Personal">
+      <nz-descriptions-item nzTitle="姓名" [nzSpan]="1">{{
+        studentDetail.studentProfile.studentName
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="学号" [nzSpan]="1">{{
+        studentDetail.studentProfile.studentId
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="所属中心" [nzSpan]="1">{{
+        studentDetail.studentProfile.departmentId
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="专业" [nzSpan]="1">{{
+        studentDetail.studentProfile.specialityId
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="性别" [nzSpan]="1">{{
+        studentDetail.studentProfile.sex
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="民族" [nzSpan]="1">{{
+        studentDetail.studentProfile.nation
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="生日" [nzSpan]="1">{{
+        studentDetail.studentProfile.birthday | date: "yyyy-MM-dd"
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="政治面貌" [nzSpan]="1">{{
+        studentDetail.studentProfile.pID
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="身份证号" [nzSpan]="1">{{
+        studentDetail.studentProfile.idNumber
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="邮箱" [nzSpan]="1">{{
+        studentDetail.studentProfile.email
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="电话" [nzSpan]="1">{{
+        studentDetail.studentProfile.contactTel
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="班级" [nzSpan]="1">{{
+        studentDetail.studentProfile.administrativeClazzId
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="培养类型" [nzSpan]="1">{{
+        studentDetail.studentProfile.degreeType
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="籍贯" [nzSpan]="1">{{
+        studentDetail.studentProfile.nativePlace
+      }}</nz-descriptions-item>
+
+      <nz-descriptions-item nzTitle="家庭详细地址" [nzSpan]="2">{{
+        studentDetail.studentProfile.familyAddress
+      }}</nz-descriptions-item>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+    <nz-descriptions
+      [nzColumn]="6"
+      nzTitle="Family"
+      [nzColon]="false"
+      [nzBordered]="false"
+    >
+      <nz-descriptions-item nzTitle="" [nzSpan]="1">关系</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="" [nzSpan]="1">姓名</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="" [nzSpan]="3"
+        >工作单位</nz-descriptions-item
+      >
+      <nz-descriptions-item> 联系电话 </nz-descriptions-item>
+      <ng-container
+        *ngFor="let relation of studentDetail.studentProfile.familyRelation"
+      >
+        <nz-descriptions-item nzTitle="" [nzSpan]="1">{{
+          relation.relation
+        }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="" [nzSpan]="1">{{
+          relation.name
+        }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="" [nzSpan]="3">{{
+          relation.workplace
+        }}</nz-descriptions-item>
+        <nz-descriptions-item [nzSpan]="1">
+          {{ relation.tel }}
+        </nz-descriptions-item>
+      </ng-container>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+    <nz-descriptions [nzColumn]="5" nzTitle="Trace" [nzColon]="false">
+      <nz-descriptions-item nzTitle="" [nzSpan]="2"
+        >起始日期</nz-descriptions-item
+      >
+      <nz-descriptions-item nzTitle="" [nzSpan]="2">机构</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="" [nzSpan]="1">工作</nz-descriptions-item>
+      <ng-container
+        *ngFor="let trace of studentDetail.studentProfile.personTrace"
+      >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+          >{{ trace.startDate | date: "yyyy-MM" }}-{{
+            trace.endDate | date: "yyyy-MM"
+          }}</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2">{{
+          trace.place
+        }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="" [nzSpan]="1">{{
+          trace.workType
+        }}</nz-descriptions-item>
+      </ng-container>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+    <div style="text-align: center">
+      <nz-descriptions
+        [nzColumn]="11"
+        [nzTitle]="MentoringRelationship"
+        [nzColon]="false"
+        [nzBordered]="false"
+      >
+        <ng-template #MentoringRelationship>
+          <div style="text-align: left">MentoringRelationship</div>
+        </ng-template>
+        <nz-descriptions-item nzTitle="" [nzSpan]="1"
+          >姓名</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+          >所在部门</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+          >电子邮箱</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+          >导师类型</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+          >联系导师</nz-descriptions-item
+        >
+        <nz-descriptions-item nzTitle="" [nzSpan]="2" *ngIf="isAdmin"
+          >解除关系</nz-descriptions-item
+        >
+        <ng-container
+          *ngFor="let relation of studentDetail.mentoringRelationship"
+        >
+          <nz-descriptions-item nzTitle="" [nzSpan]="1">{{
+            relation.supervisor.employeeName
+          }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="" [nzSpan]="2">{{
+            relation.supervisor.departmentName
+          }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="" [nzSpan]="2">{{
+            relation.supervisor.employeeEmail
+          }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="" [nzSpan]="2"
+            ><nz-tag [nzColor]="relation.type == '导师' ? 'geekblue' : 'purple'"
+              ><span>{{ relation.type }}</span></nz-tag
+            ></nz-descriptions-item
+          >
+          <nz-descriptions-item nzTitle="" [nzSpan]="2"
+            ><nz-tag nzColor="#3b5999"
+              ><i nz-icon nzType="send"></i> <span>Contact!</span></nz-tag
+            ></nz-descriptions-item
+          >
+          <nz-descriptions-item nzTitle="" [nzSpan]="2" *ngIf="isAdmin"
+            ><nz-tag
+              nzColor="#f50"
+              (click)="
+                serverMentoringRelationship(relation.supervisor.employeeId)
+              "
+              ><i nz-icon nzType="user-delete"></i>
+              <span>Server it</span></nz-tag
+            ></nz-descriptions-item
+          >
+        </ng-container>
+      </nz-descriptions>
+      <p>&nbsp;</p>
+      <div style="text-align: center; font-weight: 900">
+        <button nz-button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+            nz-icon
+            nzType="user-add"
+            nzTheme="outline"
+          ></i
+          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+      </div>
+      <nz-drawer
+        [(nzVisible)]="establishDrawerVisible"
+        nzTitle="建立指导关系"
+        [nzContent]="establishMonteringDrawer"
+      >
+        <ng-template #establishMonteringDrawer>
+          <nz-select
+            [(ngModel)]="departmentId"
+            (ngModelChange)="departmentChange($event)"
+          >
+            <nz-option
+              *ngFor="let p of departmentList"
+              [nzValue]="p.departmentId"
+              [nzLabel]="p.departmentName"
+            ></nz-option>
+          </nz-select>
+          <nz-select [(ngModel)]="supervisorId" [nzDisabled]="loadingSupervisors">
+            <nz-option
+              *ngFor="let e of supervisors"
+              [nzValue]="e.employeeId"
+              [nzLabel]="e.employeeName"
+            ></nz-option>
+          </nz-select>
+          <nz-select [(ngModel)]="supervisorType">
+            <nz-option [nzValue]="0" [nzLabel]="'责任导师'"></nz-option>
+            <nz-option [nzValue]="1" [nzLabel]="'导师'"></nz-option>
+          </nz-select>
+          <button nz-button (click)="establishRealtion()" [disabled]="loadingSupervisors"><strong>establish relation</strong></button>
+        </ng-template>
+      </nz-drawer>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <nz-divider></nz-divider>
+      <p>
+        <i nz-icon nzType="safety-certificate" nzTheme="outline"></i
+        ><span>&nbsp;&nbsp;敏感信息传输过程中已遮盖</span>
+      </p>
+    </div>
+  </div>
+</nz-spin>

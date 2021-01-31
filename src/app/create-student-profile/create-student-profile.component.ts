@@ -165,11 +165,11 @@ export class CreateStudentProfileComponent implements OnInit {
     this.familyRelationShipCheck();
     this.personTraceCheck();
   }
-  async submit(){
+  async submit() {
     this.errorStack = [];
     this.checkFunc();
     if (this.errorStack.length == 0) {
-      this.msg.success(JSON.stringify(this.studentProfile));
+      // this.msg.success(JSON.stringify(this.studentProfile));
       var cFlag = false;
       await this.usrService
         .createStudent(this.studentProfile)
@@ -178,6 +178,7 @@ export class CreateStudentProfileComponent implements OnInit {
         });
       if (cFlag) {
         this.studentProfile = new StudentProfileModel();
+        this.adClazzService.cleanDetailCache();
         this.init();
       }
     } else {
@@ -338,7 +339,7 @@ export class CreateStudentProfileComponent implements OnInit {
   }
 
   birthDayCheck() {
-    let flag = this.nullOrNothingCheck(this.studentProfile.birthDay);
+    let flag = this.nullOrNothingCheck(this.studentProfile.birthday);
     if (flag) {
       this.errorStack.push('生日不能为空！');
     }

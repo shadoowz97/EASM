@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-13 21:23:59
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-16 22:54:13
+ * @LastEditTime: 2021-01-28 20:11:12
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -14,6 +14,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import { Observable, Observer, Subscription } from 'rxjs';
 import { ResSet } from 'src/app/dataDef/ResSet';
 import { TabService } from 'src/app/tab.service';
 import { AdministrativeClazz } from '../../dataDef/AdministrativeClazz';
@@ -22,14 +23,22 @@ import { AdministrativeClazzDetail } from '../../dataDef/AdministrativeClazzDeta
   providedIn: 'root',
 })
 export class AdministrativeClazzService {
-  constructor(private http: HttpClient, private msg: NzMessageService,private tabService:TabService) {}
+  constructor(
+    private http: HttpClient,
+    private msg: NzMessageService,
+    private tabService: TabService
+  ) {}
   adClazzList: AdministrativeClazz[];
+  clazzDetailCache: Map<string, AdministrativeClazzDetail> = new Map<
+    string,
+    AdministrativeClazzDetail
+  >();
   async addClazz(
     clazzName: string,
     clazzId: string,
     year: string
   ): Promise<boolean | null> {
-    var res = await this.http
+    let res = await this.http
       .post('/api/ea/adclazz/create', {
         clazzId: clazzId,
         clazzName: clazzName,
@@ -67,7 +76,7 @@ export class AdministrativeClazzService {
         if (res.stateCode == 200) this.adClazzList = res.data;
       });
   }
-  public toDetail(id:String){
+  public toDetail(id: String) {
     let params = [id];
     this.tabService.addTab(
       'adClass' + id,
@@ -142,18 +151,30 @@ export class AdministrativeClazzService {
   }
 
   public async queryAdministrativeClazzDetail(
-    id: String
+    id: string
   ): Promise<AdministrativeClazzDetail | null> {
-    var result = await this.http
-      .get('/api/ea/adclazz/detail/' + id, { observe: 'body' })
-      .toPromise()
-      .then((res: ResSet) => {
-        if (res.stateCode == 200) {
-          return Promise.resolve(res.data);
-        } else return Promise.resolve(null);
-      }).catch(e=>{
-        return Promise.resolve(null)
-      });
-    return result;
+    if (this.clazzDetailCache.has(id)) {
+      return Promise.resolve<AdministrativeClazzDetail>(
+        this.clazzDetailCache.get(id)
+      );
+    } else {
+      let result = await this.http
+        .get('/api/ea/adclazz/detail/' + id, { observe: 'body' })
+        .toPromise()
+        .then((res: ResSet) => {
+          if (res.stateCode == 200) {
+            this.clazzDetailCache.set(id, res.data);
+            return Promise.resolve(res.data);
+          } else return Promise.resolve(null);
+        })
+        .catch((e) => {
+          return Promise.resolve(null);
+        });
+      return result;
+    }
+  }
+
+  public cleanDetailCache() {
+    this.clazzDetailCache = new Map<string, AdministrativeClazzDetail>();
   }
 }

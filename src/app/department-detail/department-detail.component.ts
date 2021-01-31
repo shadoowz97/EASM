@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-12-02 15:48:54
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-24 18:09:08
+ * @LastEditTime: 2021-01-31 11:19:49
  */
 /*
  * @Descripttion:
@@ -51,11 +51,9 @@ export class DepartmentDetailComponent implements OnInit, OnDestroy {
         departmentId = params.get('id');
         this.departmentService
           .departmentDetail(departmentId)
-          .then((res: ResSet) => {
-            if (res.stateCode == 200) {
-              this.departmentModel = res.data;
-            } else {
-              this.msgService.error('拉取详情失败');
+          .then((res: DepartmentDetail) => {
+            if (res !== null) {
+              this.departmentModel = res;
             }
           });
       })

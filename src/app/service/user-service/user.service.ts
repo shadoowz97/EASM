@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-07-16 18:04:16
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-28 00:30:47
+ * @LastEditTime: 2021-01-31 23:21:17
  */
 import { Injectable } from '@angular/core';
 import { base_url } from '../../config/config';
@@ -21,6 +21,7 @@ import { ResolveEnd } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { BaseEmployee } from 'src/app/dataDef/BaseEmployee';
 import { TabService } from 'src/app/tab.service';
+import { Role } from 'src/app/dataDef/Role';
 @Injectable({
   providedIn: 'root',
 })
@@ -33,12 +34,49 @@ export class UserService {
     '肄业',
     '待入学',
   ];
+
+  private roles: Role[];
   private userModel: UserLogInModel = new UserLogInModel();
   constructor(
     private http: HttpClient,
     private msg: NzMessageService,
     private tabService: TabService
-  ) {}
+  ) {
+    this.http
+      .get('/api/usr/roles/list', {
+        observe: 'body',
+      })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.roles = res.data;
+        }
+      });
+  }
+  public canGrantRoles(): Role[] {
+    if (this.userModel.authorization == null) {
+      return [];
+    }
+    return this.userModel.authorization;
+  }
+  public roleSignal(roleId: number): string {
+    return 'user';
+  }
+
+  public roleColor(roleId: number): string {
+    switch (roleId) {
+      case 1:
+        return 'purple';
+      case 2:
+        return 'cyan';
+      case 3:
+        return 'gold';
+      case 4:
+        return 'geekblue';
+      case 5:
+        return 'orange';
+    }
+  }
   public colorMap(state: string): string {
     switch (state) {
       case '待入学':
@@ -59,6 +97,35 @@ export class UserService {
   }
   public getAllStudentState(): string[] {
     return this.studentState;
+  }
+  public serverMentoringRelationship(
+    studentId: string,
+    supervisorId: string
+  ): Promise<Boolean | null> {
+    return this.http
+      .delete(
+        '/api/usr/server/MentoringRelationship/' +
+          studentId +
+          '/' +
+          supervisorId,
+        {
+          observe: 'body',
+        }
+      )
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode === 200) {
+          this.msg.success('解除成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error(res.message);
+          return Promise.resolve(false);
+        }
+      })
+      .catch(() => {
+        this.msg.error('网络错误');
+        return Promise.resolve(false);
+      });
   }
   public editStudentState(
     studentId: string,
@@ -84,9 +151,29 @@ export class UserService {
   }
   public hasRole(roleName: string): boolean {
     for (let role of this.userModel.roles) {
-      if (role.name == roleName) return true;
+      if (role.name == roleName) {
+        return true;
+      }
     }
     return false;
+  }
+
+  public hasAnyRole(roleNames: string[]): boolean {
+    for (let roleName of roleNames) {
+      if (this.hasRole(roleName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public hasAllRoles(roleNames: string[]): boolean {
+    for (let roleName of roleNames) {
+      if (!this.hasRole(roleName)) {
+        return false;
+      }
+    }
+    return true;
   }
   doLogin(): Observable<any> {
     let param = new HttpParams()
@@ -110,8 +197,9 @@ export class UserService {
         })
         .toPromise()
         .then((res: ResSet) => {
-          if (res.stateCode == 200) return null;
-          else {
+          if (res.stateCode == 200) {
+            return null;
+          } else {
             return {
               valid: false,
               required: true,
@@ -217,6 +305,58 @@ export class UserService {
       [employeeId],
       false
     );
+  }
+
+  public grantRolesToUsr(
+    rolesId: number[],
+    usrId: string
+  ): Promise<Boolean | null> {
+    return this.http
+      .post(
+        '/api/usr/roles/grant',
+        {
+          roles: rolesId,
+          usrId: usrId,
+        },
+        {
+          observe: 'body',
+        }
+      )
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode) {
+          this.msg.success('授权成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error(res.message);
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('网络错误');
+        return Promise.resolve(false);
+      });
+  }
+
+  public revokeRole(rid: number, usrId: string): Promise<Boolean> {
+    return this.http
+      .delete('/api/usr/roles/revoke/' + rid + '/' + usrId, {
+        observe: 'body',
+      })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('收回成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error(res.message);
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('网络错误');
+        return Promise.resolve(false);
+      });
   }
 
   public async changeEmployeeIntroduction(

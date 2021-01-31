@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-08 09:52:35
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-24 18:06:25
+ * @LastEditTime: 2021-01-31 11:16:39
  */
 
 import { Injectable, resolveForwardRef } from '@angular/core';
@@ -21,6 +21,7 @@ import {
 import { ElementSchemaRegistry } from '@angular/compiler';
 import { TabService } from 'src/app/tab.service';
 import { Observable, Observer, Subscription } from 'rxjs';
+import { DepartmentDetail } from 'src/app/dataDef/DepartmentDetail';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,11 +35,11 @@ export class DepartmentService {
   private departmentObservable: Observable<DepartmentInfo[]> = new Observable<
     DepartmentInfo[]
   >((observer: Observer<DepartmentInfo[]>) => {
-    console.log('订阅成功');
+    // console.log('订阅成功');
     observer.next(this.departmentList);
     this.departmentObservers.push(observer);
     return new Subscription(() => {
-      console.log('取消订阅部门列表');
+      // console.log('取消订阅部门列表');
       this.departmentObservers.splice(
         this.departmentObservers.indexOf(observer)
       );
@@ -63,12 +64,14 @@ export class DepartmentService {
         .get('/api/department/idUnique/' + control.value, { observe: 'body' })
         .toPromise()
         .then((res: ResSet) => {
-          if (res.stateCode == 200) return null;
-          else
+          if (res.stateCode === 200) {
+            return null;
+          } else {
             return {
               required: false,
               valid: true,
             };
+          }
         });
     };
   }
@@ -80,7 +83,7 @@ export class DepartmentService {
    * @return {*}
    * @description: 根据ID删除部门
    */
-  public deleteDepartment(id: String) {
+  public deleteDepartment(id: string): void {
     this.http
       .delete('/api/department/deleteById/' + id, { observe: 'body' })
       .toPromise()
@@ -123,7 +126,9 @@ export class DepartmentService {
    * @description:获取职称列表
    */
   public async getDuties(): Promise<Duty[] | null> {
-    if (!this.hasLoadDuty) await this.loadDuties();
+    if (!this.hasLoadDuty) {
+      await this.loadDuties();
+    }
     return this.duties;
   }
   public async loadDuties() {
@@ -131,7 +136,7 @@ export class DepartmentService {
       .get('/api/department/duties')
       .toPromise()
       .then((res: ResSet) => {
-        if (res.stateCode == 200) {
+        if (res.stateCode === 200) {
           this.duties = res.data;
           this.hasLoadDuty = true;
         } else {
@@ -183,7 +188,9 @@ export class DepartmentService {
     return res;
   }
   public async getTitle(): Promise<string[] | null> {
-    if (!this.hasLoadTitle) await this.loadTitle();
+    if (!this.hasLoadTitle) {
+      await this.loadTitle();
+    }
     return this.titles;
   }
   /**
@@ -216,14 +223,19 @@ export class DepartmentService {
     );
   }
 
-  public async departmentDetail(id: string): Promise<ResSet | null> {
-    var res = await this.http
+  public async departmentDetail(id: string): Promise<DepartmentDetail | null> {
+    let res = await this.http
       .get('/api/department/detail/' + id, { observe: 'body' })
       .toPromise()
       .then((res: ResSet) => {
-        return Promise.resolve(res);
+        if (res.stateCode == 200) return Promise.resolve(res.data);
+        else {
+          this.msg.error(res.message);
+          return Promise.resolve(null);
+        }
       })
       .catch((e) => {
+        this.msg.error('网络错误');
         return Promise.resolve(null);
       });
 
@@ -237,9 +249,9 @@ export class DepartmentService {
       .then((res: ResSet) => {
         if (res.stateCode == 200) {
           this.loadDepartment();
-          this.msg.success('废弃成功');
+          this.msg.success('弃用成功');
         } else {
-          this.msg.error('废弃失败');
+          this.msg.error('弃用失败');
         }
       });
   }

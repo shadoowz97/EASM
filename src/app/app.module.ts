@@ -54,6 +54,8 @@ import { CourseListComponent } from './course-list/course-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.component';
 import { EmployeeDetailComponent } from './employee-Detail/employee-Detail.component';
+import { StudentSupervisorRelationComponent } from './student-supervisor-relation/student-supervisor-relation.component';
+import { StudentDetailComponent } from './student-detail/student-detail.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -65,7 +67,7 @@ const ngZorroConfig: NzConfig = {
   notification: { nzTop: 240 },
 };
 @NgModule({
-  declarations: [
+  declarations: [		
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -96,7 +98,9 @@ const ngZorroConfig: NzConfig = {
     CategoryListComponent,
     AdClazzDetailComponent,
     EmployeeDetailComponent,
-  ],
+      StudentSupervisorRelationComponent,
+      StudentDetailComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-12-16 16:19:43
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-28 08:34:04
+ * @LastEditTime: 2021-01-29 19:26:41
  */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -13,11 +13,21 @@ import { AdministrativeClazzDetail } from '../dataDef/AdministrativeClazzDetail'
 import { BaseStudent } from '../dataDef/base-student';
 import { AdministrativeClazzService } from '../service/ad-clazz/administrative-clazz.service';
 import { UserService } from '../service/user-service/user.service';
+import { StudentService } from '../service/student-service/student.service';
 
 @Component({
   selector: 'app-adClazz-Detail',
   templateUrl: './adClazz-Detail.component.html',
   styleUrls: ['./adClazz-Detail.component.css'],
+  styles: [
+    `
+      [nz-radio] {
+        display: block;
+        height: 32px;
+        line-height: 32px;
+      }
+    `,
+  ],
 })
 export class AdClazzDetailComponent implements OnInit, OnDestroy {
   id: string = null;
@@ -32,11 +42,10 @@ export class AdClazzDetailComponent implements OnInit, OnDestroy {
   studentColConfig = [
     {
       name: '学号',
-      size: '100px',
+      size: '120px',
     },
     {
       name: '姓名',
-      size: '100px',
     },
     {
       name: '所在中心',
@@ -48,13 +57,14 @@ export class AdClazzDetailComponent implements OnInit, OnDestroy {
     },
     {
       name: '学生状态',
-      size: '150px',
+      size: '100px',
     },
   ];
   constructor(
     private router: ActivatedRoute,
     private adClazzService: AdministrativeClazzService,
-    private usrService: UserService
+    private usrService: UserService,
+    private studentService: StudentService
   ) {
     this.states = this.usrService.getAllStudentState();
     console.log(this.states);
@@ -114,6 +124,10 @@ export class AdClazzDetailComponent implements OnInit, OnDestroy {
 
   public handleStateChangeCancel(): void {
     this.stateEditorVisable = false;
+  }
+
+  public toStudentDetail(studentId: string): void {
+    this.studentService.toStudentProfile(studentId);
   }
 
   ngOnInit() {}

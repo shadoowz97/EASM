@@ -1,0 +1,20 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-01-28 09:15:32
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-01-28 18:28:57
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>导师分配</strong>
+</h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="panel arrange-supervisor-panel">
+    <nz-steps [nzCurrent]="current">
+      <nz-step nzTitle="Select Student"></nz-step>
+      <nz-step nzTitle="Select Supervisor"></nz-step>
+      <nz-step nzTitle="Establish !"></nz-step>
+    </nz-steps>
+  </div>
+</nz-spin>

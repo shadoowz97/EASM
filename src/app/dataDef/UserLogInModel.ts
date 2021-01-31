@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-09-28 10:16:39
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-27 10:14:28
+ * @LastEditTime: 2021-01-31 20:55:45
  */
 import { Role } from './Role';
 export class UserLogInModel {
@@ -16,4 +16,5 @@ export class UserLogInModel {
   roles: Role[];
   password: string;
   userState: boolean;
+  authorization: Role[];
 }

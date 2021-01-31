@@ -1,10 +1,10 @@
 /*
- * @Descripttion: 
- * @version: 
+ * @Descripttion:
+ * @version:
  * @Author: Shadoowz
  * @Date: 2020-07-08 15:25:38
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-27 12:07:04
+ * @LastEditTime: 2021-01-31 22:19:06
  */
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
@@ -39,10 +39,10 @@ export class AppComponent {
     });*/
   }
   public exit() {
-    this.userModel.userId=""
-    this.userModel.userState=false
-    this.userModel.roles=[]
-    this.userModel.username=""
+    this.userModel.userId = '';
+    this.userModel.userState = false;
+    this.userModel.roles = [];
+    this.userModel.username = '';
   }
 
   login() {
@@ -53,7 +53,8 @@ export class AppComponent {
           this.nzMessageService.create('success', data.message);
           this.userModel.userState = true;
           this.userModel.username = data.data.username;
-          this.userModel.roles=data.data.roles
+          this.userModel.roles = data.data.roles;
+          this.userModel.authorization = data.data.authorization;
         } else {
           this.nzMessageService.error(data.message);
         }

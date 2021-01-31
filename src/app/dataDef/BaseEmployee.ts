@@ -1,3 +1,5 @@
+import { Role } from './Role';
+
 /*
  * @Descripttion:
  * @version:
@@ -14,4 +16,5 @@ export interface BaseEmployee {
   dutyName: string;
   title: string;
   introduction: string;
+  roles: Role[];
 }

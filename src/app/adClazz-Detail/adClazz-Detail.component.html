@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-12-16 16:19:43
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-28 08:23:29
+ * @LastEditTime: 2021-01-29 19:53:57
 -->
 <h3 class="page-title" style="padding-top: 6px">
   <strong>班级详细信息</strong>
@@ -54,7 +54,15 @@
         }"
         *ngFor="let student of studentInfo.data"
       >
-        <td [nzAlign]="'center'">{{ student.studentId }}</td>
+        <td [nzAlign]="'center'">
+          <nz-tag
+          nzColor="magenta"
+          (click)="toStudentDetail(student.studentId)"
+          >
+          <i nz-icon nzType="profile"></i>
+          {{ student.studentId }}
+          </nz-tag>
+        </td>
         <td [nzAlign]="'center'">{{ student.studentName }}</td>
         <td [nzAlign]="'center'">{{ student.departmentName }}</td>
         <td [nzAlign]="'center'">{{ student.specialityName }}</td>
@@ -79,7 +87,10 @@
           <ng-container *ngFor="let state of states">
             <label nz-radio [nzValue]="state"
               ><nz-tag [nzColor]="colorMap(state)"
-                ><span>{{ state }}</span></nz-tag
+                ><span
+                  [ngStyle]="{ font: 'normal 500 10px arial,sans-serif' }"
+                  >{{ state }}</span
+                ></nz-tag
               ></label
             >
           </ng-container>

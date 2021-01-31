@@ -22,6 +22,8 @@ import { CourseListComponent } from './course-list/course-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.component';
 import { EmployeeDetailComponent } from './employee-Detail/employee-Detail.component';
+import { StudentSupervisorRelationComponent } from './student-supervisor-relation/student-supervisor-relation.component';
+import { StudentDetailComponent } from './student-detail/student-detail.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -128,6 +130,16 @@ const routes: Routes = [
   {
     path: 'employeeDetail/:id',
     component: EmployeeDetailComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'establishSupervisorRelation',
+    component: StudentSupervisorRelationComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'studentDetail/:id',
+    component: StudentDetailComponent,
     data: { keep: false },
   },
 ];

@@ -4,15 +4,86 @@
  * @Author: Shadoowz
  * @Date: 2021-01-23 23:06:59
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-27 21:17:27
+ * @LastEditTime: 2021-01-31 23:22:45
 -->
 <h3 class="page-title" style="padding-top: 6px">
   <strong>详细信息</strong>
 </h3>
 <nz-spin [nzSpinning]="employeeInfo == null">
   <div class="panel employee-detail-panel" *ngIf="employeeInfo != null">
+    <button
+      nz-button
+      (click)="reloadEmpoloyeeInfo()"
+      [ngStyle]="{ float: 'right' }"
+    >
+      <i nz-icon [nzType]="'sync'" [nzSpin]="isLoadingInfo"></i>
+    </button>
     <h1 nz-typography>
       <strong>{{ employeeInfo.employeeName }}</strong>
+      &nbsp;&nbsp;&nbsp;
+      <nz-tag
+        *ngFor="let role of employeeInfo.roles"
+        [nzColor]="roleColor(role.rid)"
+      >
+        <i nz-icon [nzType]="roleSignal(role.rid)"></i
+        ><span>{{ role.nameZH }}</span>
+      </nz-tag>
+      <nz-tag *ngIf="addRoleList.length != 0" (click)="addRole()"
+        ><i nz-icon [nzType]="'plus'"></i
+      ></nz-tag>
+      <nz-modal
+        [nzVisible]="addRoleVisable"
+        [nzContent]="addRoleContent"
+        (nzOnOk)="addRoleAction()"
+        (nzOnCancel)="cancelAddModal()"
+        [nzOkLoading]="addOkButtonLoading"
+      >
+        <ng-template #addRoleContent>
+          <nz-radio-group [(ngModel)]="addRoleId" nzButtonStyle="solid">
+            <ng-container *ngFor="let role of addRoleList">
+              <label
+                nz-radio
+                [nzValue]="role.rid"
+                [ngStyle]="{ display: 'block', height: '32px' }"
+                ><nz-tag [nzColor]="roleColor(role.rid)"
+                  ><span
+                    [ngStyle]="{ font: 'normal 500 10px arial,sans-serif' }"
+                    >{{ role.nameZH }}</span
+                  ></nz-tag
+                ></label
+              >
+            </ng-container>
+          </nz-radio-group>
+        </ng-template>
+      </nz-modal>
+      <nz-tag *ngIf="removeRoleList.length != 0" (click)="removeRole()"
+        ><i nz-icon [nzType]="'minus'"></i
+      ></nz-tag>
+      <nz-modal
+        [nzVisible]="removeRoleVisable"
+        [nzContent]="removeRoleContent"
+        (nzOnOk)="revokeRoleAction()"
+        (nzOnCancel)="cancelRevokeModal()"
+        [nzOkLoading]="removeOkButtonLoading"
+      >
+        <ng-template #removeRoleContent>
+          <nz-radio-group [(ngModel)]="removeRoleId" nzButtonStyle="solid">
+            <ng-container *ngFor="let role of removeRoleList">
+              <label
+                nz-radio
+                [nzValue]="role.rid"
+                [ngStyle]="{ display: 'block', height: '32px' }"
+                ><nz-tag [nzColor]="roleColor(role.rid)"
+                  ><span
+                    [ngStyle]="{ font: 'normal 500 10px arial,sans-serif' }"
+                    >{{ role.nameZH }}</span
+                  ></nz-tag
+                ></label
+              >
+            </ng-container>
+          </nz-radio-group>
+        </ng-template>
+      </nz-modal>
     </h1>
     <h6>&nbsp;</h6>
     <h5>
@@ -56,7 +127,7 @@
     <ng-container *ngIf="editMode">
       <quill-editor
         [(ngModel)]="employeeInfo.introduction"
-        [styles]="{align: 'center' }"
+        [styles]="{ align: 'center' }"
         (onEditorCreated)="onEditorCreated($event)"
       ></quill-editor>
     </ng-container>
