@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2021-01-29 10:21:48
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-30 19:03:26
+ * @LastEditTime: 2021-02-01 10:52:37
 -->
 <h3 class="page-title" style="padding-top: 6px">
   <strong>学生信息</strong>
@@ -118,7 +118,7 @@
     <nz-divider></nz-divider>
     <div style="text-align: center">
       <nz-descriptions
-        [nzColumn]="11"
+        [nzColumn]="13"
         [nzTitle]="MentoringRelationship"
         [nzColon]="false"
         [nzBordered]="false"
@@ -129,10 +129,10 @@
         <nz-descriptions-item nzTitle="" [nzSpan]="1"
           >姓名</nz-descriptions-item
         >
-        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+        <nz-descriptions-item nzTitle="" [nzSpan]="3"
           >所在部门</nz-descriptions-item
         >
-        <nz-descriptions-item nzTitle="" [nzSpan]="2"
+        <nz-descriptions-item nzTitle="" [nzSpan]="3"
           >电子邮箱</nz-descriptions-item
         >
         <nz-descriptions-item nzTitle="" [nzSpan]="2"
@@ -150,10 +150,10 @@
           <nz-descriptions-item nzTitle="" [nzSpan]="1">{{
             relation.supervisor.employeeName
           }}</nz-descriptions-item>
-          <nz-descriptions-item nzTitle="" [nzSpan]="2">{{
+          <nz-descriptions-item nzTitle="" [nzSpan]="3">{{
             relation.supervisor.departmentName
           }}</nz-descriptions-item>
-          <nz-descriptions-item nzTitle="" [nzSpan]="2">{{
+          <nz-descriptions-item nzTitle="" [nzSpan]="3">{{
             relation.supervisor.employeeEmail
           }}</nz-descriptions-item>
           <nz-descriptions-item nzTitle="" [nzSpan]="2"
@@ -180,7 +180,7 @@
       </nz-descriptions>
       <p>&nbsp;</p>
       <div style="text-align: center; font-weight: 900">
-        <button nz-button>
+        <button nz-button (click)="showAddRelationDrawer()">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
             nz-icon
             nzType="user-add"
@@ -193,30 +193,60 @@
         [(nzVisible)]="establishDrawerVisible"
         nzTitle="建立指导关系"
         [nzContent]="establishMonteringDrawer"
+        [nzWidth]="350"
       >
         <ng-template #establishMonteringDrawer>
-          <nz-select
-            [(ngModel)]="departmentId"
-            (ngModelChange)="departmentChange($event)"
-          >
-            <nz-option
-              *ngFor="let p of departmentList"
-              [nzValue]="p.departmentId"
-              [nzLabel]="p.departmentName"
-            ></nz-option>
-          </nz-select>
-          <nz-select [(ngModel)]="supervisorId" [nzDisabled]="loadingSupervisors">
-            <nz-option
-              *ngFor="let e of supervisors"
-              [nzValue]="e.employeeId"
-              [nzLabel]="e.employeeName"
-            ></nz-option>
-          </nz-select>
-          <nz-select [(ngModel)]="supervisorType">
-            <nz-option [nzValue]="0" [nzLabel]="'责任导师'"></nz-option>
-            <nz-option [nzValue]="1" [nzLabel]="'导师'"></nz-option>
-          </nz-select>
-          <button nz-button (click)="establishRealtion()" [disabled]="loadingSupervisors"><strong>establish relation</strong></button>
+          <p>&nbsp;&nbsp;</p>
+          <p>
+            选择中心：&nbsp;&nbsp;
+            <nz-select
+              [(ngModel)]="departmentId"
+              (ngModelChange)="departmentChange($event)"
+            >
+              <nz-option
+                *ngFor="let p of departmentList"
+                [nzValue]="p.departmentId"
+                [nzLabel]="p.departmentName"
+              ></nz-option>
+            </nz-select>
+          </p>
+          <p>
+            选择导师：&nbsp;&nbsp;
+            <nz-select
+              [(ngModel)]="supervisorId"
+              [nzDisabled]="loadingSupervisors"
+            >
+              <nz-option
+                *ngFor="let e of supervisors"
+                [nzValue]="e.employeeId"
+                [nzLabel]="e.employeeName"
+              ></nz-option>
+            </nz-select>
+          </p>
+          <p>
+            导师类型：&nbsp;&nbsp;
+            <nz-select [(ngModel)]="supervisorType">
+              <nz-option [nzValue]="0" [nzLabel]="'责任导师'"></nz-option>
+              <nz-option [nzValue]="1" [nzLabel]="'导师'"></nz-option>
+            </nz-select>
+          </p>
+          <p>
+            <button
+              nz-button
+              (click)="establishRealtion()"
+              [disabled]="loadingSupervisors"
+            >
+              <strong>establish relation</strong>
+            </button>
+            &nbsp;&nbsp;
+            <button
+              nz-button
+              (click)="cancelDrawer()"
+              [disabled]="loadingSupervisors"
+            >
+              <strong>Cancel</strong>
+            </button>
+          </p>
         </ng-template>
       </nz-drawer>
       <p>&nbsp;</p>

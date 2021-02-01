@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-08 09:52:35
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-31 11:16:39
+ * @LastEditTime: 2021-02-01 10:02:56
  */
 
 import { Injectable, resolveForwardRef } from '@angular/core';
@@ -22,6 +22,8 @@ import { ElementSchemaRegistry } from '@angular/compiler';
 import { TabService } from 'src/app/tab.service';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { DepartmentDetail } from 'src/app/dataDef/DepartmentDetail';
+import { BaseEmployee } from 'src/app/dataDef/BaseEmployee';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 @Injectable({
   providedIn: 'root',
 })
@@ -240,6 +242,28 @@ export class DepartmentService {
       });
 
     return res;
+  }
+
+  public querySupervisorInDepartment(
+    departmentId: string
+  ): Promise<BaseEmployee[] | null> {
+    return this.http
+      .get('/api/department/supervisor/' + departmentId, {
+        observe: 'body',
+      })
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          return Promise.resolve(res.data);
+        } else {
+          this.msg.error(res.message);
+          return Promise.resolve(null);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('网路错误！');
+        return Promise.resolve(null);
+      });
   }
 
   public deprecatedDepartment(id: String) {
