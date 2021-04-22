@@ -4,9 +4,15 @@
  * @Author: Shadoowz
  * @Date: 2020-12-15 21:10:21
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-16 15:49:17
+ * @LastEditTime: 2021-04-18 22:19:54
  */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { Subscription } from 'rxjs';
 import { Category } from '../dataDef/Category';
 import { Course } from '../dataDef/Course';
@@ -69,6 +75,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.courseService.getCategories().subscribe({
         next: (cs) => {
+          this.categories = cs;
           this.colConfig[2] = {
             name: '分类',
             size: '50px',
@@ -99,9 +106,8 @@ export class CourseListComponent implements OnInit, OnDestroy {
   deprecatedCourse(id: String) {
     this.courseService.deprecatedCourse(id);
   }
-  
-  toDetail(id: String) {
-  }
+
+  toDetail(id: String) {}
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }

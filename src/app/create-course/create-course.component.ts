@@ -4,26 +4,15 @@
  * @Author: Shadoowz
  * @Date: 2020-07-19 22:02:15
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-15 21:07:12
+ * @LastEditTime: 2021-04-16 13:01:07
  */
-/*
- * @Descripttion:
- * @version:
- * @Author: Shadoowz
- * @Date: 2020-07-19 22:02:15
- * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-15 17:02:14
- */
-import { Component, OnInit } from '@angular/core';
-//import { CourseBaseModel } from '../model/course-base-model';
+import { Component, Input, OnInit } from '@angular/core';
 import { CourseService } from '../service/course-service/course.service';
 import {
   FormGroup,
   FormControl,
-  FormControlName,
   Validators,
-  AbstractControl,
-  ValidatorFn,
+  AbstractControl
 } from '@angular/forms';
 import { MyValidators } from '../util/MyVaildators';
 import { Category } from '../dataDef/Category';

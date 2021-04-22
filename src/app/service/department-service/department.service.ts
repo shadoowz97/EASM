@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-08-08 09:52:35
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-02-01 10:02:56
+ * @LastEditTime: 2021-04-17 16:24:38
  */
 
 import { Injectable, resolveForwardRef } from '@angular/core';
@@ -18,12 +18,10 @@ import {
   AsyncValidatorFn,
   ValidationErrors,
 } from '@angular/forms';
-import { ElementSchemaRegistry } from '@angular/compiler';
 import { TabService } from 'src/app/tab.service';
 import { Observable, Observer, Subscription } from 'rxjs';
 import { DepartmentDetail } from 'src/app/dataDef/DepartmentDetail';
 import { BaseEmployee } from 'src/app/dataDef/BaseEmployee';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 @Injectable({
   providedIn: 'root',
 })
@@ -161,11 +159,7 @@ export class DepartmentService {
     departmentName: string,
     description: string
   ): Promise<boolean | null> {
-    var headers = new HttpHeaders()
-      .set('departmentId', departmentId)
-      .set('departmentName', departmentName)
-      .set('description', description);
-    var res = await this.http
+    const res = await this.http
       .post(
         '/api/department/create',
         {

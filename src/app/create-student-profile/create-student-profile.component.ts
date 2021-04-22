@@ -235,7 +235,7 @@ export class CreateStudentProfileComponent implements OnInit {
     if (this.nullOrNothingCheck(this.studentProfile.email)) {
       this.errorStack.push('邮箱不能为空');
     } else {
-      let re = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+      let re = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
       if (re.test(this.studentProfile.email) == false) {
         this.errorStack.push('邮箱格式不正确');
       }

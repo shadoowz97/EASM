@@ -1,0 +1,52 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-16 10:55:22
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-19 17:12:24
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>新建证书类型</strong>
+</h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="panel create-certification-category-panel">
+    <form nz-form [formGroup]="categoryForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">证书类型ID</nz-form-label>
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="categoryId" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">证书名称</nz-form-label>
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="categoryName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">默认授予学时</nz-form-label>
+        <nz-form-control [nzSpan]="3" nzHasFeedback>
+          <nz-input-group nzSuffix="学时">
+            <input nz-input type="number" formControlName="classHour" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">证书介绍</nz-form-label>
+        <nz-form-control [nzSpan]="6" nzHasFeedback>
+          <textarea row="5" nz-input formControlName="description"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-control [nzOffset]="8">
+        <button
+          nz-button
+          [disabled]="!categoryForm.valid"
+          (click)="createCertificationCategory()"
+        >
+          新建证书
+        </button>
+      </nz-form-control>
+    </form>
+  </div>
+</nz-spin>

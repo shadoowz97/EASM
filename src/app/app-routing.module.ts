@@ -24,6 +24,11 @@ import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.componen
 import { EmployeeDetailComponent } from './employee-Detail/employee-Detail.component';
 import { StudentSupervisorRelationComponent } from './student-supervisor-relation/student-supervisor-relation.component';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { CreateCertificationCategoryComponent } from './create-certification-category/create-certification-category.component';
+import { CertificationCategoryListComponent } from './certification-category-list/certification-category-list.component';
+import { CreateCertificationCourseComponent } from './create-certification-course/create-certification-course.component';
+import { CertificationCourseListComponent } from './certification-course-list/certification-course-list.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -142,10 +147,36 @@ const routes: Routes = [
     component: StudentDetailComponent,
     data: { keep: false },
   },
+  {
+    path: 'uploadImage',
+    component: ImageUploadComponent,
+    data: { keep: true },
+  },
+  {
+    path: 'createCertificationCategory',
+    component: CreateCertificationCategoryComponent,
+    data: { keep: true },
+  },
+  {
+    path: 'certificationCategoriesList',
+    component: CertificationCategoryListComponent,
+    data: { keep: true },
+  },
+  {
+    path: 'createCertificationCourse',
+    component: CreateCertificationCourseComponent,
+    data: { keep: true },
+  },
+  {
+    path: 'queryCerificationCourse',
+    component: CertificationCourseListComponent,
+    data: { keep: true },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  declarations: [],
 })
 export class AppRoutingModule {}

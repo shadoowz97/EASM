@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -56,6 +56,13 @@ import { AdClazzDetailComponent } from './adClazz-Detail/adClazz-Detail.componen
 import { EmployeeDetailComponent } from './employee-Detail/employee-Detail.component';
 import { StudentSupervisorRelationComponent } from './student-supervisor-relation/student-supervisor-relation.component';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { CreateCertificationCategoryComponent } from './create-certification-category/create-certification-category.component';
+import { CreateCertificationCourseComponent } from './create-certification-course/create-certification-course.component';
+import { CertificationCategoryListComponent } from './certification-category-list/certification-category-list.component';
+import { CertificationCourseListComponent } from './certification-course-list/certification-course-list.component';
+import { CertificationStudentsListComponent } from './certification-students-list/certification-students-list.component';
+import { CreateCertificationStudentComponent } from './create-certification-student/create-certification-student.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -67,7 +74,7 @@ const ngZorroConfig: NzConfig = {
   notification: { nzTop: 240 },
 };
 @NgModule({
-  declarations: [		
+  declarations: [			
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -98,15 +105,22 @@ const ngZorroConfig: NzConfig = {
     CategoryListComponent,
     AdClazzDetailComponent,
     EmployeeDetailComponent,
-      StudentSupervisorRelationComponent,
-      StudentDetailComponent
+    StudentSupervisorRelationComponent,
+    StudentDetailComponent,
+    ImageUploadComponent,
+    CreateCertificationCategoryComponent,
+    CreateCertificationCourseComponent,
+    CertificationCategoryListComponent,
+      CertificationCourseListComponent,
+      CertificationStudentsListComponent,
+      CreateCertificationStudentComponent
    ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    RouterModule.forRoot([]),
     FormsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
+    RouterModule.forRoot([]),
     HttpClientModule,
     BrowserAnimationsModule,
     NgZorroAntdModule,
@@ -147,5 +161,6 @@ const ngZorroConfig: NzConfig = {
     TermService,
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

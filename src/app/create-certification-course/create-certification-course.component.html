@@ -1,0 +1,82 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-16 11:05:33
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-21 22:13:14
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong> 创建培训课程 </strong>
+</h3>
+<nz-spin [nzSpinning]="certificationCategories == null || spinningFlag">
+  <div class="panel create-certification-course-panel">
+    <form nz-form [formGroup]="certificationCourseFormGroup">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">课程ID</nz-form-label>
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="courseId" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">课程名称</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzHasFeedback>
+          <input nz-input formControlName="courseName" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">证书课程分类</nz-form-label>
+        <nz-form-control [nzSpan]="5">
+          <nz-select
+            formControlName="category"
+            (ngModelChange)="onSelectCategory($event)"
+          >
+            <nz-option
+              *ngFor="let category of certificationCategories"
+              [nzValue]="category"
+              [nzLabel]="category.name"
+            >
+            </nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">学时</nz-form-label>
+        <nz-form-control [nzSpan]="3" nzHasFeedback>
+          <nz-input-group nzSuffix="学时">
+            <input nz-input type="number" formControlName="classHour" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">授课地点</nz-form-label>
+        <nz-form-control [nzSpan]="6" nzHasFeedback>
+          <input nz-input formControlName="position" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" 
+          >培训日期</nz-form-label
+        >
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <nz-range-picker formControlName="dateRangePicker"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">课程描述</nz-form-label>
+        <nz-form-control [nzSpan]="6" nzHasFeedback>
+          <textarea row="5" nz-input formControlName="description"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-control [nzOffset]="8">
+        <button
+          nz-button
+          [disabled]="!certificationCourseFormGroup.valid"
+          (click)="createCertificationCourse()"
+        >
+          新建课程
+        </button>
+      </nz-form-control>
+    </form>
+  </div>
+</nz-spin>

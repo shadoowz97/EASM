@@ -29,7 +29,6 @@
               }
             ],
             "styles": [
-              "src/theme.less",
               "src/assets/vendor/bootstrap/css/bootstrap.min.css",
               "src/assets/vendor/font-awesome/css/font-awesome.min.css",
               "src/assets/vendor/linearicons/style.css",

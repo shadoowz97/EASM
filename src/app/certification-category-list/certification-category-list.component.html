@@ -1,0 +1,58 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-18 11:03:41
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-22 08:54:11
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong> 证书类型 </strong>
+</h3>
+<nz-spin [nzSpinning]="certificationCategories == null || spinningFlag">
+  <div class="panel certification-category-list-panel">
+    <nz-table #categoryInfo [nzData]="certificationCategories" nzSize="middle">
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of colConfig"
+            [nzAlign]="'center'"
+            [nzFilterMultiple]="col.filterMultiple"
+            [nzFilters]="col.listOfFilter"
+            [nzFilterFn]="col.filterFn"
+            [nzWidth]="col.size"
+          >
+            {{ col.name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of categoryInfo.data">
+          <td [nzAlign]="'center'">{{ data.id }}</td>
+          <td [nzAlign]="'center'">{{ data.name }}</td>
+          <td [nzAlign]="'center'">
+            {{ data.timeStamp | date: "yyyy-MM-dd" }}
+          </td>
+          <td [nzAlign]="'center'">{{ data.classHour }}</td>
+          <td [nzAlign]="'center'">{{ data.state }}</td>
+          <td [nzAlign]="'center'">
+            <button nz-button (click)="deleteCategory(data.id)">删除</button>
+          </td>
+          <td [nzAlign]="'center'"><button nz-button>管理</button></td>
+          <td [nzAlign]="'center'">
+            <button
+              nz-button
+              (click)="
+                data.state == '使用中'
+                  ? discardCategory(data.id)
+                  : activeCategory(data.id)
+              "
+            >
+              {{ data.state == "使用中" ? "废弃" : "激活" }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-spin>

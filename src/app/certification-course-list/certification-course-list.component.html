@@ -1,0 +1,87 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-21 21:31:28
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-22 10:48:10
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong> 培训课程管理 </strong>
+</h3>
+<nz-spin [nzSpinning]="categories == null || spinningFlag">
+  <div class="panel certification-course-list-panel">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="timeGroup">
+      <nz-space [nzSize]="'large'">
+        <button
+          nz-popover
+          nz-button
+          (click)="getLatestCertificationCourse()"
+          nzPopoverContent="点击获取最新10条课程信息"
+        >
+          <i nz-icon [nzType]="'clock-circle'"></i></button
+      ></nz-space>
+      <nz-form-item>
+        <nz-space [nzSize]="'large'">
+          <nz-space-item>
+            <nz-form-label [nzOffset]="5">日期查询</nz-form-label>
+          </nz-space-item>
+        </nz-space>
+        <nz-form-control>
+          <nz-range-picker formControlName="dateRangePicker"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button
+            nz-button
+            nzType="primary"
+            [disabled]="!dateRangePickerControl.valid"
+            (click)="queryCertificationCourseByTime()"
+          >
+            查询
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <nz-table #courseInfo [nzData]="certificationCourses" nzSize="middle">
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of colConfig"
+            [nzAlign]="'center'"
+            [nzFilterMultiple]="col.filterMultiple"
+            [nzFilters]="col.listOfFilter"
+            [nzFilterFn]="col.filterFn"
+            [nzWidth]="col.size"
+          >
+            {{ col.name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of courseInfo.data">
+          <td [nzAlign]="'center'">{{ data.courseId }}</td>
+          <td [nzAlign]="'center'">{{ data.courseName }}</td>
+          <td [nzAlign]="'center'">{{ categoriesMap[data.categoryId] }}</td>
+          <td [nzAlign]="'center'">{{ data.classHour }}</td>
+          <td [nzAlign]="'center'">{{ data.state }}</td>
+          <td [nzAlign]="'center'">
+            {{ data.createTime | date: "yyyy-MM-dd" }}
+          </td>
+          <td [nzAlign]="'center'">
+            <button
+              nz-button
+              (click)="deleteCertificationCourse(data.courseId)"
+            >
+              删除
+            </button>
+          </td>
+          <td [nzAlign]="'center'">
+            <button nz-button>管理</button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-spin>

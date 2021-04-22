@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import {
   AbstractControl,
@@ -6,7 +6,7 @@ import {
   Validators,
   ValidatorFn,
 } from '@angular/forms';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup,FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { formatDate } from '@angular/common';
 import { TermService } from '../service/term-service/term-service.service';

@@ -4,9 +4,9 @@
  * @Author: Shadoowz
  * @Date: 2020-07-16 16:32:09
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-16 15:31:33
+ * @LastEditTime: 2021-04-03 11:26:53
  */
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AbstractControl,
@@ -164,7 +164,20 @@ export class CourseService {
         });
     };
   }
-
+  public uploadImage(file: File) {
+    const formData = new FormData();
+    formData.append('id', 'test');
+    formData.append('imageFile', file);
+    this.http
+      .post('/api/certification/uploadImage', formData)
+      .toPromise()
+      .then((res: ResSet) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
   public async createCategory(
     id: String,
     name: String,
@@ -263,10 +276,11 @@ export class CourseService {
           this.msg.error('废弃失败');
           return Promise.resolve(false);
         }
-      }).catch(e=>{
-        this.msg.error("网络资源错误")
-        return Promise.resolve(false)
+      })
+      .catch((e) => {
+        this.msg.error('网络资源错误');
+        return Promise.resolve(false);
       });
-      return r;
+    return r;
   }
 }

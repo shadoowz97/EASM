@@ -4,15 +4,18 @@
  * @Author: Shadoowz
  * @Date: 2020-07-31 12:27:20
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-23 12:20:58
+ * @LastEditTime: 2021-04-16 12:47:14
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,OnDestroy} from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   FormGroup,
-  AbstractControl,
-  FormGroupName,
   FormControl,
+  FormControlName,
   Validators,
+  AbstractControl,
+  ValidatorFn,
 } from '@angular/forms';
 import { MyValidators } from '../util/MyVaildators';
 import { TabService } from '../tab.service';

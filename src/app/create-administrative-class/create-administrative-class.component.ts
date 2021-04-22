@@ -4,15 +4,14 @@
  * @Author: Shadoowz
  * @Date: 2020-08-13 10:45:27
  * @LastEditors: Shadoowz
- * @LastEditTime: 2020-12-08 20:30:48
+ * @LastEditTime: 2021-04-17 16:36:36
  */
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   AbstractControl,
   FormControl,
-  Validators,
-  FormControlName,
+  Validators
 } from '@angular/forms';
 import { SchoolYearService } from '../service/school-year-service/school-year.service';
 import { AdministrativeClazzService } from '../service/ad-clazz/administrative-clazz.service';

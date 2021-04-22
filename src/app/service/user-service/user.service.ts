@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-07-16 18:04:16
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-31 23:21:17
+ * @LastEditTime: 2021-04-02 21:35:37
  */
 import { Injectable } from '@angular/core';
 import { base_url } from '../../config/config';
@@ -12,16 +12,14 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResSet } from 'src/app/dataDef/ResSet';
 import { UserLogInModel } from 'src/app/dataDef/UserLogInModel';
-import { Md5 } from 'ts-md5';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { async } from 'rxjs/internal/scheduler/async';
 import { ValidationErrors } from '@angular/forms';
 import { StudentProfileModel } from 'src/app/dataDef/StudentProfileModel';
-import { ResolveEnd } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { BaseEmployee } from 'src/app/dataDef/BaseEmployee';
 import { TabService } from 'src/app/tab.service';
 import { Role } from 'src/app/dataDef/Role';
+import { Md5 } from 'ts-md5';
 @Injectable({
   providedIn: 'root',
 })
@@ -42,16 +40,6 @@ export class UserService {
     private msg: NzMessageService,
     private tabService: TabService
   ) {
-    this.http
-      .get('/api/usr/roles/list', {
-        observe: 'body',
-      })
-      .toPromise()
-      .then((res: ResSet) => {
-        if (res.stateCode == 200) {
-          this.roles = res.data;
-        }
-      });
   }
   public canGrantRoles(): Role[] {
     if (this.userModel.authorization == null) {
@@ -159,7 +147,7 @@ export class UserService {
   }
 
   public hasAnyRole(roleNames: string[]): boolean {
-    for (let roleName of roleNames) {
+    for (const roleName of roleNames) {
       if (this.hasRole(roleName)) {
         return true;
       }
@@ -168,7 +156,7 @@ export class UserService {
   }
 
   public hasAllRoles(roleNames: string[]): boolean {
-    for (let roleName of roleNames) {
+    for (const roleName of roleNames) {
       if (!this.hasRole(roleName)) {
         return false;
       }
@@ -176,9 +164,10 @@ export class UserService {
     return true;
   }
   doLogin(): Observable<any> {
+    console.log(Md5.hashStr(this.userModel.password));
     let param = new HttpParams()
       .set('username', this.userModel.userId)
-      .set('password', this.userModel.password);
+      .set('password', Md5.hashStr(this.userModel.password+"hjusefg").toString());
     return this.http.post<any>(base_url + '/api/doLogin', param, {
       observe: 'body',
     });
