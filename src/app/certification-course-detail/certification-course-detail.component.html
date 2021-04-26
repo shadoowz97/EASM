@@ -1,0 +1,233 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-22 21:09:34
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-25 01:39:27
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>课程信息</strong>
+</h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div
+    class="panel certification-course-detail-panel"
+    *ngIf="certificationCourseDetail != null"
+  >
+    <button
+      nz-button
+      (click)="updateCourseDetail()"
+      [ngStyle]="{ float: 'right' }"
+      nzPopoverContent="点击强制刷新课程信息"
+    >
+      <i nz-icon [nzType]="'sync'" [nzSpin]="spinningFlag"></i>
+    </button>
+    <nz-descriptions [nzColumn]="2" nzTitle="培训课程">
+      <nz-descriptions-item nzTitle="课程名称" [nzSpan]="1">{{
+        certificationCourseDetail.courseName
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="课程ID" [nzSpan]="1">{{
+        certificationCourseDetail.courseId
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="授予证书" [nzSpan]="1">{{
+        categoriesMap[certificationCourseDetail.categoryId]
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="创建时间" [nzSpan]="1">{{
+        certificationCourseDetail.createTime | date: "yyyy-MM-dd"
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="授课时长" [nzSpan]="1">{{
+        certificationCourseDetail.classHour
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="地点" [nzSpan]="1">{{
+        certificationCourseDetail.position
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="开始时间" [nzSpan]="1">{{
+        certificationCourseDetail.startDate | date: "yyyy-MM-dd"
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="结束时间" [nzSpan]="1">{{
+        certificationCourseDetail.endDate | date: "yyyy-MM-dd"
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="课程状态" [nzSpan]="1">{{
+        certificationCourseDetail.state
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="现有人数" [nzSpan]="1">{{
+        certificationCourseDetail.certificationCourseStudentInfo == null
+          ? 0
+          : certificationCourseDetail.certificationCourseStudentInfo.length
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="课程描述" [nzSpan]="2">{{
+        certificationCourseDetail.description
+      }}</nz-descriptions-item>
+    </nz-descriptions>
+    <nz-divider></nz-divider>
+    <nz-form-item>
+      <nz-form-label [nzOffset]="8" [nzSpan]="3">添加学员</nz-form-label>
+      <nz-form-control
+        ><button nz-button (click)="showAddModal()">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+            nz-icon
+            nzType="user-add"
+            nzTheme="outline"
+          ></i
+          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button></nz-form-control
+      >
+    </nz-form-item>
+    <nz-modal
+      [nzVisible]="addStudentVisiable"
+      [nzContent]="addStudentContent"
+      (nzOnOk)="addStudentToCourse()"
+      (nzOnCancel)="handleOnCancel()"
+      [nzOkLoading]="modalOkLoading"
+      [nzOkDisabled]="!studentFormGroup.valid"
+      [nzCancelDisabled]="cancelDisabled"
+    >
+      <ng-template #addStudentContent>
+        <h3 style="text-align: center">添加学员</h3>
+        <form nz-form [formGroup]="studentFormGroup">
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">身份证号</nz-form-label>
+            <nz-form-control
+              nzRequired
+              nzHasFeedback
+              [nzSpan]="10"
+              nzErrorTip="请输入合法的身份证号并先为学员建档！"
+            >
+              <input nz-input formControlName="prcID" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">姓名</nz-form-label>
+            <nz-form-control [nzSpan]="5">
+              <input nz-input disabled="true" formControlName="studentName" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">性别</nz-form-label>
+            <nz-form-control [nzSpan]="3">
+              <input nz-input formControlName="sex" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">所在机构</nz-form-label>
+            <nz-form-control [nzSpan]="18">
+              <input nz-input formControlName="affiliation" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">报名时间</nz-form-label>
+            <nz-form-control [nzSpan]="10">
+              <nz-date-picker formControlName="enterDate"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">费用</nz-form-label>
+            <nz-form-control [nzSpan]="5">
+              <input nz-input formControlName="fee" type="number" />
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzOffset]="1" [nzSpan]="5">备注</nz-form-label>
+            <nz-form-control [nzSpan]="10">
+              <textarea nz-input row="3" formControlName="remarks"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </ng-template>
+    </nz-modal>
+    <nz-table
+      #studentinfo
+      [nzData]="certificationCourseDetail.certificationCourseStudentInfo"
+      nzPageSize="20"
+    >
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of colConfig"
+            [nzAlign]="'center'"
+            [nzWidth]="col.size"
+          >
+            {{ col.name }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <nz-modal
+          [nzVisible]="uploadFormShow"
+          [nzContent]="uploadModal"
+          [nzOkDisabled]="!canUp"
+          (nzOnOk)="uploadFile()"
+          (nzOnCancel)="handleUploadModalCancel()"
+        >
+          <ng-template #uploadModal>
+            <h3>选择文件</h3>
+            <input
+              nz-input
+              type="file"
+              (change)="handleFileChange($event)"
+            /> </ng-template
+        ></nz-modal>
+
+        <tr *ngFor="let data of studentinfo.data">
+          <td [nzAlign]="'center'">{{ data.prcID }}</td>
+          <td [nzAlign]="'center'"><nz-tag
+            nzColor="magenta"
+            (click)="toStudentDetail(data.prcID)"
+            >
+            <i nz-icon nzType="profile"></i>
+            {{ data.name }}
+            </nz-tag></td>
+          <td [nzAlign]="'center'">{{ data.sex }}</td>
+          <td [nzAlign]="'center'">{{ data.studentAffiliation }}</td>
+          <td [nzAlign]="'center'">
+            {{ data.createTime | date: "yyyy-MM-dd" }}
+          </td>
+          <td [nzAlign]="'center'">{{ data.fee }}</td>
+          <td [nzAlign]="'center'">
+            <button
+            nz-popover
+            [nzPopoverContent]="data.certificationAddress==null?'上传证书':'下载证书'"
+              nz-button
+              (click)="
+                data.certificationAddress == null
+                  ? uploadFileModal(data)
+                  : downloadFile(data.certificationAddress)
+              "
+            >
+              <i
+                nz-icon
+                [nzType]="
+                  data.certificationAddress == null
+                    ? 'cloud-upload'
+                    : 'cloud-download'
+                "
+                nzTheme="outline"
+              ></i>
+            </button>
+          </td>
+          <td>
+            <button
+              nz-button
+              (click)="
+                data.certificationAddress != null
+                  ? revoke(data)
+                  : deleteStudent(data.prcID)
+              "
+            >{{data.certificationAddress != null?'撤销':'删除'}}</button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <div style="text-align: center; font-weight: 900">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <nz-divider></nz-divider>
+      <p>
+        <i nz-icon nzType="safety-certificate" nzTheme="outline"></i
+        ><span>&nbsp;&nbsp;敏感信息传输过程中已遮盖</span>
+      </p>
+    </div>
+  </div>
+</nz-spin>

@@ -29,6 +29,13 @@ import { CreateCertificationCategoryComponent } from './create-certification-cat
 import { CertificationCategoryListComponent } from './certification-category-list/certification-category-list.component';
 import { CreateCertificationCourseComponent } from './create-certification-course/create-certification-course.component';
 import { CertificationCourseListComponent } from './certification-course-list/certification-course-list.component';
+import { CreateCertificationStudentComponent } from './create-certification-student/create-certification-student.component';
+import { CertificationCourseDetailComponent } from './certification-course-detail/certification-course-detail.component';
+import { CertificationStudentDetailComponent } from './certification-student-detail/certification-student-detail.component';
+import { QueryCertificationStudentComponent } from './query-certification-student/query-certification-student.component';
+import { NoneContentComponent } from './none-content/none-content.component';
+import { QueryEnterComponent } from './query-enter/query-enter.component';
+import { ShowWaitToPushComponent } from './show-wait-to-push/show-wait-to-push.component';
 const routes: Routes = [
   {
     path: 'queryCourse',
@@ -46,7 +53,6 @@ const routes: Routes = [
     data: { keep: true },
   },
   { path: 'welcome', component: WelcomeComponent, data: { keep: false } },
-  { path: '', redirectTo: '/welcome', pathMatch: 'full' },
   {
     path: 'createCourse',
     component: CreateCourseComponent,
@@ -171,6 +177,36 @@ const routes: Routes = [
     path: 'queryCerificationCourse',
     component: CertificationCourseListComponent,
     data: { keep: true },
+  },
+  {
+    path: 'createCertificationStudent',
+    component: CreateCertificationStudentComponent,
+    data: { keep: true },
+  },
+  {
+    path: 'certificationCourseDetail/:id',
+    component: CertificationCourseDetailComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'certificationstudentDetail/:id',
+    component: CertificationStudentDetailComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'queryCertificationStudent',
+    component: QueryCertificationStudentComponent,
+    data: { keep: true },
+  },
+  {
+    path: 'queryEnter',
+    component: QueryEnterComponent,
+    data: { keep: false },
+  },
+  {
+    path: 'waitToPush',
+    component: ShowWaitToPushComponent,
+    data: { keep: false },
   },
 ];
 

@@ -1,3 +1,85 @@
-<p>
-  create-certification-student works!
-</p>
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-22 13:39:20
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-22 19:29:58
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong>创建培训学员</strong>
+</h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="panel create-certification-student-panel">
+    <form nz-form [formGroup]="certificationStudentForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" nzRequired
+          >身份证号</nz-form-label
+        >
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="prcID" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" nzRequired
+          >姓名</nz-form-label
+        >
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" nzRequired
+          >性别</nz-form-label
+        >
+        <nz-form-control [nzSpan]="2" nzHasFeedback>
+          <nz-select formControlName="sex" nzRequired>
+            <nz-option nzValue="男" nzLabel="男"></nz-option>
+            <nz-option nzValue="女" nzLabel="女"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" nzRequired
+          >联系方式</nz-form-label
+        >
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="contactTel" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5">其他联系方式</nz-form-label>
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="backTel" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" nzRequired
+          >工作单位</nz-form-label
+        >
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="affiliation" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="3" [nzOffset]="5" nzRequired
+          >联系地址</nz-form-label
+        >
+        <nz-form-control [nzSpan]="5" nzHasFeedback>
+          <input nz-input formControlName="address" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="5" [nzOffset]="7" nzHasFeedback>
+          <button
+            nz-button
+            [disabled]="!certificationStudentForm.valid"
+            (click)="createCertificationStudent()"
+          >
+            创建新学生
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</nz-spin>

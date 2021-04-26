@@ -4,12 +4,12 @@
  * @Author: Shadoowz
  * @Date: 2020-07-16 18:04:16
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-04-02 21:35:37
+ * @LastEditTime: 2021-04-25 03:36:59
  */
 import { Injectable } from '@angular/core';
 import { base_url } from '../../config/config';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { ResSet } from 'src/app/dataDef/ResSet';
 import { UserLogInModel } from 'src/app/dataDef/UserLogInModel';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
@@ -32,15 +32,25 @@ export class UserService {
     '肄业',
     '待入学',
   ];
+  private userModelObserver: Observer<UserLogInModel>[] = [];
+  private userModelObserverable: Observable<UserLogInModel> = new Observable<UserLogInModel>(
+    (observer: Observer<UserLogInModel>) => {
+      console.log("订阅用户")
+      observer.next(this.userModel);
+      this.userModelObserver.push(observer);
+    }
+  );
 
+  public subscribeUser(): Observable<UserLogInModel> {
+    return this.userModelObserverable;
+  }
   private roles: Role[];
   private userModel: UserLogInModel = new UserLogInModel();
   constructor(
     private http: HttpClient,
     private msg: NzMessageService,
     private tabService: TabService
-  ) {
-  }
+  ) {}
   public canGrantRoles(): Role[] {
     if (this.userModel.authorization == null) {
       return [];
@@ -167,7 +177,10 @@ export class UserService {
     console.log(Md5.hashStr(this.userModel.password));
     let param = new HttpParams()
       .set('username', this.userModel.userId)
-      .set('password', Md5.hashStr(this.userModel.password+"hjusefg").toString());
+      .set(
+        'password',
+        Md5.hashStr(this.userModel.password + 'hjusefg').toString()
+      );
     return this.http.post<any>(base_url + '/api/doLogin', param, {
       observe: 'body',
     });
@@ -222,6 +235,17 @@ export class UserService {
         return Promise.resolve(false);
       });
     return result;
+  }
+  public changeUserState(state: number):void {
+    const tempuserModel = new UserLogInModel();
+    tempuserModel.userState = state;
+    tempuserModel.authorization = this.userModel.authorization;
+    tempuserModel.roles = this.userModel.roles;
+    tempuserModel.username = this.userModel.username;
+    this.userModel = tempuserModel;
+    this.userModelObserver.forEach((o) => {
+      o.next(this.userModel);
+    });
   }
   /**
    * @author: Shadoowz
@@ -379,5 +403,39 @@ export class UserService {
         return Promise.resolve(false);
       });
     return res;
+  }
+
+  public queryUserWaitToPush(): Promise<any> {
+    return this.http
+      .get('/api/usr/employee/queryWaitToPush')
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          return Promise.resolve(res.data);
+        } else {
+          this.msg.error('查询失败');
+          return Promise.resolve([]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        this.msg.error('查询失败');
+        return Promise.resolve([]);
+      });
+  }
+
+  public deleteEmployee(employeeId: string): Promise<boolean> {
+    return this.http
+      .delete('/api/usr/employee/delete/{id}')
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('删除成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('删除失败');
+          return Promise.resolve(false);
+        }
+      });
   }
 }

@@ -4,10 +4,10 @@
  * @Author: Shadoowz
  * @Date: 2020-07-08 15:25:38
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-31 22:19:06
+ * @LastEditTime: 2021-04-25 03:38:02
  */
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TabService } from './tab.service';
 import { UserService } from './service/user-service/user.service';
 import { root } from './service-config';
@@ -23,15 +23,21 @@ export class AppComponent {
   rootService = root;
   userModel: UserLogInModel;
   userType: string;
+  queryModeFlag = {};
   constructor(
     private router: Router,
     private tabService: TabService,
     private userService: UserService,
-    private nzMessageService: NzMessageService
+    private nzMessageService: NzMessageService,
+    private activerouter: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.userModel = this.userService.accessUserModel();
-    this.router.navigate(['/welcome']);
+    this.userService.subscribeUser().subscribe({
+      next: (um) => {
+        this.userModel = um;
+      },
+    });
+    // this.router.navigate(['/welcome']);
     /*
     this.router.events.subscribe((event) => {
       // example: NavigationStart, , NavigationEnd
@@ -40,7 +46,7 @@ export class AppComponent {
   }
   public exit() {
     this.userModel.userId = '';
-    this.userModel.userState = false;
+    this.userModel.userState = 0;
     this.userModel.roles = [];
     this.userModel.username = '';
   }
@@ -51,7 +57,7 @@ export class AppComponent {
         console.log(data);
         if (data.stateCode == 200) {
           this.nzMessageService.create('success', data.message);
-          this.userModel.userState = true;
+          this.userModel.userState = 1;
           this.userModel.username = data.data.username;
           this.userModel.roles = data.data.roles;
           this.userModel.authorization = data.data.authorization;

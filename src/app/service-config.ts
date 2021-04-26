@@ -65,6 +65,7 @@ export const root = [
     id: 'dm',
     datatarget: 'department-management',
     hasChildren: true,
+    active: true,
     children: [
       {
         name: '新建中心',
@@ -72,6 +73,7 @@ export const root = [
         id: 'new-department',
         routerlink: 'createDepartment',
         hasChildren: false,
+        active: true,
       },
       {
         name: '中心列表',
@@ -79,6 +81,7 @@ export const root = [
         id: 'department-list',
         routerlink: 'departmentList',
         hasChildren: false,
+        active: true,
       },
       {
         name: '新增教职工',
@@ -86,20 +89,33 @@ export const root = [
         id: 'new-employee',
         routerlink: 'createEmployee',
         hasChildren: false,
+        active: true,
+      },
+      {
+        name: '查看账户密码',
+        icon: 'branches',
+        hasChildren: false,
+        id: 'waitToPush',
+        routerlink: 'waitToPush',
+        active: true,
       },
     ],
   },
   {
-    name: '学生管理',
+    name: '学员管理',
     icon: 'user',
     datatarget: 'student-management',
     id: 'sm',
     hasChildren: true,
+    active: true,
     children: [
       {
-        name: '学生查询',
+        name: '培训学员查询',
         icon: 'team',
         hasChildren: false,
+        id: 'queryCertificationStudent',
+        active: true,
+        routerlink: 'queryCertificationStudent',
       },
       {
         name: '新生建档',
@@ -107,6 +123,14 @@ export const root = [
         id: 'newStudent',
         routerlink: 'createNewStudent',
         hasChildren: false,
+      },
+      {
+        name: '培训学员建档',
+        icon: 'solution',
+        id: 'newCertificationStudent',
+        routerlink: 'createCertificationStudent',
+        hasChildren: false,
+        active: true,
       },
     ],
   },
@@ -182,6 +206,7 @@ export const root = [
     id: 'certificationManagemt',
     datatarget: 'certification-management',
     hasChildren: true,
+    active: true,
     children: [
       {
         name: '新建证书类型',
@@ -189,6 +214,7 @@ export const root = [
         hasChildren: false,
         id: 'createCertificationCategory',
         routerlink: 'createCertificationCategory',
+        active: true,
       },
       {
         name: '查看证书类型',
@@ -196,6 +222,7 @@ export const root = [
         hasChildren: false,
         id: 'certificationCategoriesList',
         routerlink: 'certificationCategoriesList',
+        active: true,
       },
       {
         name: '新建培训课程',
@@ -203,6 +230,7 @@ export const root = [
         id: 'createTrainingCourse',
         hasChildren: false,
         routerlink: 'createCertificationCourse',
+        active: true,
       },
       {
         name: '查询培训课程',
@@ -210,13 +238,15 @@ export const root = [
         id: 'queryTrainingCourse',
         hasChildren: false,
         routerlink: 'queryCerificationCourse',
+        active: true,
       },
       {
         name: '结业证书发布',
         icon: 'solution',
         id: 'issueCertification',
         hasChildren: false,
-        routerlink: 'issueCertification',
+        routerlink: '/uploadImage',
+        active: false,
       },
     ],
   },

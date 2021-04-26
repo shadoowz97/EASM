@@ -63,6 +63,11 @@ import { CertificationCategoryListComponent } from './certification-category-lis
 import { CertificationCourseListComponent } from './certification-course-list/certification-course-list.component';
 import { CertificationStudentsListComponent } from './certification-students-list/certification-students-list.component';
 import { CreateCertificationStudentComponent } from './create-certification-student/create-certification-student.component';
+import { CertificationCourseDetailComponent } from './certification-course-detail/certification-course-detail.component';
+import { CertificationStudentDetailComponent } from './certification-student-detail/certification-student-detail.component';
+import { QueryCertificationStudentComponent } from './query-certification-student/query-certification-student.component';
+import { QueryEnterComponent } from './query-enter/query-enter.component';
+import { ShowWaitToPushComponent } from './show-wait-to-push/show-wait-to-push.component';
 const antDesignIcons = AllIcons as {
   [key: string]: IconDefinition;
 };
@@ -74,7 +79,7 @@ const ngZorroConfig: NzConfig = {
   notification: { nzTop: 240 },
 };
 @NgModule({
-  declarations: [			
+  declarations: [									
     AppComponent,
     NavBarComponent,
     TopBarComponent,
@@ -113,7 +118,12 @@ const ngZorroConfig: NzConfig = {
     CertificationCategoryListComponent,
       CertificationCourseListComponent,
       CertificationStudentsListComponent,
-      CreateCertificationStudentComponent
+      CreateCertificationStudentComponent,
+      CertificationCourseDetailComponent,
+      CertificationStudentDetailComponent,
+      QueryCertificationStudentComponent,
+      QueryEnterComponent,
+      ShowWaitToPushComponent
    ],
   imports: [
     BrowserModule,

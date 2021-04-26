@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2021-04-05 08:03:08
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-04-22 13:02:44
+ * @LastEditTime: 2021-04-25 02:36:03
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -20,7 +20,10 @@ import { ResSet } from 'src/app/dataDef/ResSet';
 import { CertificationCategory } from '../../dataDef/CertificationCategory';
 import { CertificationCourse } from '../../dataDef/certification-course';
 import { CertificationStudent } from '../../dataDef/CertificationStudent';
-import { NzResultUnauthorizedComponent } from 'ng-zorro-antd/result/partial/unauthorized';
+import { CertificationCourseDetail } from '../../dataDef/CertificationCourseDetail';
+import { TabService } from 'src/app/tab.service';
+import { CertificationCourseStudentInfo } from 'src/app/dataDef/CertificationCourseStudentInfo';
+import { CertificationStudentDetail } from 'src/app/dataDef/certification-student-detail';
 
 @Injectable({
   providedIn: 'root',
@@ -72,7 +75,11 @@ export class CertificationService {
       });
     }
   );
-  constructor(private http: HttpClient, private msg: NzMessageService) {}
+  constructor(
+    private http: HttpClient,
+    private msg: NzMessageService,
+    private tabService: TabService
+  ) {}
 
   public getCertificationCategories(): Observable<CertificationCategory[]> {
     return this.CertificationCategoryObservable;
@@ -409,7 +416,7 @@ export class CertificationService {
     id: string
   ): Promise<CertificationStudent> {
     return this.http
-      .post('/api/certification//queryCertifiationStudentByPRCID', id)
+      .post('/api/certification//queryCertificationStudentByPRCID', id)
       .toPromise()
       .then((res: ResSet) => {
         if (res.stateCode == 200) {
@@ -420,6 +427,187 @@ export class CertificationService {
       })
       .catch((e) => {
         return Promise.resolve(null);
+      });
+  }
+
+  public isPRCIDUnique(): AsyncValidatorFn {
+    return async (
+      control: AbstractControl
+    ): Promise<ValidationErrors | null> => {
+      return this.queryCertificationStudentByID(control.value as string).then(
+        (student: CertificationStudent) => {
+          return student == null ? null : { error: 'prcID exist' };
+        }
+      );
+    };
+  }
+
+  public queryCertificationDetail(
+    courseId: string
+  ): Promise<CertificationCourseDetail> {
+    return this.http
+      .get('/api/certification/queryCertificationCourseDetail/' + courseId)
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          return Promise.resolve(res.data as CertificationCourseDetail);
+        } else {
+          this.msg.error('查询详情失败');
+          return Promise.resolve(null);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('网络错误');
+        return Promise.resolve(null);
+      });
+  }
+
+  public toCertificationCourseDetail(courseId: string): void {
+    this.tabService.addTab(
+      'certificationcourse' + courseId,
+      'certificationCourseDetail',
+      '培训详情' + courseId,
+      [courseId],
+      false
+    );
+  }
+
+  public toCertificationStudentDetail(studentId: string): void {
+    this.tabService.addTab(
+      'certificationstudent' + studentId,
+      'certificationstudentDetail',
+      '学员详情' + studentId,
+      [studentId],
+      false
+    );
+  }
+
+  public addStudentToCertificationCourse(
+    certificationCourseStudentInfo: CertificationCourseStudentInfo
+  ): Promise<Boolean | null> {
+    return this.http
+      .post(
+        '/api/certification/addStudentToCertificationCourse',
+        certificationCourseStudentInfo
+      )
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('添加成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('添加失败');
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('添加失败');
+        return Promise.resolve(false);
+      });
+  }
+
+  public uploadCertificationFile(
+    prcId: string,
+    courseId: string,
+    file: File
+  ): Promise<string[]> {
+    const formData = new FormData();
+    formData.append('pdfFile', file);
+    formData.append('courseID', courseId);
+    formData.append('prcID', prcId);
+    formData.append('certificationId', '');
+    return this.http
+      .post('/api/certification/uploadCertificationFile', formData)
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          return Promise.resolve(res.data);
+        } else {
+          return Promise.resolve(null);
+        }
+      })
+      .catch((e) => {
+        return Promise.resolve(null);
+      });
+  }
+
+  public queryCertificationStudentDetail(
+    prcID: string
+  ): Promise<CertificationStudentDetail> {
+    return this.http
+      .get('/api/certification/query/' + prcID)
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          return Promise.resolve(res.data as CertificationStudentDetail);
+        } else {
+          this.msg.error('未找到相关信息！');
+          return Promise.resolve(null);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('服务器内部错误');
+        return Promise.resolve(null);
+      });
+  }
+
+  public revokeCertification(
+    prcId: string,
+    courseID: string,
+    fileName: string
+  ): Promise<Boolean> {
+    return this.http
+      .delete(
+        '/api/certification/revokeCertification/' +
+          prcId +
+          '/' +
+          courseID +
+          '/' +
+          fileName.substring(0, fileName.indexOf('.')) +
+          '/' +
+          fileName.substring(fileName.lastIndexOf('.') + 1),
+        { observe: 'body' }
+      )
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('收回证书成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('收回证书失败');
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('服务器内部错误');
+        return Promise.resolve(false);
+      });
+  }
+
+  public deleteStudentFromCertificationCourse(
+    prcID: string,
+    courseId: string
+  ): Promise<Boolean> {
+    return this.http
+      .delete(
+        '/api/certification/deleteStudentFromCertificationCourse/' +
+          courseId +
+          '/' +
+          prcID
+      )
+      .toPromise()
+      .then((res: ResSet) => {
+        if (res.stateCode == 200) {
+          this.msg.success('删除成功');
+          return Promise.resolve(true);
+        } else {
+          this.msg.error('删除失败');
+          return Promise.resolve(false);
+        }
+      })
+      .catch((e) => {
+        this.msg.error('删除失败：网络错误');
+        return Promise.resolve(false);
       });
   }
 }

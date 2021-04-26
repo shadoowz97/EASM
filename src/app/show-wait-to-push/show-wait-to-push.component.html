@@ -1,0 +1,27 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-25 10:43:58
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-25 10:51:15
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong> 账户密码 </strong>
+</h3>
+<div class="panel wtp-panel">
+  <nz-table #wtp [nzData]="data">
+    <thead>
+      <th [nzAlign]="'center'">ID</th>
+      <th [nzAlign]="'center'">密码</th>
+      <th [nzAlign]="'center'">删除</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let d of data">
+        <td [nzAlign]="'center'">{{d.userId}}</td>
+        <td [nzAlign]="'center'">{{d.password}}</td>
+        <td [nzAlign]="'center'"><button nz-button (click)="delete(d.userId)">删除</button></td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

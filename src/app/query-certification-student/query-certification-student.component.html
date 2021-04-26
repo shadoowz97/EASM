@@ -1,0 +1,90 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-25 01:57:32
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-25 02:38:40
+-->
+<h3 class="page-title" style="padding-top: 6px">
+  <strong> 培训课程查询 </strong>
+</h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div class="panel certification-student-list-panel">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="prcIDGroup">
+      <nz-form-item>
+        <nz-space [nzSize]="'large'">
+          <nz-space-item>
+            <nz-form-label [nzOffset]="5">身份证号查询</nz-form-label>
+          </nz-space-item>
+        </nz-space>
+        <nz-form-control>
+          <input nz-input formControlName="prcID" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button
+            nz-button
+            nzType="primary"
+            [disabled]="!prcIDGroup.valid"
+            (click)="queryCertificationStudentByPRCID()"
+          >
+            查询
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <form nz-form [nzLayout]="'inline'" [formGroup]="affiliationGroup">
+      <nz-form-item>
+        <nz-space [nzSize]="'large'">
+          <nz-space-item>
+            <nz-form-label [nzOffset]="5">所在机构查询</nz-form-label>
+          </nz-space-item>
+        </nz-space>
+        <nz-form-control>
+          <input nz-input formControlName="affiliation" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button
+            nz-button
+            nzType="primary"
+            [disabled]="!affiliationGroup.valid"
+            (click)="queryStudentByAffiliation()"
+          >
+            查询
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <nz-table #students [nzData]="certifcationStudents">
+      <thead>
+        <th
+          *ngFor="let col of colConfig"
+          [nzAlign]="'center'"
+          [nzWidth]="col.size"
+        >
+          {{ col.name }}
+        </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let student of students.data">
+          <td [nzAlign]="'center'"><nz-tag
+            nzColor="geekblue"
+            (click)="toCertificationStudentDetail(student.prcID)"
+            >
+            <i nz-icon nzType="profile"></i>
+            {{ student.prcID }}
+            </nz-tag></td>
+          <td [nzAlign]="'center'">{{ student.name }}</td>
+          <td [nzAlign]="'center'">{{ student.sex }}</td>
+          <td [nzAlign]="'center'">{{ student.affiliation }}</td>
+          <td [nzAlign]="'center'">{{ student.contactTel }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div></nz-spin
+>
+>

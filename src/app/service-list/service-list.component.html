@@ -1,5 +1,13 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2020-07-12 18:32:41
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-24 22:38:49
+-->
 <li>
-  <ng-container *ngIf="!func.hasChildren">
+  <ng-container *ngIf="!func.hasChildren && func.active">
     <a (click)="addTab(func.id, func.routerLink, func.name)">
       <i nz-icon [nzType]="func.icon" nzTheme="outline"></i
       ><span>{{ func.name }}</span></a
@@ -14,7 +22,7 @@
     <div [id]="func.datatarget" class="collapse">
       <ul class="nav">
         <ng-container *ngFor="let service of func.children">
-          <li>
+          <li *ngIf="service.active">
             <a (click)="addTab(service.id, service.routerlink, service.name)">
               <i nz-icon [nzType]="service.icon" nzTheme="outline"></i
               ><span>{{ service.name }}</span></a

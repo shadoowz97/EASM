@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2021-04-21 21:31:28
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-04-22 10:35:54
+ * @LastEditTime: 2021-04-23 01:01:58
  */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
@@ -184,5 +184,9 @@ export class CertificationCourseListComponent implements OnInit, OnDestroy {
         },
       })
     );
+  }
+
+  public toCourseDetail(courseId: string):void {
+    this.certificationService.toCertificationCourseDetail(courseId);
   }
 }

@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2021-01-29 17:36:26
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-01-29 21:28:28
+ * @LastEditTime: 2021-04-23 01:32:05
  */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -82,7 +82,6 @@ export class StudentService {
       .catch((e) => {
         this.msg.error('网络错误');
         return Promise.resolve(null);
-        console.log(e);
       });
   }
 }

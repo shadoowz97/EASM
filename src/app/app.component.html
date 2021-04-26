@@ -4,30 +4,48 @@
  * @Author: Shadoowz
  * @Date: 2020-07-08 15:25:38
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-03-09 10:28:04
+ * @LastEditTime: 2021-04-25 03:45:52
 -->
-<ng-container *ngIf="!userModel.userState">
-  <div style="margin-left: 45%; text-align: center;padding-top: 100px">
-    <form nz-form style="margin: auto 0;width:30%">
-      <nz-form-item>
-        <nz-form-label>用户ID</nz-form-label>
-        <input nz-input [(ngModel)]="this.userModel.userId" placeholder="id" name="userId"/>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>密码</nz-form-label>
-        <input nz-input [(ngModel)]="this.userModel.password" type="password" name="pwd"/>
-      </nz-form-item>
-      <button nz-button (click)="login()">Login</button>
-    </form>
+<body style="touch-action: none">
+  <div id="wrapper">
+    <ng-container *ngIf="userModel.userState==0">
+      <div style="margin-left: 45%; text-align: center; padding-top: 100px">
+        <form nz-form style="margin: auto 0; width: 30%">
+          <nz-form-item>
+            <nz-form-label>用户ID</nz-form-label>
+            <input
+              nz-input
+              [(ngModel)]="this.userModel.userId"
+              placeholder="id"
+              name="userId"
+            />
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label>密码</nz-form-label>
+            <input
+              nz-input
+              [(ngModel)]="this.userModel.password"
+              type="password"
+              name="pwd"
+            />
+          </nz-form-item>
+          <button nz-button (click)="login()">Login</button>
+        </form>
+        <router-outlet></router-outlet>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="userModel.userState==1">
+      <app-top-bar> </app-top-bar>
+      <app-nav-bar [root]="rootService"></app-nav-bar>
+      <div class="main">
+        <div class="container-fluid content">
+          <app-tab-bar></app-tab-bar>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="userModel.userState==2">
+      <router-outlet ></router-outlet>
+    </ng-container>
   </div>
-</ng-container>
-<ng-container *ngIf="userModel.userState">
-  <app-top-bar> </app-top-bar>
-  <app-nav-bar [root]="rootService"></app-nav-bar>
-  <div class="main">
-    <div class="container-fluid content">
-      <app-tab-bar></app-tab-bar>
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</ng-container>
+</body>

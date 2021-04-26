@@ -1,0 +1,111 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: Shadoowz
+ * @Date: 2021-04-23 16:02:04
+ * @LastEditors: Shadoowz
+ * @LastEditTime: 2021-04-25 09:55:13
+-->
+<h3 class="page-title" style="padding-top: 6px"><strong>学员详情</strong></h3>
+<nz-spin [nzSpinning]="spinningFlag">
+  <div
+    class="panel certification-student-detail-panel"
+    *ngIf="studentDetail != null"
+  >
+    <button
+      nz-button
+      (click)="updateStudentDetail()"
+      [ngStyle]="{ float: 'right' }"
+      nzPopoverContent="点击强制刷新学员信息"
+    >
+      <i nz-icon [nzType]="'sync'" [nzSpin]="spinningFlag"></i>
+    </button>
+    <nz-descriptions [nzColumn]="2" nzTitle="学员信息">
+      <nz-descriptions-item nzTitle="学员姓名" [nzSpan]="1">{{
+        studentDetail.name
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="身份证号" [nzSpan]="1">{{
+        studentDetail.prcID
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="性别" [nzSpan]="1">{{
+        studentDetail.sex
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="单位" [nzSpan]="1">{{
+        studentDetail.affiliation
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="联系方式" [nzSpan]="1">{{
+        studentDetail.contactTel
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="备选联系方式" [nzSpan]="1">{{
+        studentDetail.backTel
+      }}</nz-descriptions-item>
+
+      <nz-descriptions-item nzTitle="单位地址" [nzSpan]="2">{{
+        studentDetail.address
+      }}</nz-descriptions-item>
+    </nz-descriptions>
+    <nz-table #certifications [nzData]="studentDetail.isticCertifications">
+      <thead>
+        <tr>
+          <th
+            *ngFor="let col of colConfig"
+            [nzAlign]="'center'"
+            [nzWidth]="col.size"
+          >
+            {{ col.name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let certification of certifications.data">
+          <td [nzAlign]="'center'">{{ certification.categoryName }}</td>
+          <td [nzAlign]="'center'">
+            <nz-tag
+              nzColor="geekblue"
+              (click)="
+                userState != 2
+                  ? toCertificationCourseDetail(certification.courseId)
+                  : noneOp()
+              "
+            >
+              <i nz-icon nzType="profile"></i>
+              {{ certification.courseName }}
+            </nz-tag>
+          </td>
+          <td [nzAlign]="'center'">
+            {{ certification.startDate | date: "yyyy-MM-dd" }}
+          </td>
+          <td [nzAlign]="'center'">
+            {{ certification.endDate | date: "yyyy-MM-dd" }}
+          </td>
+          <td [nzAlign]="'center'">{{ certification.position }}</td>
+          <td [nzAlign]="'center'">{{ certification.classHour }}</td>
+          <td [nzAlign]="'center'">
+            <button
+              nz-popover
+              [disabled]="certification.certificationAddress == null"
+              [nzPopoverContent]="
+                certification.certificationAddress == null
+                  ? '未颁发证书'
+                  : '下载证书'
+              "
+              nz-button
+              (click)="downloadFile(certification.certificationAddress)"
+            >
+              <i nz-icon [nzType]="'cloud-download'" nzTheme="outline"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <div style="text-align: center; font-weight: 900">
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <nz-divider></nz-divider>
+      <p>
+        <i nz-icon nzType="safety-certificate" nzTheme="outline"></i
+        ><span>&nbsp;&nbsp;敏感信息传输过程中已遮盖</span>
+      </p>
+    </div>
+  </div>
+</nz-spin>
