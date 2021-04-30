@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-07-08 15:25:38
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-04-25 03:38:02
+ * @LastEditTime: 2021-04-27 23:28:41
  */
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,8 +30,11 @@ export class AppComponent {
     private userService: UserService,
     private nzMessageService: NzMessageService,
     private activerouter: ActivatedRoute
-  ) {}
+  ) {
+
+  }
   ngOnInit() {
+    console.log(this.router.url)
     this.userService.subscribeUser().subscribe({
       next: (um) => {
         this.userModel = um;
@@ -61,6 +64,7 @@ export class AppComponent {
           this.userModel.username = data.data.username;
           this.userModel.roles = data.data.roles;
           this.userModel.authorization = data.data.authorization;
+          this.router.navigate(['/welcome']);
         } else {
           this.nzMessageService.error(data.message);
         }
@@ -72,7 +76,6 @@ export class AppComponent {
         console.log('done');
       },
     });
-    this.router.navigate(['/welcome']);
   }
 
   title = 'angular-demo';

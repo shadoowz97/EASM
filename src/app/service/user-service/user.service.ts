@@ -4,7 +4,7 @@
  * @Author: Shadoowz
  * @Date: 2020-07-16 18:04:16
  * @LastEditors: Shadoowz
- * @LastEditTime: 2021-04-25 03:36:59
+ * @LastEditTime: 2021-04-27 22:37:34
  */
 import { Injectable } from '@angular/core';
 import { base_url } from '../../config/config';
@@ -35,7 +35,7 @@ export class UserService {
   private userModelObserver: Observer<UserLogInModel>[] = [];
   private userModelObserverable: Observable<UserLogInModel> = new Observable<UserLogInModel>(
     (observer: Observer<UserLogInModel>) => {
-      console.log("订阅用户")
+      console.log('订阅用户');
       observer.next(this.userModel);
       this.userModelObserver.push(observer);
     }
@@ -236,7 +236,7 @@ export class UserService {
       });
     return result;
   }
-  public changeUserState(state: number):void {
+  public changeUserState(state: number): void {
     const tempuserModel = new UserLogInModel();
     tempuserModel.userState = state;
     tempuserModel.authorization = this.userModel.authorization;
@@ -426,7 +426,7 @@ export class UserService {
 
   public deleteEmployee(employeeId: string): Promise<boolean> {
     return this.http
-      .delete('/api/usr/employee/delete/{id}')
+      .delete('/api/usr/employee/delete/' + employeeId)
       .toPromise()
       .then((res: ResSet) => {
         if (res.stateCode == 200) {
